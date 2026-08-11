@@ -142,3 +142,5 @@ include 'includes/header.php';
 <div id="toast" class="toast" style="display:none;"></div>
 
 <?php include 'includes/footer.php'; ?>
+
+<script src="assets\js\translatetext.js"></script>
