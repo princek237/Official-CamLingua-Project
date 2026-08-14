@@ -18,13 +18,68 @@ include 'includes/header.php';
       <div class="lang-sel-wrap">
         <span class="lang-flag" id="source-flag">🇬🇧</span>
         <select id="source-lang">
-          <option value="en" data-flag="🇬🇧">English</option>
-          <option value="fr" data-flag="🇫🇷">French</option>
-          <option value="ewo">Ewondo (Cameroon)</option>
-          <option value="bas">Bassa (Cameroon)</option>
-          <option value="dua">Duala (Cameroon)</option>
-          <option value="bam">Bamileke (Cameroon)</option>
-          <option value="fuf">Fulfulde (Cameroon)</option>
+          <optgroup label="-- Cameroonian / Central African --">
+            <option value="fuv_Latn" data-flag="🇨🇲">Fulfulde (Cameroon)</option>
+            <option value="bam_Latn" data-flag="🇨🇲">Bambara / Bamileke</option>
+            <option value="sag_Latn" data-flag="🇨🇫">Sango (Central Africa)</option>
+            <option value="lin_Latn" data-flag="🇨🇩">Lingala</option>
+            <option value="kbp_Latn" data-flag="🇹🇬">Kabiye</option>
+          </optgroup>
+          <optgroup label="-- West African --">
+            <option value="hau_Latn" data-flag="🌍">Hausa</option>
+            <option value="yor_Latn" data-flag="🇳🇬">Yoruba</option>
+            <option value="ibo_Latn" data-flag="🇳🇬">Igbo</option>
+            <option value="wol_Latn" data-flag="🇸🇳">Wolof</option>
+            <option value="twi_Latn" data-flag="🇬🇭">Twi / Akan</option>
+            <option value="aka_Latn" data-flag="🇬🇭">Akan</option>
+            <option value="fon_Latn" data-flag="🇧🇯">Fon</option>
+            <option value="mos_Latn" data-flag="🇧🇫">Mossi</option>
+            <option value="dyu_Latn" data-flag="🇧🇫">Dyula</option>
+            <option value="ewe_Latn" data-flag="🇬🇭">Ewe</option>
+          </optgroup>
+          <optgroup label="-- East African --">
+            <option value="swh_Latn" data-flag="🇰🇪">Swahili</option>
+            <option value="amh_Ethi" data-flag="🇪🇹">Amharic</option>
+            <option value="som_Latn" data-flag="🇸🇴">Somali</option>
+            <option value="lug_Latn" data-flag="🇺🇬">Luganda</option>
+            <option value="run_Latn" data-flag="🇧🇮">Rundi / Kirundi</option>
+            <option value="kin_Latn" data-flag="🇷🇼">Kinyarwanda</option>
+            <option value="gaz_Latn" data-flag="🇪🇹">Oromo</option>
+            <option value="tir_Ethi" data-flag="🇪🇷">Tigrinya</option>
+          </optgroup>
+          <optgroup label="-- Southern African --">
+            <option value="zul_Latn" data-flag="🇿🇦">Zulu</option>
+            <option value="xho_Latn" data-flag="🇿🇦">Xhosa</option>
+            <option value="sna_Latn" data-flag="🇿🇼">Shona</option>
+            <option value="nso_Latn" data-flag="🇿🇦">Northern Sotho</option>
+            <option value="sot_Latn" data-flag="🇱🇸">Sotho</option>
+            <option value="tsn_Latn" data-flag="🇧🇼">Tswana</option>
+            <option value="tso_Latn" data-flag="🇲🇿">Tsonga</option>
+            <option value="ssw_Latn" data-flag="🇸🇿">Swati</option>
+            <option value="afr_Latn" data-flag="🇿🇦">Afrikaans</option>
+          </optgroup>
+          <optgroup label="-- Major World Languages --">
+            <option value="eng_Latn" data-flag="🇬🇧" selected>English</option>
+            <option value="fra_Latn" data-flag="🇫🇷">French</option>
+            <option value="arb_Arab" data-flag="🇸🇦">Arabic</option>
+            <option value="spa_Latn" data-flag="🇪🇸">Spanish</option>
+            <option value="por_Latn" data-flag="🇵🇹">Portuguese</option>
+            <option value="deu_Latn" data-flag="🇩🇪">German</option>
+            <option value="ita_Latn" data-flag="🇮🇹">Italian</option>
+            <option value="nld_Latn" data-flag="🇳🇱">Dutch</option>
+            <option value="rus_Cyrl" data-flag="🇷🇺">Russian</option>
+            <option value="zho_Hans" data-flag="🇨🇳">Chinese (Simplified)</option>
+            <option value="zho_Hant" data-flag="🇹🇼">Chinese (Traditional)</option>
+            <option value="jpn_Jpan" data-flag="🇯🇵">Japanese</option>
+            <option value="kor_Hang" data-flag="🇰🇷">Korean</option>
+            <option value="hin_Deva" data-flag="🇮🇳">Hindi</option>
+            <option value="ben_Beng" data-flag="🇧🇩">Bengali</option>
+            <option value="tur_Latn" data-flag="🇹🇷">Turkish</option>
+            <option value="ind_Latn" data-flag="🇮🇩">Indonesian</option>
+            <option value="vie_Latn" data-flag="🇻🇳">Vietnamese</option>
+            <option value="pol_Latn" data-flag="🇵🇱">Polish</option>
+            <option value="ukr_Cyrl" data-flag="🇺🇦">Ukrainian</option>
+          </optgroup>
         </select>
         <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </div>
@@ -34,13 +89,68 @@ include 'includes/header.php';
       <div class="lang-sel-wrap" style="justify-content:flex-end;">
         <span class="lang-flag" id="target-flag">🇫🇷</span>
         <select id="target-lang">
-          <option value="fr" data-flag="🇫🇷">French (Cameroon)</option>
-          <option value="en" data-flag="🇬🇧">English</option>
-          <option value="ewo">Ewondo (Cameroon)</option>
-          <option value="bas">Bassa (Cameroon)</option>
-          <option value="dua">Duala (Cameroon)</option>
-          <option value="bam">Bamileke (Cameroon)</option>
-          <option value="fuf">Fulfulde (Cameroon)</option>
+          <optgroup label="-- Cameroonian / Central African --">
+            <option value="fuv_Latn" data-flag="🇨🇲">Fulfulde (Cameroon)</option>
+            <option value="bam_Latn" data-flag="🇨🇲">Bambara / Bamileke</option>
+            <option value="sag_Latn" data-flag="🇨🇫">Sango (Central Africa)</option>
+            <option value="lin_Latn" data-flag="🇨🇩">Lingala</option>
+            <option value="kbp_Latn" data-flag="🇹🇬">Kabiye</option>
+          </optgroup>
+          <optgroup label="-- West African --">
+            <option value="hau_Latn" data-flag="🌍">Hausa</option>
+            <option value="yor_Latn" data-flag="🇳🇬">Yoruba</option>
+            <option value="ibo_Latn" data-flag="🇳🇬">Igbo</option>
+            <option value="wol_Latn" data-flag="🇸🇳">Wolof</option>
+            <option value="twi_Latn" data-flag="🇬🇭">Twi / Akan</option>
+            <option value="aka_Latn" data-flag="🇬🇭">Akan</option>
+            <option value="fon_Latn" data-flag="🇧🇯">Fon</option>
+            <option value="mos_Latn" data-flag="🇧🇫">Mossi</option>
+            <option value="dyu_Latn" data-flag="🇧🇫">Dyula</option>
+            <option value="ewe_Latn" data-flag="🇬🇭">Ewe</option>
+          </optgroup>
+          <optgroup label="-- East African --">
+            <option value="swh_Latn" data-flag="🇰🇪">Swahili</option>
+            <option value="amh_Ethi" data-flag="🇪🇹">Amharic</option>
+            <option value="som_Latn" data-flag="🇸🇴">Somali</option>
+            <option value="lug_Latn" data-flag="🇺🇬">Luganda</option>
+            <option value="run_Latn" data-flag="🇧🇮">Rundi / Kirundi</option>
+            <option value="kin_Latn" data-flag="🇷🇼">Kinyarwanda</option>
+            <option value="gaz_Latn" data-flag="🇪🇹">Oromo</option>
+            <option value="tir_Ethi" data-flag="🇪🇷">Tigrinya</option>
+          </optgroup>
+          <optgroup label="-- Southern African --">
+            <option value="zul_Latn" data-flag="🇿🇦">Zulu</option>
+            <option value="xho_Latn" data-flag="🇿🇦">Xhosa</option>
+            <option value="sna_Latn" data-flag="🇿🇼">Shona</option>
+            <option value="nso_Latn" data-flag="🇿🇦">Northern Sotho</option>
+            <option value="sot_Latn" data-flag="🇱🇸">Sotho</option>
+            <option value="tsn_Latn" data-flag="🇧🇼">Tswana</option>
+            <option value="tso_Latn" data-flag="🇲🇿">Tsonga</option>
+            <option value="ssw_Latn" data-flag="🇸🇿">Swati</option>
+            <option value="afr_Latn" data-flag="🇿🇦">Afrikaans</option>
+          </optgroup>
+          <optgroup label="-- Major World Languages --">
+            <option value="fra_Latn" data-flag="🇫🇷" selected>French</option>
+            <option value="eng_Latn" data-flag="🇬🇧">English</option>
+            <option value="arb_Arab" data-flag="🇸🇦">Arabic</option>
+            <option value="spa_Latn" data-flag="🇪🇸">Spanish</option>
+            <option value="por_Latn" data-flag="🇵🇹">Portuguese</option>
+            <option value="deu_Latn" data-flag="🇩🇪">German</option>
+            <option value="ita_Latn" data-flag="🇮🇹">Italian</option>
+            <option value="nld_Latn" data-flag="🇳🇱">Dutch</option>
+            <option value="rus_Cyrl" data-flag="🇷🇺">Russian</option>
+            <option value="zho_Hans" data-flag="🇨🇳">Chinese (Simplified)</option>
+            <option value="zho_Hant" data-flag="🇹🇼">Chinese (Traditional)</option>
+            <option value="jpn_Jpan" data-flag="🇯🇵">Japanese</option>
+            <option value="kor_Hang" data-flag="🇰🇷">Korean</option>
+            <option value="hin_Deva" data-flag="🇮🇳">Hindi</option>
+            <option value="ben_Beng" data-flag="🇧🇩">Bengali</option>
+            <option value="tur_Latn" data-flag="🇹🇷">Turkish</option>
+            <option value="ind_Latn" data-flag="🇮🇩">Indonesian</option>
+            <option value="vie_Latn" data-flag="🇻🇳">Vietnamese</option>
+            <option value="pol_Latn" data-flag="🇵🇱">Polish</option>
+            <option value="ukr_Cyrl" data-flag="🇺🇦">Ukrainian</option>
+          </optgroup>
         </select>
         <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </div>
@@ -92,7 +202,7 @@ include 'includes/header.php';
     <!-- Translate bar -->
     <div class="translate-bar">
       <p id="engine-badge">Powered by NLLB-200 AI · Translations may not be perfect.</p>
-      <button id="translate-btn" class="translate-btn">
+      <button id="translate-btn" class="translate-btn" onclick="translateText()">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
         Translate
       </button>
@@ -141,6 +251,6 @@ include 'includes/header.php';
 
 <div id="toast" class="toast" style="display:none;"></div>
 
-<?php include 'includes/footer.php'; ?>
 
-<script src="assets\js\translatetext.js"></script>
+
+<?php include 'includes/footer.php'; ?>

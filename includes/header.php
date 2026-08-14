@@ -10,9 +10,9 @@ $activePage = $activePage ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle) ?></title>
     <!-- Base styles for layout/header/footer -->
-    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/shared.css?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/CamLingua/assets/css/shared.css') ?>">
     <?php foreach ($extraCss as $css): ?>
-        <link rel="stylesheet" href="assets/css/<?= htmlspecialchars($css) ?>">
+        <link rel="stylesheet" href="assets/css/<?= htmlspecialchars($css) ?>?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/CamLingua/assets/css/' . $css) ?>">
     <?php endforeach; ?>
 </head>
 <body>

@@ -50,7 +50,7 @@ include 'includes/header.php';
       <div class="plan-icon-box">⭐</div>
       <div class="plan-name">Pro</div>
       <div class="plan-desc">For students, researchers, and active language enthusiasts.</div>
-      <div class="plan-price"><sup>FCFA</sup><span class="amount" id="pro-price">9,900</span><sub>/mo</sub></div>
+      <div class="plan-price"><sup>FCFA</sup><span class="amount" id="pro-price">25</span><sub>/mo</sub></div>
       <p class="plan-billing" id="pro-note">Billed monthly · Cancel anytime</p>
       <hr class="plan-divider">
       <ul class="plan-features">
@@ -61,7 +61,7 @@ include 'includes/header.php';
         <li><span class="tick">✓</span> Audio pronunciation</li>
         <li><span class="tick">✓</span> Priority support</li>
       </ul>
-      <button type="button" id="pro-cta" class="plan-btn solid" onclick="openModal('Pro','9,900')">Choose Pro</button>
+      <button type="button" id="pro-cta" class="plan-btn solid" onclick="openModal('Pro','25')">Choose Pro</button>
     </article>
 
     <article class="plan-card" aria-label="Premium plan">
@@ -108,10 +108,8 @@ include 'includes/header.php';
 
   <!-- Payment methods -->
   <div class="payment">
-    <p>Secure payments powered by</p>
+    <p>Secure payments powered by <strong>CamPay</strong></p>
     <div class="pay-logos">
-      <div class="pay-logo"><div class="dot" style="background:#f79e1b;"></div><div class="dot" style="background:#eb001b;margin-left:-4px;opacity:.8;"></div>Mastercard</div>
-      <div class="pay-logo"><div class="dot" style="background:#1434cb;"></div>Visa</div>
       <div class="pay-logo">MTN Mobile Money</div>
       <div class="pay-logo">Orange Money</div>
     </div>
@@ -138,26 +136,76 @@ include 'includes/header.php';
 </div>
 
 <!-- Checkout Modal -->
-<div class="overlay" id="modal" role="dialog" aria-modal="true">
+<div class="overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-plan">
   <div class="modal-box">
-    <button class="modal-close-btn" onclick="closeModal()">✕</button>
+    <button class="modal-close-btn" onclick="closeModal()" aria-label="Close">✕</button>
     <h3>Subscribe to <span id="modal-plan">Pro</span></h3>
     <p class="note" id="modal-desc">Get started with unlimited translations.</p>
+
+    <!-- Step 1: Enter details & initiate payment -->
     <form id="subscribe-form" novalidate>
       <input type="hidden" id="modal-plan-input" name="plan">
       <input type="hidden" id="modal-price-input" name="price">
-      <div class="field"><label>Full Name</label><input type="text" id="modal-name" placeholder="Jean Paul Mballa" required autocomplete="name"></div>
-      <div class="field"><label>Email Address</label><input type="email" id="checkout-email" placeholder="you@example.com" required autocomplete="email"></div>
-      <div class="field"><label>Payment Method</label><select id="payment-method" required><option value="">Select payment method</option><option value="mtn">MTN Mobile Money</option><option value="orange">Orange Money</option><option value="visa">Visa / Mastercard</option><option value="bank">Bank Transfer</option></select></div>
-      <div class="row-2">
-        <div class="field"><label>Billing Period</label><select id="sel-billing"><option value="monthly">Monthly</option><option value="yearly">Yearly (Save 20%)</option></select></div>
-        <div class="field"><label>Total Due</label><input type="text" id="modal-total" readonly style="font-weight:700;color:var(--g);background:var(--gl);cursor:default;"></div>
+
+      <div class="field">
+        <label for="modal-name">Full Name</label>
+        <input type="text" id="modal-name" name="full_name" placeholder="Jean Paul Mballa" required autocomplete="name">
       </div>
-      <button type="submit" class="btn-modal-submit" id="submit-btn">Complete Subscription</button>
+
+      <div class="field">
+        <label for="checkout-email">Email Address</label>
+        <input type="email" id="checkout-email" name="email" placeholder="you@example.com" required autocomplete="email">
+      </div>
+
+      <div class="field">
+        <label for="payment-phone">Mobile Money Number</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span style="padding:10px 12px;background:var(--gl,#f5f5f5);border:1px solid #ddd;border-radius:8px;font-size:.9rem;white-space:nowrap;">+237</span>
+          <input type="tel" id="payment-phone" name="phone" placeholder="677 123 456" required
+                 pattern="[67]\d{8}"
+                 maxlength="9"
+                 autocomplete="tel"
+                 style="flex:1;"
+                 aria-describedby="phone-hint">
+        </div>
+        <small id="phone-hint" style="color:#888;font-size:.78rem;">MTN or Orange 9-digit number (e.g. 677 123 456)</small>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label for="sel-billing">Billing Period</label>
+          <select id="sel-billing" name="billing_period">
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly (Save 20%)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Total Due</label>
+          <input type="text" id="modal-total" readonly
+                 style="font-weight:700;color:var(--g);background:var(--gl);cursor:default;">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-modal-submit" id="submit-btn">Pay with Mobile Money</button>
     </form>
-    <p class="lock-note">🔒 Secure &amp; encrypted · Cancel anytime</p>
+
+    <!-- Step 2: Waiting for USSD confirmation -->
+    <div id="payment-pending" style="display:none;text-align:center;padding:24px 0;">
+      <div id="ussd-instruction" style="font-size:1rem;font-weight:600;margin-bottom:12px;"></div>
+      <p style="color:#666;font-size:.9rem;">A payment prompt has been sent to your phone.<br>
+         Please approve it with your PIN to complete the subscription.</p>
+      <div class="spinner" id="pay-spinner" style="margin:20px auto;width:36px;height:36px;border:4px solid #eee;border-top-color:var(--g,#22c55e);border-radius:50%;animation:spin .8s linear infinite;"></div>
+      <p style="color:#aaa;font-size:.8rem;margin-top:8px;" id="poll-status-msg">Checking payment status…</p>
+      <button type="button" onclick="cancelPolling()" style="margin-top:16px;background:none;border:none;color:#888;cursor:pointer;font-size:.85rem;text-decoration:underline;">Cancel</button>
+    </div>
+
+    <p class="lock-note">🔒 Secured by CamPay · MTN &amp; Orange Money · Cancel anytime</p>
   </div>
 </div>
+
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 
 <div class="toast-notification" id="toast"></div>
 

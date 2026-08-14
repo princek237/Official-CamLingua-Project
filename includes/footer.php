@@ -32,10 +32,10 @@
         </div>
     </footer>
 
-    <script src="assets/js/api.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/api.js?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/CamLingua/assets/js/api.js') ?>"></script>
+    <script src="assets/js/script.js?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/CamLingua/assets/js/script.js') ?>"></script>
     <?php foreach ($extraJs as $js): ?>
-        <script src="assets/js/<?= htmlspecialchars($js) ?>"></script>
+        <script src="assets/js/<?= htmlspecialchars($js) ?>?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/CamLingua/assets/js/' . $js) ?>"></script>
     <?php endforeach; ?>
 
     <script>

@@ -131,6 +131,30 @@ const Api = (() => {
     return post('/user/subscribe', { plan: plan.toLowerCase(), billing_period: billingPeriod || 'monthly' });
   }
 
+  // ── CamPay payments ───────────────────────────────────────────────────────────
+
+  /**
+   * Initiate a CamPay Mobile Money payment.
+   * @param {string} plan          "pro" | "premium"
+   * @param {string} billingCycle  "monthly" | "yearly"
+   * @param {string} phone         9-digit Cameroonian number (e.g. "677123456")
+   */
+  async function initPayment(plan, billingCycle, phone) {
+    return post('/payment/initiate', {
+      plan:          plan.toLowerCase(),
+      billing_cycle: billingCycle || 'monthly',
+      phone:         phone,
+    });
+  }
+
+  /**
+   * Poll the status of an in-progress payment.
+   * @param {string} externalReference  UUID returned by initPayment
+   */
+  async function checkPaymentStatus(externalReference) {
+    return get('/payment/status/' + encodeURIComponent(externalReference));
+  }
+
   // ── Nav helper: update header auth state ─────────────────────────────────────
   function updateNavAuth() {
     const user = getUser();
@@ -158,6 +182,7 @@ const Api = (() => {
     getHistory, deleteHistory, toggleFavorite,
     submitContact,
     getProfile, updateProfile, getSubscription, getPlans, subscribePlan,
+    initPayment, checkPaymentStatus,
     updateNavAuth,
   };
 

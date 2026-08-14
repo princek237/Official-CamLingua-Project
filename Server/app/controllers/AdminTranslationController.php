@@ -91,8 +91,9 @@ class AdminTranslationController extends Controller
         }
     }
 
-    public function show(int $id): void
+    public function show(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
             $translation = $this->db->fetchOne('
                 SELECT th.*, u.username 
@@ -110,8 +111,9 @@ class AdminTranslationController extends Controller
         }
     }
 
-    public function destroy(int $id): void
+    public function destroy(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
             $this->db->execute('DELETE FROM translation_history WHERE id = ?', [$id]);
             Response::success(['message' => 'Translation deleted successfully']);

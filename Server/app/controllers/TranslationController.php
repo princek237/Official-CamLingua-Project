@@ -22,17 +22,24 @@ class TranslationController extends Controller
     private $db;
 
     /**
-     * Maps our short language codes to NLLB-200 BCP-47 flower codes.
+     * Maps short language codes to NLLB-200 BCP-47 flower codes.
+     * The translator page sends full NLLB codes directly (e.g. eng_Latn),
+     * so these mappings handle any legacy short codes that might come through.
      * Full list: https://github.com/facebookresearch/flores/blob/main/flores200/README.md
      */
     private static $LANG_CODES = [
-        'en'     => 'eng_Latn',   // English
-        'fr'     => 'fra_Latn',   // French
-        'ewo'    => 'ewo_Latn',   // Ewondo
-        'bas'    => 'bas_Latn',   // Bassa (Mbene)
-        'dua'    => 'dua_Latn',   // Duala
-        'bam'    => 'bam_Latn',   // Bambara / Bamileke approximation
-        'fuf'    => 'fuf_Adlm',   // Fulfulde (Pular)
+        // Legacy short codes
+        'en'  => 'eng_Latn', 'fr'  => 'fra_Latn', 'ar'  => 'arb_Arab',
+        'es'  => 'spa_Latn', 'pt'  => 'por_Latn', 'de'  => 'deu_Latn',
+        'it'  => 'ita_Latn', 'nl'  => 'nld_Latn', 'ru'  => 'rus_Cyrl',
+        'zh'  => 'zho_Hans', 'ja'  => 'jpn_Jpan', 'ko'  => 'kor_Hang',
+        'hi'  => 'hin_Deva', 'tr'  => 'tur_Latn', 'id'  => 'ind_Latn',
+        'vi'  => 'vie_Latn', 'pl'  => 'pol_Latn', 'uk'  => 'ukr_Cyrl',
+        'sw'  => 'swh_Latn', 'ha'  => 'hau_Latn', 'yo'  => 'yor_Latn',
+        'ig'  => 'ibo_Latn', 'am'  => 'amh_Ethi', 'so'  => 'som_Latn',
+        'bam' => 'bam_Latn', 'fuf' => 'fuv_Latn', 'fuv' => 'fuv_Latn',
+        'ewo' => 'ewo_Latn', 'bas' => 'bas_Latn', 'dua' => 'dua_Latn',
+        // Full NLLB codes pass through unchanged (handled in callLocalNllbApi)
     ];
 
     public function __construct()
@@ -67,18 +74,25 @@ class TranslationController extends Controller
 
         $config = require APP_PATH . '/config/config.php';
         $apiUrl = $config['nllb']['api_url'];
-        $apiKey = $config['nllb']['api_key'];
 
-        if ($apiUrl && $apiKey) {
+        if ($apiUrl) {
             try {
-                $translatedText = $this->callNllbApi($apiUrl, $apiKey, $sourceLang, $targetLang, $text);
+                $translatedText = $this->callLocalNllbApi($apiUrl, $sourceLang, $targetLang, $text);
                 $engine         = 'nllb-200';
             } catch (\RuntimeException $e) {
-                // If the model is still loading, surface that to the user
-                if (strpos($e->getMessage(), 'loading') !== false) {
-                    Response::error($e->getMessage() . ' — The AI model is warming up, please try again in a moment.', 503);
+                $msg = $e->getMessage();
+                // Service is down — tell the user clearly
+                if (strpos($msg, 'unavailable') !== false || strpos($msg, 'connect') !== false) {
+                    Response::error(
+                        'Translation service is currently unavailable. Please make sure the CamLingua AI service is running.',
+                        503
+                    );
                 }
-                // Any other HF error — fall through to mock silently
+                // Unsupported language — surface to the user
+                if (strpos($msg, 'Unsupported language') !== false) {
+                    Response::error($msg, 422);
+                }
+                // Any other error — fall through to mock silently
             } catch (\Exception $e) {
                 // Network / unexpected error — fall through to mock
             }
@@ -107,87 +121,96 @@ class TranslationController extends Controller
         ], 'Translation completed.');
     }
 
-    // ── Hugging Face NLLB-200 Inference API ───────────────────────────────────
+    // ── Local Flask / NLLB-200 API ────────────────────────────────────────────
 
     /**
-     * Calls the HF Inference API exactly as described in the project's PHP snippet.
+     * Calls the local Flask server (Server/main.py) running on port 5000.
      *
-     * Request body:
-     *   { "inputs": "<text>", "parameters": { "src_lang": "eng_Latn", "tgt_lang": "fra_Latn" } }
+     * Request body (POST /translate):
+     *   { "text": "Hello", "src_lang": "eng_Latn", "tgt_lang": "fra_Latn" }
      *
-     * Response body (success):
-     *   [{ "translation_text": "..." }]
+     * Response body (200 OK):
+     *   { "translated_text": "Bonjour" }
      *
-     * @throws \RuntimeException on curl error, non-200 HTTP, or unexpected response shape
+     * Error response (400):
+     *   { "error": "No text provided" }
+     *
+     * @throws \RuntimeException on curl error, non-200 HTTP, service down, or unexpected response
      */
-    private function callNllbApi(string $url, string $key, string $from, string $to, string $text): string
+    private function callLocalNllbApi(string $url, string $from, string $to, string $text): string
     {
-        // Convert short codes to NLLB BCP-47 codes
-        $srcNllb = self::$LANG_CODES[$from] ?? null;
-        $tgtNllb = self::$LANG_CODES[$to]   ?? null;
+        // The selectors on the translator page already send full NLLB codes (e.g. eng_Latn).
+        // If a short code slips through, map it; otherwise use as-is.
+        $srcNllb = self::$LANG_CODES[$from] ?? $from;
+        $tgtNllb = self::$LANG_CODES[$to]   ?? $to;
 
-        if (!$srcNllb || !$tgtNllb) {
-            throw new \RuntimeException("Unsupported language code: {$from} or {$to}");
+        // Validate that the codes look like NLLB codes (xxx_Xxxx)
+        if (!preg_match('/^[a-z]{3}_[A-Z][a-z]{3}$/', $srcNllb) ||
+            !preg_match('/^[a-z]{3}_[A-Z][a-z]{3}$/', $tgtNllb)) {
+            throw new \RuntimeException(
+                "Unsupported language: '{$from}' or '{$to}' is not supported by the translation model."
+            );
         }
 
-        // Same-language pass-through
+        // Same-language: return text unchanged
         if ($srcNllb === $tgtNllb) {
             return $text;
         }
 
-        $payload = [
-            'inputs'     => $text,
-            'parameters' => [
-                'src_lang' => $srcNllb,
-                'tgt_lang' => $tgtNllb,
-            ],
-        ];
+        $payload = json_encode([
+            'text'     => $text,
+            'src_lang' => $srcNllb,
+            'tgt_lang' => $tgtNllb,
+        ]);
 
         $ch = curl_init($url);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST           => true,
             CURLOPT_HTTPHEADER     => [
-                'Authorization: Bearer ' . $key,
                 'Content-Type: application/json',
+                'Content-Length: ' . strlen($payload),
             ],
-            CURLOPT_POSTFIELDS     => json_encode($payload),
-            CURLOPT_TIMEOUT        => 30,   // HF cold-start can be slow
+            CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_TIMEOUT        => 120,  // NLLB can be slow on first run; keep connection open
+            CURLOPT_CONNECTTIMEOUT => 5,    // If Flask isn't up, fail fast
         ]);
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlErr  = curl_error($ch);
+        $curlErrNo = curl_errno($ch);
         curl_close($ch);
 
-        if ($curlErr) {
-            throw new \RuntimeException('cURL error: ' . $curlErr);
+        // Connection refused / Flask not running
+        if ($curlErrNo === CURLE_COULDNT_CONNECT || $curlErrNo === CURLE_OPERATION_TIMEDOUT) {
+            throw new \RuntimeException('unavailable: could not connect to local translation service');
         }
 
-        // HF returns 503 while the model is loading ("estimated_time" in body)
-        if ($httpCode === 503) {
-            $loading = json_decode($response, true);
-            $wait    = isset($loading['estimated_time']) ? round($loading['estimated_time']) : '?';
-            throw new \RuntimeException("Model is loading, try again in ~{$wait}s");
+        if ($curlErr) {
+            throw new \RuntimeException('connect error: ' . $curlErr);
+        }
+
+        // Flask returned an application-level error (400)
+        if ($httpCode === 400) {
+            $err = json_decode($response, true);
+            throw new \RuntimeException(
+                isset($err['error']) ? $err['error'] : 'Bad request to translation service'
+            );
         }
 
         if ($httpCode !== 200) {
-            throw new \RuntimeException("HF API returned HTTP {$httpCode}: {$response}");
+            throw new \RuntimeException("Translation service returned HTTP {$httpCode}");
         }
 
-        // Success response is an array: [{"translation_text": "..."}]
+        // Successful response: { "translated_text": "..." }
         $data = json_decode($response, true);
 
-        if (is_array($data) && isset($data[0]['translation_text'])) {
-            return trim($data[0]['translation_text']);
+        if (is_array($data) && isset($data['translated_text'])) {
+            return trim($data['translated_text']);
         }
 
-        // Some HF models return a flat object
-        if (is_array($data) && isset($data['translation_text'])) {
-            return trim($data['translation_text']);
-        }
-
-        throw new \RuntimeException('Unexpected HF API response: ' . $response);
+        throw new \RuntimeException('Unexpected response from translation service');
     }
 
     // ── Mock fallback ─────────────────────────────────────────────────────────

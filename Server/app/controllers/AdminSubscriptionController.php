@@ -66,8 +66,9 @@ class AdminSubscriptionController extends Controller
         }
     }
 
-    public function show(int $id): void
+    public function show(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
             $subscription = $this->db->fetchOne('SELECT * FROM subscriptions WHERE id = ?', [$id]);
             if (!$subscription) {
@@ -113,8 +114,9 @@ class AdminSubscriptionController extends Controller
         }
     }
 
-    public function update(int $id): void
+    public function update(array $params): void
     {
+        $id   = (int)($params['id'] ?? 0);
         $body = $this->getBody();
         $errors = $this->validateRequired($body, ['name', 'slug', 'price_monthly', 'price_yearly']);
         if ($errors) {
@@ -147,10 +149,10 @@ class AdminSubscriptionController extends Controller
         }
     }
 
-    public function destroy(int $id): void
+    public function destroy(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
-            // Check if there are active subscribers
             $activeCount = (int) $this->db->fetchOne("SELECT COUNT(*) as count FROM user_subscriptions WHERE subscription_id = ? AND status = 'active'", [$id])['count'];
             if ($activeCount > 0) {
                 Response::validationError(['error' => 'Cannot delete a plan with active subscribers. Disable it instead.']);

@@ -77,4 +77,11 @@ return [
         'from'      => env('MAIL_FROM', 'no-reply@camlingua.com'),
         'from_name' => env('MAIL_FROM_NAME', 'CamLingua'),
     ],
+    'campay' => [
+        'username'          => env('CAMPAY_USERNAME', ''),
+        'password'          => env('CAMPAY_PASSWORD', ''),
+        'permanent_token'   => env('CAMPAY_PERMANENT_TOKEN', ''),
+        // 'DEV' → demo.campay.net  |  'PROD' → campay.net
+        'environment'       => env('CAMPAY_ENVIRONMENT', 'DEV'),
+    ],
 ];

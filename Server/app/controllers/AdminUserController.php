@@ -69,9 +69,9 @@ class AdminUserController extends Controller
         }
     }
 
-    // GET /api/admin/users/:id
-    public function show(int $id): void
+    public function show(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
             $user = $this->db->fetchOne('SELECT id, username, email, phone_number, full_name, bio, role, status, email_verified, created_at FROM users WHERE id = ?', [$id]);
             if (!$user) {
@@ -119,8 +119,9 @@ class AdminUserController extends Controller
     }
 
     // PUT /api/admin/users/:id
-    public function update(int $id): void
+    public function update(array $params): void
     {
+        $id   = (int)($params['id'] ?? 0);
         $body = $this->getBody();
         $errors = $this->validateRequired($body, ['username', 'email', 'role', 'status']);
         if ($errors) {
@@ -161,8 +162,9 @@ class AdminUserController extends Controller
     }
 
     // DELETE /api/admin/users/:id
-    public function destroy(int $id): void
+    public function destroy(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
             $this->db->execute('DELETE FROM users WHERE id = ?', [$id]);
             Response::success(['message' => 'User deleted successfully']);

@@ -156,6 +156,10 @@ class UserController extends Controller
     }
 
     // ── POST /api/user/subscribe ───────────────────────────────────────────────
+    /**
+     * Handles ONLY the Free plan (no payment required).
+     * Pro and Premium plans must go through POST /api/payment/initiate instead.
+     */
     public function subscribe(): void
     {
         $user = AuthMiddleware::user();
@@ -167,38 +171,40 @@ class UserController extends Controller
         }
 
         $planSlug = strtolower($this->sanitize($body['plan']));
-        $billingPeriod = $this->sanitize($body['billing_period'] ?? 'monthly');
 
-        if (!in_array($billingPeriod, ['monthly', 'yearly'], true)) {
-            $billingPeriod = 'monthly';
+        // Paid plans require a CamPay payment — redirect the client
+        if ($planSlug !== 'free') {
+            Response::error(
+                'Paid plans require payment. Use POST /api/payment/initiate to subscribe.',
+                402
+            );
         }
 
-        $plan = $this->db->fetchOne('SELECT id FROM subscriptions WHERE slug = ? AND is_active = 1', [$planSlug]);
+        $plan = $this->db->fetchOne(
+            'SELECT id FROM subscriptions WHERE slug = ? AND is_active = 1',
+            [$planSlug]
+        );
         if (!$plan) {
             Response::notFound('Subscription plan not found.');
         }
 
-        // Cancel existing active subscriptions
+        // Cancel any existing active subscription
         $this->db->query(
-            "UPDATE user_subscriptions SET status = 'cancelled', cancelled_at = CURRENT_TIMESTAMP WHERE user_id = ? AND status = 'active'",
+            "UPDATE user_subscriptions SET status = 'cancelled', cancelled_at = CURRENT_TIMESTAMP
+             WHERE user_id = ? AND status = 'active'",
             [$user['id']]
         );
 
-        // Calculate expiration date (1 month or 1 year)
-        $expiresAt = $billingPeriod === 'yearly'
-            ? date('Y-m-d H:i:s', strtotime('+1 year'))
-            : date('Y-m-d H:i:s', strtotime('+1 month'));
-
-        // Insert new subscription
+        // Free plan: no expiry
         $this->db->insert('user_subscriptions', [
             'user_id'         => $user['id'],
             'subscription_id' => $plan['id'],
             'status'          => 'active',
-            'billing_cycle'   => $billingPeriod,
-            'expires_at'      => $expiresAt
+            'billing_cycle'   => 'monthly',
+            'expires_at'      => null,
         ]);
 
-        Response::success([], 'Successfully subscribed to ' . ucfirst($planSlug) . ' plan.');
+        Response::success([], 'Successfully switched to the Free plan.');
     }
 
     // ── GET /api/subscriptions (public — plan listing) ─────────────────────────

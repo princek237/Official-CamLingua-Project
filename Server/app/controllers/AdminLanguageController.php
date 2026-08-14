@@ -69,8 +69,9 @@ class AdminLanguageController extends Controller
         }
     }
 
-    public function show(int $id): void
+    public function show(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
             $language = $this->db->fetchOne('SELECT id, name, code, is_active FROM languages WHERE id = ?', [$id]);
             if (!$language) {
@@ -111,8 +112,9 @@ class AdminLanguageController extends Controller
         }
     }
 
-    public function update(int $id): void
+    public function update(array $params): void
     {
+        $id   = (int)($params['id'] ?? 0);
         $body = $this->getBody();
         $errors = $this->validateRequired($body, ['name', 'code']);
         if ($errors) {
@@ -140,8 +142,9 @@ class AdminLanguageController extends Controller
         }
     }
 
-    public function destroy(int $id): void
+    public function destroy(array $params): void
     {
+        $id = (int)($params['id'] ?? 0);
         try {
             $this->db->execute('DELETE FROM languages WHERE id = ?', [$id]);
             Response::success(['message' => 'Language deleted successfully']);

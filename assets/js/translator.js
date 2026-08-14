@@ -6,13 +6,63 @@
     'use strict';
 
     const LANGUAGES = [
-        { code: 'en',  name: 'English',             flag: '🇬🇧' },
-        { code: 'fr',  name: 'French',               flag: '🇫🇷' },
-        { code: 'ewo', name: 'Ewondo (Cameroon)',    flag: '🇨🇲' },
-        { code: 'bas', name: 'Bassa (Cameroon)',     flag: '🇨🇲' },
-        { code: 'dua', name: 'Duala (Cameroon)',     flag: '🇨🇲' },
-        { code: 'bam', name: 'Bamileke (Cameroon)',  flag: '🇨🇲' },
-        { code: 'fuf', name: 'Fulfulde (Cameroon)',  flag: '🇨🇲' },
+        // Cameroonian / Central African
+        { code: 'fuv_Latn', name: 'Fulfulde',          flag: '🇨🇲' },
+        { code: 'bam_Latn', name: 'Bambara',            flag: '🇨🇲' },
+        { code: 'sag_Latn', name: 'Sango',              flag: '🇨🇫' },
+        { code: 'lin_Latn', name: 'Lingala',            flag: '🇨🇩' },
+        { code: 'kbp_Latn', name: 'Kabiye',             flag: '🇹🇬' },
+        // West African
+        { code: 'hau_Latn', name: 'Hausa',              flag: '🌍' },
+        { code: 'yor_Latn', name: 'Yoruba',             flag: '🇳🇬' },
+        { code: 'ibo_Latn', name: 'Igbo',               flag: '🇳🇬' },
+        { code: 'wol_Latn', name: 'Wolof',              flag: '🇸🇳' },
+        { code: 'twi_Latn', name: 'Twi',                flag: '🇬🇭' },
+        { code: 'aka_Latn', name: 'Akan',               flag: '🇬🇭' },
+        { code: 'fon_Latn', name: 'Fon',                flag: '🇧🇯' },
+        { code: 'mos_Latn', name: 'Mossi',              flag: '🇧🇫' },
+        { code: 'dyu_Latn', name: 'Dyula',              flag: '🇧🇫' },
+        { code: 'ewe_Latn', name: 'Ewe',                flag: '🇬🇭' },
+        // East African
+        { code: 'swh_Latn', name: 'Swahili',            flag: '🇰🇪' },
+        { code: 'amh_Ethi', name: 'Amharic',            flag: '🇪🇹' },
+        { code: 'som_Latn', name: 'Somali',             flag: '🇸🇴' },
+        { code: 'lug_Latn', name: 'Luganda',            flag: '🇺🇬' },
+        { code: 'run_Latn', name: 'Rundi',              flag: '🇧🇮' },
+        { code: 'kin_Latn', name: 'Kinyarwanda',        flag: '🇷🇼' },
+        { code: 'gaz_Latn', name: 'Oromo',              flag: '🇪🇹' },
+        { code: 'tir_Ethi', name: 'Tigrinya',           flag: '🇪🇷' },
+        // Southern African
+        { code: 'zul_Latn', name: 'Zulu',               flag: '🇿🇦' },
+        { code: 'xho_Latn', name: 'Xhosa',              flag: '🇿🇦' },
+        { code: 'sna_Latn', name: 'Shona',              flag: '🇿🇼' },
+        { code: 'nso_Latn', name: 'Northern Sotho',     flag: '🇿🇦' },
+        { code: 'sot_Latn', name: 'Sotho',              flag: '🇱🇸' },
+        { code: 'tsn_Latn', name: 'Tswana',             flag: '🇧🇼' },
+        { code: 'tso_Latn', name: 'Tsonga',             flag: '🇲🇿' },
+        { code: 'ssw_Latn', name: 'Swati',              flag: '🇸🇿' },
+        { code: 'afr_Latn', name: 'Afrikaans',          flag: '🇿🇦' },
+        // Major World Languages
+        { code: 'eng_Latn', name: 'English',            flag: '🇬🇧' },
+        { code: 'fra_Latn', name: 'French',             flag: '🇫🇷' },
+        { code: 'arb_Arab', name: 'Arabic',             flag: '🇸🇦' },
+        { code: 'spa_Latn', name: 'Spanish',            flag: '🇪🇸' },
+        { code: 'por_Latn', name: 'Portuguese',         flag: '🇵🇹' },
+        { code: 'deu_Latn', name: 'German',             flag: '🇩🇪' },
+        { code: 'ita_Latn', name: 'Italian',            flag: '🇮🇹' },
+        { code: 'nld_Latn', name: 'Dutch',              flag: '🇳🇱' },
+        { code: 'rus_Cyrl', name: 'Russian',            flag: '🇷🇺' },
+        { code: 'zho_Hans', name: 'Chinese (Simplified)', flag: '🇨🇳' },
+        { code: 'zho_Hant', name: 'Chinese (Traditional)', flag: '🇹🇼' },
+        { code: 'jpn_Jpan', name: 'Japanese',           flag: '🇯🇵' },
+        { code: 'kor_Hang', name: 'Korean',             flag: '🇰🇷' },
+        { code: 'hin_Deva', name: 'Hindi',              flag: '🇮🇳' },
+        { code: 'ben_Beng', name: 'Bengali',            flag: '🇧🇩' },
+        { code: 'tur_Latn', name: 'Turkish',            flag: '🇹🇷' },
+        { code: 'ind_Latn', name: 'Indonesian',         flag: '🇮🇩' },
+        { code: 'vie_Latn', name: 'Vietnamese',         flag: '🇻🇳' },
+        { code: 'pol_Latn', name: 'Polish',             flag: '🇵🇱' },
+        { code: 'ukr_Cyrl', name: 'Ukrainian',          flag: '🇺🇦' },
     ];
 
     const SAMPLES = [
@@ -105,9 +155,9 @@
                 if (mc) mc.value = result;
 
             } else if (res.status === 503) {
-                translatedEl.textContent = 'The AI model is warming up. Please try again in a few seconds.';
+                translatedEl.textContent = 'Translation service is not running. Please start the CamLingua AI service (python main.py) and try again.';
                 translatedEl.classList.add('placeholder');
-                showToast('AI model warming up — retry shortly.');
+                showToast('AI service is offline — start python main.py first.');
 
             } else {
                 var msg = (res.data && res.data.message) ? res.data.message : 'Translation failed.';
