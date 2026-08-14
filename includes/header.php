@@ -19,7 +19,7 @@ $activePage = $activePage ?? '';
     <header class="site-header">
         <div class="container nav-inner">
             <a href="index.php" class="logo">
-                <div class="logo-badge">CL</div>
+                <img src="assets/logo.png" alt="CamLingua" class="logo-img">
                 <span class="logo-text">Cam<span>Lingua</span></span>
             </a>
             <nav class="nav-links">

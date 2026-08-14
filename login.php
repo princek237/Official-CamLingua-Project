@@ -9,7 +9,7 @@ include 'includes/header.php';
   <div class="auth-card">
 
     <div class="auth-logo">
-      <div class="logo-badge">CL</div>
+      <img src="assets/logo.png" alt="CamLingua" class="logo-img" style="height:64px;">
       <span class="logo-text">Cam<span>Lingua</span></span>
     </div>
 

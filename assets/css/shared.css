@@ -120,17 +120,10 @@ svg  { display: block; }
   flex-shrink: 0;
 }
 
-.logo-badge {
-  width: 32px;
-  height: 32px;
-  background: var(--brand);
-  color: var(--white);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.75rem;
+.logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
   flex-shrink: 0;
 }
 

@@ -3,7 +3,7 @@
         <div class="footer-inner">
             <div class="footer-brand">
                 <a href="index.php" class="logo">
-                    <div class="logo-badge">CL</div>
+                    <img src="assets/logo.png" alt="CamLingua" class="logo-img">
                     <span class="logo-text">Cam<span>Lingua</span></span>
                 </a>
                 <p class="footer-tagline">Translate. Connect. Preserve Cameroon's Languages.</p>

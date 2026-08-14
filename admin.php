@@ -22,7 +22,7 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
         <!-- Sidebar -->
         <aside class="admin-sidebar">
             <div class="admin-sidebar-header">
-                <div class="logo-badge">CL</div>
+                <img src="assets/logo.png" alt="CamLingua" class="logo-img" style="height:36px;">
                 <span class="logo-text">Cam<span>Lingua</span> <span style="font-size:0.75rem; font-weight:500; color:#4ade80;">Admin</span></span>
             </div>
             <nav class="admin-nav">
