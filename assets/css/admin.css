@@ -33,17 +33,10 @@ body {
   gap: 12px;
 }
 
-.admin-sidebar-header .logo-badge {
-  width: 32px;
-  height: 32px;
-  background: darkgreen;
-  color: #fff;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.75rem;
+.admin-sidebar-header .logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
   flex-shrink: 0;
 }
 

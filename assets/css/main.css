@@ -253,7 +253,7 @@
   gap: 8px;
   margin-bottom: 1.75rem;
 }
-.auth-logo .logo-badge { width: 36px; height: 36px; font-size: 0.875rem; }
+.auth-logo .logo-img  { height: 56px; width: auto; object-fit: contain; }
 .auth-logo .logo-text  { font-size: 1.25rem; font-weight: 800; color: var(--th); }
 .auth-logo .logo-text span { color: var(--g); }
 
