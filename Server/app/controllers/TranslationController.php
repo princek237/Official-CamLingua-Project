@@ -260,9 +260,15 @@ class TranslationController extends Controller
         $maxChars = $limits['max_chars'] ?? -1;
 
         if ($maxChars > 0 && mb_strlen($text) > $maxChars) {
-            Response::forbidden(
-                "Your plan allows a maximum of {$maxChars} characters per translation. Upgrade for unlimited access."
-            );
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success'       => false,
+                'limit_reached' => true,
+                'limit_type'    => 'characters',
+                'message'       => "Your free plan allows a maximum of {$maxChars} characters per translation. Upgrade to Pro for unlimited access.",
+            ]);
+            exit;
         }
 
         $perDay = $limits['translations_per_day'] ?? -1;
@@ -273,9 +279,15 @@ class TranslationController extends Controller
                 [$user['id']]
             );
             if ((int)$count['cnt'] >= $perDay) {
-                Response::forbidden(
-                    "You have reached your daily limit of {$perDay} translations. Upgrade for unlimited access."
-                );
+                http_response_code(403);
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success'       => false,
+                    'limit_reached' => true,
+                    'limit_type'    => 'daily',
+                    'message'       => "You've used all {$perDay} of your free daily translations. Upgrade to Pro for unlimited translations.",
+                ]);
+                exit;
             }
         }
     }

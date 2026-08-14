@@ -154,6 +154,12 @@
                 if (ms) ms.value = text;
                 if (mc) mc.value = result;
 
+            } else if (res.status === 403) {
+                // Free tier limit reached — show upgrade banner
+                var limitMsg = (res.data && res.data.message) ? res.data.message : 'You have reached your plan limit.';
+                translatedEl.textContent = '';
+                translatedEl.classList.add('placeholder');
+                showUpgradeBanner(limitMsg);
             } else if (res.status === 503) {
                 translatedEl.textContent = 'Translation service is not running. Please start the CamLingua AI service (python main.py) and try again.';
                 translatedEl.classList.add('placeholder');
@@ -342,6 +348,36 @@
             updateFlags();
             doTranslate();
         } catch (e) { /* ignore malformed */ }
+    }
+
+    // ── Upgrade banner (shown when free tier limit is hit) ────────────────────
+    function showUpgradeBanner(reason) {
+        // Remove any existing banner first
+        var existing = document.getElementById('upgrade-banner');
+        if (existing) existing.remove();
+
+        var banner = document.createElement('div');
+        banner.id = 'upgrade-banner';
+        banner.innerHTML =
+            '<div class="upgrade-banner-inner">' +
+                '<div class="upgrade-banner-icon">⚡</div>' +
+                '<div class="upgrade-banner-body">' +
+                    '<strong>You\'ve reached your free plan limit</strong>' +
+                    '<span>' + reason + '</span>' +
+                '</div>' +
+                '<a href="subscription.php" class="upgrade-banner-btn">Upgrade Now</a>' +
+                '<button class="upgrade-banner-close" aria-label="Dismiss" onclick="document.getElementById(\'upgrade-banner\').remove()">✕</button>' +
+            '</div>';
+
+        // Insert right above the translator card
+        var wrap = document.querySelector('.translator-wrap');
+        var card = document.querySelector('.translator-card');
+        if (wrap && card) {
+            wrap.insertBefore(banner, card);
+            banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            document.body.prepend(banner);
+        }
     }
 
     // ── Init ──────────────────────────────────────────────────────────────────
