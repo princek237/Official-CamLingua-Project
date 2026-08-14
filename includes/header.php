@@ -22,13 +22,14 @@ $activePage = $activePage ?? '';
                 <img src="assets/logo.png" alt="CamLingua" class="logo-img">
                 <span class="logo-text">Cam<span>Lingua</span></span>
             </a>
-            <nav class="nav-links">
+            <nav class="nav-links" id="mainNav">
                 <a href="index.php" class="<?= $activePage === 'index' ? 'active' : '' ?>">Home</a>
                 <a href="languages.php" class="<?= $activePage === 'languages' ? 'active' : '' ?>">Languages</a>
-                <a href="translator.php" class="<?= $activePage === 'translator' ? 'active' : '' ?>">Translator</a>
-                <a href="translation-history.php" class="<?= $activePage === 'history' ? 'active' : '' ?>">History</a>
                 <a href="subscription.php" class="<?= $activePage === 'pricing' ? 'active' : '' ?>">Pricing</a>
                 <a href="about.php" class="<?= $activePage === 'about' ? 'active' : '' ?>">About</a>
+                <!-- auth-only links — hidden until JS confirms login -->
+                <a href="translator.php" class="nav-auth-only <?= $activePage === 'translator' ? 'active' : '' ?>" style="display:none;">Translator</a>
+                <a href="translation-history.php" class="nav-auth-only <?= $activePage === 'history' ? 'active' : '' ?>" style="display:none;">History</a>
             </nav>
             <div class="nav-actions">
                 <a href="login.php" class="btn btn-ghost">Log In</a>
@@ -51,10 +52,11 @@ $activePage = $activePage ?? '';
     <div class="mobile-nav-menu" id="mobileNavMenu" role="navigation" aria-label="Mobile navigation">
         <a href="index.php" class="<?= $activePage === 'index' ? 'active' : '' ?>">Home</a>
         <a href="languages.php" class="<?= $activePage === 'languages' ? 'active' : '' ?>">Languages</a>
-        <a href="translator.php" class="<?= $activePage === 'translator' ? 'active' : '' ?>">Translator</a>
-        <a href="translation-history.php" class="<?= $activePage === 'history' ? 'active' : '' ?>">History</a>
         <a href="subscription.php" class="<?= $activePage === 'pricing' ? 'active' : '' ?>">Pricing</a>
         <a href="about.php" class="<?= $activePage === 'about' ? 'active' : '' ?>">About</a>
+        <!-- auth-only links -->
+        <a href="translator.php" class="nav-auth-only <?= $activePage === 'translator' ? 'active' : '' ?>" style="display:none;">Translator</a>
+        <a href="translation-history.php" class="nav-auth-only <?= $activePage === 'history' ? 'active' : '' ?>" style="display:none;">History</a>
         <div class="mob-nav-auth">
             <a href="login.php" class="btn btn-ghost">Log In</a>
             <a href="login.php#signup" class="btn btn-primary">Sign Up</a>

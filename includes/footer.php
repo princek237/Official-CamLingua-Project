@@ -46,6 +46,11 @@
         const navActions = document.querySelector('.nav-actions');
         const mobAuth    = document.querySelector('.mob-nav-auth');
 
+        // Show/hide auth-only nav links (Translator, History)
+        document.querySelectorAll('.nav-auth-only').forEach(function (el) {
+            el.style.display = user ? '' : 'none';
+        });
+
         if (user) {
             const avatarSrc = user.avatar_url ||
                 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.full_name || user.username || 'U') + '&background=15803d&color=fff&size=40';
