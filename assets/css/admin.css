@@ -115,29 +115,24 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.admin-top-nav a:hover {
-  background: black;
-  color: #fff;
-  border-radius: 8px;
-}
-
-.admin-top-nav {
-  border-radius: 8px;
-  padding: 4px;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
 .admin-top-nav a {
-  border: 0.1px solid black;
-  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #d1d5db;
+  padding: 6px 12px;
   border-radius: 7px;
-  color: black;
+  color: #374151;
+  font-size: 0.8125rem;
+  font-weight: 600;
   text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: color 0.2s;
+  transition: background .15s, color .15s;
+}
+.admin-top-nav a:hover {
+  background: #15803d;
+  color: #fff;
+  border-color: #15803d;
+  border-radius: 8px;
 }
 
 

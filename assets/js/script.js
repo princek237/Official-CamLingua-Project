@@ -72,11 +72,12 @@ function clearFormError(formId) {
 // -- Role-based redirect (single source of truth) -----------------------------
 
 /**
- * Admins always go to admin.php; everyone else goes to translator.php.
+ * After login, everyone lands on the main site (translator.php).
+ * Admins can reach the dashboard via the Admin badge in the nav.
  * @param {string|null} role
  */
 function redirectByRole(role) {
-  window.location.href = (role === 'admin') ? 'admin.php' : 'translator.php';
+  window.location.href = 'translator.php';
 }
 
 // -- Form submission ----------------------------------------------------------

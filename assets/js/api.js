@@ -188,31 +188,3 @@ const Api = (() => {
 
 })();
 
-// ── Global admin redirect guard ───────────────────────────────────────────────
-// Runs on pages for logged-in users to catch role=admin mid-session.
-// Does NOT run on admin.php, login.php, or within 3s of a login redirect.
-(async function adminRedirectGuard() {
-  var page = window.location.pathname;
-  if (page.includes('admin.php') || page.includes('login.php')) return;
-  if (!Api.isLoggedIn()) return;
-
-  // Skip if we just landed here from a login redirect (prevent double-redirect race)
-  var lastLogin = parseInt(sessionStorage.getItem('cl_last_login') || '0', 10);
-  if (Date.now() - lastLogin < 3000) return;
-
-  try {
-    var res = await Api.me();
-    if (res.ok && res.data && res.data.data && res.data.data.user) {
-      var liveUser = res.data.data.user;
-      Api.setUser(liveUser);
-      if (liveUser.role === 'admin' && !page.includes('admin.php')) {
-        window.location.href = 'admin.php';
-      }
-    } else if (res.status === 401) {
-      Api.logout();
-      window.location.href = 'login.php';
-    }
-  } catch (e) {
-    // Network error — do nothing
-  }
-})();

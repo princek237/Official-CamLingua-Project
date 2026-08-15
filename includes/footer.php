@@ -51,6 +51,40 @@
             el.style.display = user ? '' : 'none';
         });
 
+        // Re-validate role from server — inject Admin link only if confirmed admin
+        if (user && Api.isLoggedIn()) {
+            Api.me().then(function (res) {
+                if (res && res.ok && res.data && res.data.data && res.data.data.user) {
+                    var liveUser = res.data.data.user;
+                    Api.setUser(liveUser);
+
+                    if (liveUser.role === 'admin') {
+                        // Inject into desktop nav
+                        var mainNav = document.getElementById('mainNav');
+                        if (mainNav && !document.getElementById('nav-admin-link')) {
+                            var a = document.createElement('a');
+                            a.id        = 'nav-admin-link';
+                            a.href      = 'admin.php';
+                            a.className = 'nav-admin-badge';
+                            a.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg> Admin';
+                            mainNav.appendChild(a);
+                        }
+
+                        // Inject into mobile nav
+                        var mobileNav = document.getElementById('mobileNavMenu');
+                        if (mobileNav && !document.getElementById('mob-admin-link')) {
+                            var ma = document.createElement('a');
+                            ma.id       = 'mob-admin-link';
+                            ma.href     = 'admin.php';
+                            ma.innerHTML = '⚙ Admin Dashboard';
+                            var mobAuth = mobileNav.querySelector('.mob-nav-auth');
+                            mobileNav.insertBefore(ma, mobAuth);
+                        }
+                    }
+                }
+            }).catch(function () {});
+        }
+
         if (user) {
             const avatarSrc = user.avatar_url ||
                 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.full_name || user.username || 'U') + '&background=15803d&color=fff&size=40';

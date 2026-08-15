@@ -30,6 +30,7 @@ $activePage = $activePage ?? '';
                 <!-- auth-only links — hidden until JS confirms login -->
                 <a href="translator.php" class="nav-auth-only <?= $activePage === 'translator' ? 'active' : '' ?>" style="display:none;">Translator</a>
                 <a href="translation-history.php" class="nav-auth-only <?= $activePage === 'history' ? 'active' : '' ?>" style="display:none;">History</a>
+                <!-- admin link injected by JS only for role=admin -->
             </nav>
             <div class="nav-actions">
                 <a href="login.php" class="btn btn-ghost">Log In</a>
@@ -57,6 +58,7 @@ $activePage = $activePage ?? '';
         <!-- auth-only links -->
         <a href="translator.php" class="nav-auth-only <?= $activePage === 'translator' ? 'active' : '' ?>" style="display:none;">Translator</a>
         <a href="translation-history.php" class="nav-auth-only <?= $activePage === 'history' ? 'active' : '' ?>" style="display:none;">History</a>
+        <!-- admin link injected by JS only for role=admin -->
         <div class="mob-nav-auth">
             <a href="login.php" class="btn btn-ghost">Log In</a>
             <a href="login.php#signup" class="btn btn-primary">Sign Up</a>

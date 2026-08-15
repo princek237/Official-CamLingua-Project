@@ -369,3 +369,20 @@ svg  { display: block; }
 @media (max-width: 480px) {
   .footer-inner { grid-template-columns: 1fr; padding: 2rem 1rem; }
 }
+
+/* ── Admin nav badge ────────────────────────────────────────────────────── */
+.nav-admin-badge {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  background: #166534;
+  color: #ffffff !important;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background .15s;
+}
+.nav-admin-badge:hover { background: #15803d; }
+.nav-admin-badge svg   { flex-shrink: 0; }
