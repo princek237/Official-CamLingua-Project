@@ -66,3 +66,317 @@
         { id:54, code:'gaz_Latn', name_en:'West Central Oromo', name_native:'Afaan Oromoo', category:'african',      flag:'🇪🇹', speakers:'~40M',    region:'Ethiopia',                  description:'A Cushitic language and the most widely spoken in Ethiopia.',                                               sample:{text:'Nagaya',       meaning:'Hello / Peace'},      status:'supported' },
         { id:55, code:'tir_Ethi', name_en:'Tigrinya',           name_native:'ትግርኛ',        category:'african',      flag:'🇪🇷', speakers:'~9M',     region:'Eritrea, Ethiopia',         description:'An Afroasiatic language spoken in Eritrea and northern Ethiopia.',                                          sample:{text:'ሰላም',          meaning:'Hello'},              status:'supported' },
         { id:56, code:'lus_Latn', name_en:'Mizo',               name_native:'Mizo ṭawng',   category:'asian',        flag:'🇮🇳', speakers:'~1M',     region:'Mizoram, India',            description:'A Tibeto-Burman language spoken primarily in Mizoram, northeast India.',                                   sample:{text:'Chibai',       meaning:'Hello'},              status:'supported' },
+        // ── Middle East & Central Asia ────────────────────────────────────────
+        { id:57, code:'arb_Arab', name_en:'Modern Standard Arabic',name_native:'العربية',   category:'middleeastern',flag:'🌍', speakers:'~274M',   region:'Middle East & North Africa', description:'The standardized, literary Arabic used in writing and formal speech across the Arab world.',               sample:{text:'مرحبا',        meaning:'Hello'},              status:'supported' },
+        { id:58, code:'arb_Latn', name_en:'Arabic (Romanized)',    name_native:'Arabizi',    category:'middleeastern',flag:'🌍', speakers:'~274M',   region:'Middle East & North Africa', description:'Modern Standard Arabic transliterated into Latin script.',                                                  sample:{text:'Marhaba',      meaning:'Hello'},              status:'supported' },
+        { id:59, code:'acm_Arab', name_en:'Mesopotamian Arabic',   name_native:'عراقي',      category:'middleeastern',flag:'🇮🇶', speakers:'~15M',    region:'Iraq',                      description:'The Arabic dialect spoken in Iraq.',                                                                        sample:{text:'هلو',          meaning:'Hello'},              status:'supported' },
+        { id:60, code:'acq_Arab', name_en:"Ta'izzi-Adeni Arabic",  name_native:'يمني',       category:'middleeastern',flag:'🇾🇪', speakers:'~10M',    region:'Yemen',                     description:'A southern Yemeni Arabic dialect.',                                                                         sample:{text:'أهلاً',        meaning:'Hello'},              status:'supported' },
+        { id:61, code:'aeb_Arab', name_en:'Tunisian Arabic',       name_native:'تونسي',      category:'middleeastern',flag:'🇹🇳', speakers:'~12M',    region:'Tunisia',                   description:'The Arabic dialect spoken in Tunisia.',                                                                     sample:{text:'أهلاً',        meaning:'Hello'},              status:'supported' },
+        { id:62, code:'ajp_Arab', name_en:'South Levantine Arabic',name_native:'جنوب شامي',  category:'middleeastern',flag:'🌍', speakers:'~13M',    region:'Jordan, Palestine',         description:'Arabic dialect spoken in Jordan and Palestine.',                                                            sample:{text:'أهلاً',        meaning:'Hello'},              status:'supported' },
+        { id:63, code:'apc_Arab', name_en:'North Levantine Arabic',name_native:'شامي',       category:'middleeastern',flag:'🇸🇾', speakers:'~30M',    region:'Syria, Lebanon',            description:'Arabic dialect spoken in Syria and Lebanon.',                                                               sample:{text:'أهلاً',        meaning:'Hello'},              status:'supported' },
+        { id:64, code:'ars_Arab', name_en:'Najdi Arabic',          name_native:'نجدي',       category:'middleeastern',flag:'🇸🇦', speakers:'~10M',    region:'Saudi Arabia',              description:'The Arabic dialect of the Najd region of Saudi Arabia.',                                                   sample:{text:'أهلاً',        meaning:'Hello'},              status:'supported' },
+        { id:65, code:'ary_Arab', name_en:'Moroccan Arabic',     name_native:'دارجة',        category:'middleeastern',flag:'🇲🇦', speakers:'~33M',    region:'Morocco',                   description:'The Arabic dialect of Morocco, heavily influenced by Berber and French.',                                  sample:{text:'صباح الخير',   meaning:'Good morning'},       status:'supported' },
+        { id:66, code:'arz_Arab', name_en:'Egyptian Arabic',      name_native:'مصري',         category:'middleeastern',flag:'🇪🇬', speakers:'~100M',   region:'Egypt',                     description:'The most widely understood Arabic dialect, due to Egyptian media influence.',                               sample:{text:'أهلاً',        meaning:'Hello'},              status:'supported' },
+        { id:67, code:'pes_Arab', name_en:'Western Persian (Farsi)',name_native:'فارسی',      category:'middleeastern',flag:'🇮🇷', speakers:'~110M',   region:'Iran, Afghanistan',         description:'An Indo-Iranian language and official language of Iran.',                                                   sample:{text:'سلام',         meaning:'Hello'},              status:'supported' },
+        { id:68, code:'prs_Arab', name_en:'Dari',                 name_native:'دری',          category:'middleeastern',flag:'🇦🇫', speakers:'~30M',    region:'Afghanistan',               description:'A variety of Persian and one of the two official languages of Afghanistan.',                                sample:{text:'سلام',         meaning:'Hello'},              status:'supported' },
+        { id:69, code:'pbt_Arab', name_en:'Southern Pashto',      name_native:'پښتو',         category:'middleeastern',flag:'🇦🇫', speakers:'~50M',    region:'Afghanistan, Pakistan',     description:'An Iranian language spoken by the Pashtun people.',                                                        sample:{text:'سلام',         meaning:'Hello'},              status:'supported' },
+        { id:70, code:'urd_Arab', name_en:'Urdu',                 name_native:'اردو',         category:'asian',        flag:'🇵🇰', speakers:'~170M',   region:'Pakistan, India',           description:'An Indo-Aryan language and national language of Pakistan.',                                                 sample:{text:'آداب',         meaning:'Hello / Salutation'}, status:'supported' },
+        { id:71, code:'heb_Hebr', name_en:'Hebrew',               name_native:'עברית',        category:'middleeastern',flag:'🇮🇱', speakers:'~9M',     region:'Israel',                    description:'A Semitic language and the official language of Israel.',                                                  sample:{text:'שלום',         meaning:'Hello / Peace'},      status:'supported' },
+        { id:72, code:'ckb_Arab', name_en:'Central Kurdish',      name_native:'کوردی',        category:'middleeastern',flag:'🌍', speakers:'~10M',    region:'Iraq, Iran',                description:'A Kurdish dialect spoken mainly in Iraqi Kurdistan and Iran.',                                               sample:{text:'سڵاو',         meaning:'Hello'},              status:'supported' },
+        { id:73, code:'kmr_Latn', name_en:'Northern Kurdish',     name_native:'Kurmancî',     category:'middleeastern',flag:'🌍', speakers:'~20M',    region:'Turkey, Syria, Iraq',       description:'The most widely spoken Kurdish dialect, written in Latin script.',                                          sample:{text:'Silav',        meaning:'Hello'},              status:'supported' },
+        { id:74, code:'azj_Latn', name_en:'North Azerbaijani',    name_native:'Azərbaycanca', category:'middleeastern',flag:'🇦🇿', speakers:'~35M',    region:'Azerbaijan, Russia',        description:'A Turkic language and the official language of Azerbaijan.',                                                sample:{text:'Salam',        meaning:'Hello'},              status:'supported' },
+        { id:75, code:'azb_Arab', name_en:'South Azerbaijani',    name_native:'آذربایجانی',   category:'middleeastern',flag:'🇮🇷', speakers:'~15M',    region:'Iran',                      description:'A Turkic language spoken in northwestern Iran.',                                                            sample:{text:'سالام',        meaning:'Hello'},              status:'supported' },
+        { id:76, code:'tur_Latn', name_en:'Turkish',              name_native:'Türkçe',       category:'middleeastern',flag:'🇹🇷', speakers:'~88M',    region:'Turkey',                    description:'A Turkic language and the official language of Turkey.',                                                    sample:{text:'Merhaba',      meaning:'Hello'},              status:'supported' },
+        { id:77, code:'kaz_Cyrl', name_en:'Kazakh',               name_native:'Қазақша',      category:'asian',        flag:'🇰🇿', speakers:'~18M',    region:'Kazakhstan',                description:'A Turkic language and the official language of Kazakhstan.',                                                sample:{text:'Сәлем',        meaning:'Hello'},              status:'supported' },
+        { id:78, code:'kir_Cyrl', name_en:'Kyrgyz',               name_native:'Кыргызча',     category:'asian',        flag:'🇰🇬', speakers:'~5M',     region:'Kyrgyzstan',                description:'A Turkic language and the official language of Kyrgyzstan.',                                                sample:{text:'Салам',        meaning:'Hello'},              status:'supported' },
+        { id:79, code:'uzn_Latn', name_en:'Northern Uzbek',       name_native:"O'zbek",       category:'asian',        flag:'🇺🇿', speakers:'~44M',    region:'Uzbekistan',                description:'A Turkic language and the official language of Uzbekistan.',                                                sample:{text:'Salom',        meaning:'Hello'},              status:'supported' },
+        { id:80, code:'tuk_Latn', name_en:'Turkmen',              name_native:'Türkmençe',    category:'asian',        flag:'🇹🇲', speakers:'~11M',    region:'Turkmenistan',              description:'A Turkic language and the official language of Turkmenistan.',                                               sample:{text:'Salam',        meaning:'Hello'},              status:'supported' },
+        { id:81, code:'tgk_Cyrl', name_en:'Tajik',               name_native:'Тоҷикӣ',       category:'asian',        flag:'🇹🇯', speakers:'~8M',     region:'Tajikistan',                description:'An Iranian language and the official language of Tajikistan.',                                              sample:{text:'Салом',        meaning:'Hello'},              status:'supported' },
+        { id:82, code:'uig_Arab', name_en:'Uyghur',              name_native:'ئۇيغۇرچە',     category:'asian',        flag:'🌍', speakers:'~12M',    region:'Xinjiang, China',           description:'A Turkic language spoken mainly in the Xinjiang region of China.',                                          sample:{text:'ياخشىمۇسىز',   meaning:'Hello'},              status:'supported' },
+        { id:83, code:'bak_Cyrl', name_en:'Bashkir',             name_native:'Башҡортса',     category:'asian',        flag:'🇷🇺', speakers:'~1M',     region:'Russia (Bashkortostan)',     description:'A Turkic language spoken in the Republic of Bashkortostan, Russia.',                                       sample:{text:'Сәлам',        meaning:'Hello'},              status:'supported' },
+        { id:84, code:'tat_Cyrl', name_en:'Tatar',               name_native:'Татарча',       category:'asian',        flag:'🇷🇺', speakers:'~5M',     region:'Russia (Tatarstan)',         description:'A Turkic language spoken in Tatarstan and other parts of Russia.',                                          sample:{text:'Сәлам',        meaning:'Hello'},              status:'supported' },
+        { id:85, code:'crh_Latn', name_en:'Crimean Tatar',       name_native:'Qırımtatar',    category:'european',     flag:'🌍', speakers:'~500K',   region:'Ukraine, Crimea',           description:'A Turkic language spoken by the Crimean Tatar people.',                                                    sample:{text:'Meraba',       meaning:'Hello'},              status:'supported' },
+        // ── South Asia ────────────────────────────────────────────────────────
+        { id:86, code:'hin_Deva', name_en:'Hindi',               name_native:'हिन्दी',        category:'asian',        flag:'🇮🇳', speakers:'~600M',   region:'India',                     description:'An Indo-Aryan language and one of the official languages of India.',                                        sample:{text:'नमस्ते',       meaning:'Hello'},              status:'supported' },
+        { id:87, code:'ben_Beng', name_en:'Bengali',             name_native:'বাংলা',         category:'asian',        flag:'🇧🇩', speakers:'~270M',   region:'Bangladesh, India',         description:'An Indo-Aryan language and the national language of Bangladesh.',                                           sample:{text:'হ্যালো',       meaning:'Hello'},              status:'supported' },
+        { id:88, code:'pan_Guru', name_en:'Eastern Panjabi',     name_native:'ਪੰਜਾਬੀ',        category:'asian',        flag:'🇮🇳', speakers:'~125M',   region:'India, Pakistan',           description:'An Indo-Aryan language written in the Gurmukhi script.',                                                   sample:{text:'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ', meaning:'Hello'},              status:'supported' },
+        { id:89, code:'guj_Gujr', name_en:'Gujarati',            name_native:'ગુજરાતી',       category:'asian',        flag:'🇮🇳', speakers:'~60M',    region:'India (Gujarat)',           description:'An Indo-Aryan language spoken mainly in the Indian state of Gujarat.',                                      sample:{text:'નમસ્તે',       meaning:'Hello'},              status:'supported' },
+        { id:90, code:'mar_Deva', name_en:'Marathi',             name_native:'मराठी',         category:'asian',        flag:'🇮🇳', speakers:'~95M',    region:'India (Maharashtra)',       description:'An Indo-Aryan language spoken mainly in Maharashtra, India.',                                               sample:{text:'नमस्कार',      meaning:'Hello'},              status:'supported' },
+        { id:91, code:'tam_Taml', name_en:'Tamil',               name_native:'தமிழ்',         category:'asian',        flag:'🇮🇳', speakers:'~80M',    region:'India, Sri Lanka',          description:'A Dravidian language with one of the longest literary traditions in the world.',                            sample:{text:'வணக்கம்',      meaning:'Hello'},              status:'supported' },
+        { id:92, code:'tel_Telu', name_en:'Telugu',              name_native:'తెలుగు',        category:'asian',        flag:'🇮🇳', speakers:'~95M',    region:'India (Andhra Pradesh)',    description:'A Dravidian language widely spoken in southern India.',                                                    sample:{text:'నమస్కారం',     meaning:'Hello'},              status:'supported' },
+        { id:93, code:'kan_Knda', name_en:'Kannada',             name_native:'ಕನ್ನಡ',         category:'asian',        flag:'🇮🇳', speakers:'~60M',    region:'India (Karnataka)',         description:'A Dravidian language and the official language of Karnataka, India.',                                       sample:{text:'ನಮಸ್ಕಾರ',     meaning:'Hello'},              status:'supported' },
+        { id:94, code:'mal_Mlym', name_en:'Malayalam',           name_native:'മലയാളം',        category:'asian',        flag:'🇮🇳', speakers:'~38M',    region:'India (Kerala)',            description:'A Dravidian language spoken mainly in Kerala, India.',                                                     sample:{text:'ഹലോ',          meaning:'Hello'},              status:'supported' },
+        { id:95, code:'sin_Sinh', name_en:'Sinhala',             name_native:'සිංහල',         category:'asian',        flag:'🇱🇰', speakers:'~17M',    region:'Sri Lanka',                 description:'An Indo-Aryan language and one of the official languages of Sri Lanka.',                                   sample:{text:'ආයුබෝවන්',     meaning:'Welcome / Hello'},    status:'supported' },
+        { id:96, code:'npi_Deva', name_en:'Nepali',              name_native:'नेपाली',        category:'asian',        flag:'🇳🇵', speakers:'~20M',    region:'Nepal, India',              description:'An Indo-Aryan language and the official language of Nepal.',                                                sample:{text:'नमस्ते',       meaning:'Hello'},              status:'supported' },
+        { id:97,  code:'asm_Beng', name_en:'Assamese',            name_native:'অসমীয়া',       category:'asian',        flag:'🇮🇳', speakers:'~15M',    region:'India (Assam)',             description:'An Indo-Aryan language spoken mainly in Assam, India.',                                                    sample:{text:'নমস্কাৰ',      meaning:'Hello'},              status:'supported' },
+        { id:98,  code:'ory_Orya', name_en:'Odia',               name_native:'ଓଡ଼ିଆ',         category:'asian',        flag:'🇮🇳', speakers:'~40M',    region:'India (Odisha)',            description:'An Indo-Aryan language spoken mainly in Odisha, India.',                                                   sample:{text:'ନମସ୍କାର',      meaning:'Hello'},              status:'supported' },
+        { id:99,  code:'sat_Olck', name_en:'Santali',            name_native:'ᱥᱟᱱᱛᱟᱲᱤ',      category:'asian',        flag:'🇮🇳', speakers:'~8M',     region:'India, Bangladesh',         description:'An Austroasiatic language written in the Ol Chiki script.',                                                 sample:{text:'ᱡᱚᱦᱟᱨ',       meaning:'Hello'},              status:'supported' },
+        { id:100, code:'kas_Arab', name_en:'Kashmiri (Arabic)',  name_native:'کٲشُر',         category:'asian',        flag:'🇮🇳', speakers:'~7M',     region:'India (Kashmir)',           description:'An Indo-Aryan language spoken in Kashmir, written in Arabic script.',                                       sample:{text:'اسلام',        meaning:'Hello'},              status:'supported' },
+        { id:101, code:'kas_Deva', name_en:'Kashmiri (Devanagari)',name_native:'कॉशुर',       category:'asian',        flag:'🇮🇳', speakers:'~7M',     region:'India (Kashmir)',           description:'An Indo-Aryan language spoken in Kashmir, written in Devanagari script.',                                  sample:{text:'नमस्कार',      meaning:'Hello'},              status:'supported' },
+        { id:102, code:'mni_Beng', name_en:'Meitei',             name_native:'মৈতৈলোন্',      category:'asian',        flag:'🇮🇳', speakers:'~3M',     region:'India (Manipur)',           description:'A Tibeto-Burman language spoken in Manipur, India.',                                                       sample:{text:'হায়',          meaning:'Hello'},              status:'supported' },
+        { id:103, code:'hne_Deva', name_en:'Chhattisgarhi',      name_native:'छत्तीसगढ़ी',    category:'asian',        flag:'🇮🇳', speakers:'~18M',    region:'India (Chhattisgarh)',      description:'An Indo-Aryan language spoken in Chhattisgarh, India.',                                                    sample:{text:'नमस्कार',      meaning:'Hello'},              status:'supported' },
+        { id:104, code:'mag_Deva', name_en:'Magahi',             name_native:'मगही',          category:'asian',        flag:'🇮🇳', speakers:'~20M',    region:'India (Bihar)',             description:'An Indo-Aryan language spoken in Bihar and Jharkhand, India.',                                              sample:{text:'नमस्कार',      meaning:'Hello'},              status:'supported' },
+        { id:105, code:'mai_Deva', name_en:'Maithili',           name_native:'मैथिली',        category:'asian',        flag:'🇮🇳', speakers:'~34M',    region:'India, Nepal',              description:'An Indo-Aryan language spoken in Bihar and Nepal.',                                                         sample:{text:'प्रणाम',       meaning:'Hello / Greetings'},  status:'supported' },
+        { id:106, code:'bho_Deva', name_en:'Bhojpuri',           name_native:'भोजपुरी',       category:'asian',        flag:'🇮🇳', speakers:'~60M',    region:'India, Nepal',              description:'An Indo-Aryan language spoken in Bihar, UP and Nepal.',                                                     sample:{text:'नमस्कार',      meaning:'Hello'},              status:'supported' },
+        { id:107, code:'awa_Deva', name_en:'Awadhi',             name_native:'अवधी',          category:'asian',        flag:'🇮🇳', speakers:'~40M',    region:'India (Uttar Pradesh)',     description:'An Indo-Aryan language spoken in the Awadh region of Uttar Pradesh.',                                      sample:{text:'राम राम',      meaning:'Hello'},              status:'supported' },
+        { id:108, code:'san_Deva', name_en:'Sanskrit',           name_native:'संस्कृतम्',     category:'asian',        flag:'🇮🇳', speakers:'~25K',    region:'India (classical)',         description:'An ancient Indo-European language and the classical language of Hinduism and Buddhism.',                    sample:{text:'नमस्ते',       meaning:'Hello'},              status:'supported' },
+        // ── Southeast & East Asia ─────────────────────────────────────────────
+        { id:109, code:'zho_Hans', name_en:'Chinese (Simplified)', name_native:'中文(简体)',  category:'asian',        flag:'🇨🇳', speakers:'~1B',     region:'China, Singapore',          description:'The most widely spoken language in the world, written in simplified characters.',                           sample:{text:'你好',          meaning:'Hello'},              status:'supported' },
+        { id:110, code:'zho_Hant', name_en:'Chinese (Traditional)',name_native:'中文(繁體)',  category:'asian',        flag:'🇹🇼', speakers:'~25M',    region:'Taiwan, Hong Kong',         description:'Chinese written in traditional characters, used in Taiwan and Hong Kong.',                                  sample:{text:'你好',          meaning:'Hello'},              status:'supported' },
+        { id:111, code:'yue_Hant', name_en:'Yue Chinese (Cantonese)',name_native:'粵語',      category:'asian',        flag:'🇭🇰', speakers:'~85M',    region:'Hong Kong, Guangdong',      description:'A Chinese variety spoken in Hong Kong and Guangdong, China.',                                               sample:{text:'你好',          meaning:'Hello'},              status:'supported' },
+        { id:112, code:'jpn_Jpan', name_en:'Japanese',             name_native:'日本語',      category:'asian',        flag:'🇯🇵', speakers:'~125M',   region:'Japan',                     description:'The national language of Japan, written in a combination of kanji and kana scripts.',                       sample:{text:'こんにちは',    meaning:'Hello'},              status:'supported' },
+        { id:113, code:'kor_Hang', name_en:'Korean',               name_native:'한국어',      category:'asian',        flag:'🇰🇷', speakers:'~80M',    region:'South Korea, North Korea',  description:'The official language of both South and North Korea, written in Hangul.',                                   sample:{text:'안녕하세요',   meaning:'Hello'},              status:'supported' },
+        { id:114, code:'vie_Latn', name_en:'Vietnamese',           name_native:'Tiếng Việt',  category:'asian',        flag:'🇻🇳', speakers:'~95M',    region:'Vietnam',                   description:'An Austroasiatic language and the national language of Vietnam.',                                           sample:{text:'Xin chào',     meaning:'Hello'},              status:'supported' },
+        { id:115, code:'tha_Thai', name_en:'Thai',                 name_native:'ภาษาไทย',     category:'asian',        flag:'🇹🇭', speakers:'~60M',    region:'Thailand',                  description:'A Tai-Kadai language and the official language of Thailand.',                                               sample:{text:'สวัสดี',       meaning:'Hello'},              status:'supported' },
+        { id:116, code:'khm_Khmr', name_en:'Khmer',               name_native:'ភាសាខ្មែរ',    category:'asian',        flag:'🇰🇭', speakers:'~16M',    region:'Cambodia',                  description:'An Austroasiatic language and the official language of Cambodia.',                                          sample:{text:'ជំរាបសួរ',     meaning:'Hello'},              status:'supported' },
+        { id:117, code:'lao_Laoo', name_en:'Lao',                  name_native:'ພາສາລາວ',     category:'asian',        flag:'🇱🇦', speakers:'~30M',    region:'Laos',                      description:'A Tai-Kadai language and the official language of Laos.',                                                  sample:{text:'ສະບາຍດີ',      meaning:'Hello'},              status:'supported' },
+        { id:118, code:'mya_Mymr', name_en:'Burmese',              name_native:'မြန်မာဘာသာ', category:'asian',        flag:'🇲🇲', speakers:'~38M',    region:'Myanmar',                   description:'A Tibeto-Burman language and the official language of Myanmar.',                                           sample:{text:'မင်္ဂလာပါ',    meaning:'Hello'},              status:'supported' },
+        { id:119, code:'ind_Latn', name_en:'Indonesian',           name_native:'Bahasa Indonesia',category:'asian',    flag:'🇮🇩', speakers:'~270M',   region:'Indonesia',                 description:'An Austronesian language and the official language of Indonesia.',                                          sample:{text:'Halo',         meaning:'Hello'},              status:'supported' },
+        { id:120, code:'zsm_Latn', name_en:'Standard Malay',       name_native:'Bahasa Melayu',category:'asian',       flag:'🇲🇾', speakers:'~290M',   region:'Malaysia, Brunei',          description:'An Austronesian language spoken in Malaysia, Brunei and Singapore.',                                        sample:{text:'Helo',         meaning:'Hello'},              status:'supported' },
+        { id:121, code:'jav_Latn', name_en:'Javanese',             name_native:'Basa Jawa',      category:'asian',    flag:'🇮🇩', speakers:'~98M',  region:'Java, Indonesia',        description:'An Austronesian language spoken mainly in Java, Indonesia.',           sample:{text:'Sugeng rawuh', meaning:'Welcome'},       status:'supported' },
+        { id:122, code:'sun_Latn', name_en:'Sundanese',            name_native:'Basa Sunda',     category:'asian',    flag:'🇮🇩', speakers:'~42M',  region:'West Java, Indonesia',   description:'An Austronesian language spoken in West Java, Indonesia.',              sample:{text:'Sampurasun',   meaning:'Hello'},         status:'supported' },
+        { id:123, code:'min_Latn', name_en:'Minangkabau (Latin)',  name_native:'Baso Minangkabau',category:'asian',   flag:'🇮🇩', speakers:'~8M',   region:'Sumatra, Indonesia',     description:'An Austronesian language spoken in West Sumatra, Latin script.',        sample:{text:'Salamaik',     meaning:'Hello'},         status:'supported' },
+        { id:124, code:'min_Arab', name_en:'Minangkabau (Arabic)', name_native:'باسو مينڠكاباو', category:'asian',    flag:'🇮🇩', speakers:'~8M',   region:'Sumatra, Indonesia',     description:'Minangkabau written in Arabic-based Jawi script.',                      sample:{text:'سلامايق',      meaning:'Hello'},         status:'supported' },
+        { id:125, code:'ace_Latn', name_en:'Acehnese (Latin)',     name_native:'Basa Acèh',      category:'asian',    flag:'🇮🇩', speakers:'~3M',   region:'Aceh, Indonesia',        description:'An Austronesian language of the Aceh province of Indonesia.',           sample:{text:'Saleum',       meaning:'Hello'},         status:'supported' },
+        { id:126, code:'ace_Arab', name_en:'Acehnese (Arabic)',    name_native:'باسا اچيه',      category:'asian',    flag:'🇮🇩', speakers:'~3M',   region:'Aceh, Indonesia',        description:'Acehnese written in Arabic-based Jawi script.',                         sample:{text:'سالوم',        meaning:'Hello'},         status:'supported' },
+        { id:127, code:'ban_Latn', name_en:'Balinese',             name_native:'Basa Bali',      category:'asian',    flag:'🇮🇩', speakers:'~3M',   region:'Bali, Indonesia',        description:'An Austronesian language of the Balinese people of Bali, Indonesia.',   sample:{text:'Om Swastiastu',meaning:'Hello / Blessings'},status:'supported' },
+        { id:128, code:'bug_Latn', name_en:'Buginese',             name_native:'Basa Ugi',       category:'asian',    flag:'🇮🇩', speakers:'~5M',   region:'Sulawesi, Indonesia',    description:'An Austronesian language of the Bugis people of Sulawesi.',             sample:{text:'Assalamu alaik',meaning:'Hello'},        status:'supported' },
+        { id:129, code:'bjn_Latn', name_en:'Banjar (Latin)',       name_native:'Bahasa Banjar',  category:'asian',    flag:'🇮🇩', speakers:'~4M',   region:'Borneo, Indonesia',      description:'An Austronesian language of the Banjar people of Borneo.',              sample:{text:'Halo',         meaning:'Hello'},         status:'supported' },
+        { id:130, code:'bjn_Arab', name_en:'Banjar (Arabic)',      name_native:'بهاس بنجر',      category:'asian',    flag:'🇮🇩', speakers:'~4M',   region:'Borneo, Indonesia',      description:'Banjar language written in Arabic-based Jawi script.',                  sample:{text:'هالو',         meaning:'Hello'},         status:'supported' },
+        { id:131, code:'shn_Mymr', name_en:'Shan',                 name_native:'လိၵ်ႈတႆး',      category:'asian',    flag:'🇲🇲', speakers:'~4M',   region:'Shan State, Myanmar',    description:'A Tai-Kadai language spoken in the Shan State of Myanmar.',             sample:{text:'သုင်ၸိူဝ်ႉ',   meaning:'Hello'},         status:'supported' },
+        { id:132, code:'tgl_Latn', name_en:'Tagalog (Filipino)',   name_native:'Tagalog',        category:'asian',    flag:'🇵🇭', speakers:'~90M',  region:'Philippines',            description:'An Austronesian language and the basis of Filipino, the national language.', sample:{text:'Kamusta',   meaning:'How are you'},   status:'supported' },
+        { id:133, code:'ilo_Latn', name_en:'Ilocano',              name_native:'Ilokano',        category:'asian',    flag:'🇵🇭', speakers:'~10M',  region:'Philippines',            description:'An Austronesian language of the Ilocos Region of the Philippines.',      sample:{text:'Naimbag nga aldaw',meaning:'Good day'}, status:'supported' },
+        { id:134, code:'ceb_Latn', name_en:'Cebuano',              name_native:'Bisaya',         category:'asian',    flag:'🇵🇭', speakers:'~27M',  region:'Philippines',            description:'An Austronesian language spoken in the Visayas and Mindanao.',           sample:{text:'Kumusta',      meaning:'Hello'},         status:'supported' },
+        { id:135, code:'pag_Latn', name_en:'Pangasinan',           name_native:'Salitan Pangasinan',category:'asian', flag:'🇵🇭', speakers:'~2M',   region:'Philippines',            description:'An Austronesian language of the Pangasinan province of the Philippines.',sample:{text:'Naimbag',      meaning:'Hello'},         status:'supported' },
+        { id:136, code:'war_Latn', name_en:'Waray',                name_native:'Winaray',        category:'asian',    flag:'🇵🇭', speakers:'~3M',   region:'Philippines',            description:'An Austronesian language spoken in Eastern Visayas, Philippines.',       sample:{text:'Maupay nga aga',meaning:'Good morning'},  status:'supported' },
+        { id:137, code:'kac_Latn', name_en:'Jingpho',              name_native:'Jinghpaw',       category:'asian',    flag:'🇲🇲', speakers:'~1M',   region:'Myanmar, China, India',  description:'A Tibeto-Burman language spoken in northern Myanmar, Yunnan and northeast India.',  sample:{text:'Chyeju ga ai',  meaning:'Hello'},    status:'supported' },
+        { id:138, code:'bod_Tibt', name_en:'Tibetan',              name_native:'བོད་སྐད།',        category:'asian',    flag:'🌍', speakers:'~6M',   region:'Tibet, China, India',    description:'A Tibeto-Burman language spoken on the Tibetan Plateau and surrounding areas.',     sample:{text:'བཀྲ་ཤིས་བདེ་ལེགས།',meaning:'Hello / Auspiciousness'},status:'supported' },
+        { id:139, code:'dzo_Tibt', name_en:'Dzongkha',             name_native:'རྫོང་ཁ',          category:'asian',    flag:'🇧🇹', speakers:'~640K', region:'Bhutan',                 description:'A Tibeto-Burman language and the national language of Bhutan.',                     sample:{text:'Kuzu Zangpo La',meaning:'Hello'},    status:'supported' },
+        { id:140, code:'khk_Cyrl', name_en:'Halh Mongolian',       name_native:'Монгол хэл',      category:'asian',    flag:'🇲🇳', speakers:'~5M',   region:'Mongolia',               description:'The official language of Mongolia, written in Cyrillic script.',                    sample:{text:'Сайн уу',       meaning:'Hello'},    status:'supported' },
+        { id:141, code:'kat_Geor', name_en:'Georgian',             name_native:'ქართული',          category:'asian',    flag:'🇬🇪', speakers:'~4M',   region:'Georgia',                description:'A Kartvelian language and the official language of Georgia.',                       sample:{text:'გამარჯობა',      meaning:'Hello'},    status:'supported' },
+        { id:142, code:'hye_Armn', name_en:'Armenian',             name_native:'Հայերեն',         category:'asian',    flag:'🇦🇲', speakers:'~7M',   region:'Armenia',                description:'An Indo-European language and the official language of Armenia.',                   sample:{text:'Բարև',           meaning:'Hello'},    status:'supported' },
+        // ── Americas ──────────────────────────────────────────────────────────
+        { id:143, code:'spa_Latn', name_en:'Spanish',              name_native:'Español',         category:'americas', flag:'🌎', speakers:'~500M', region:'Latin America, Spain',   description:'A Romance language spoken across Latin America, Spain and equatorial Africa.',       sample:{text:'Hola',           meaning:'Hello'},    status:'supported' },
+        { id:144, code:'por_Latn', name_en:'Portuguese',           name_native:'Português',       category:'americas', flag:'🌎', speakers:'~250M', region:'Brazil, Portugal',       description:'A Romance language widely spoken in Brazil and Portugal.',                          sample:{text:'Olá',            meaning:'Hello'},    status:'supported' },
+        { id:145, code:'grn_Latn', name_en:'Guarani',              name_native:"Avañe'ẽ",         category:'americas', flag:'🇵🇾', speakers:'~12M',  region:'Paraguay, Bolivia',      description:'An indigenous language co-official with Spanish in Paraguay.',                      sample:{text:'Mba\'éichapa',   meaning:'Hello'},    status:'supported' },
+        { id:146, code:'quy_Latn', name_en:'Ayacucho Quechua',     name_native:'Qichwa',          category:'americas', flag:'🇵🇪', speakers:'~5M',   region:'Peru',                   description:'A Quechuan language spoken in Ayacucho, Peru.',                                     sample:{text:'Rimaykullayki',  meaning:'Hello'},    status:'supported' },
+        { id:147, code:'ayr_Latn', name_en:'Central Aymara',       name_native:'Aymar aru',       category:'americas', flag:'🇧🇴', speakers:'~2M',   region:'Bolivia, Peru',          description:'An Aymaran language spoken in the Andes of Bolivia and Peru.',                      sample:{text:'Kamisaki',       meaning:'Hello'},    status:'supported' },
+        { id:148, code:'hat_Latn', name_en:'Haitian Creole',       name_native:'Kreyòl ayisyen',  category:'americas', flag:'🇭🇹', speakers:'~12M',  region:'Haiti',                  description:'A French-based creole language and national language of Haiti.',                    sample:{text:'Bonjou',         meaning:'Hello'},    status:'supported' },
+        { id:149, code:'pap_Latn', name_en:'Papiamento',           name_native:'Papiamentu',      category:'americas', flag:'🌎', speakers:'~330K', region:'Aruba, Curaçao, Bonaire',description:'A Portuguese/Spanish/Dutch-based creole of the Caribbean.',                        sample:{text:'Bon dia',        meaning:'Good day'},  status:'supported' },
+        { id:150, code:'kea_Latn', name_en:'Kabuverdianu',         name_native:'Kabuverdianu',    category:'americas', flag:'🇨🇻', speakers:'~1M',   region:'Cape Verde',             description:'A Portuguese-based creole language of Cape Verde.',                                 sample:{text:'Oi',             meaning:'Hello'},    status:'supported' },
+        // ── Europe ────────────────────────────────────────────────────────────
+        { id:151, code:'deu_Latn', name_en:'German',               name_native:'Deutsch',         category:'european', flag:'🇩🇪', speakers:'~135M', region:'Germany, Austria',       description:'A West Germanic language and the most widely spoken native language in the EU.',     sample:{text:'Hallo',          meaning:'Hello'},    status:'supported' },
+        { id:152, code:'ita_Latn', name_en:'Italian',              name_native:'Italiano',        category:'european', flag:'🇮🇹', speakers:'~90M',  region:'Italy',                  description:'A Romance language and the official language of Italy.',                            sample:{text:'Ciao',           meaning:'Hello'},    status:'supported' },
+        { id:153, code:'rus_Cyrl', name_en:'Russian',              name_native:'Русский',         category:'european', flag:'🇷🇺', speakers:'~258M', region:'Russia',                 description:'An East Slavic language and the most widely spoken Slavic language.',                sample:{text:'Привет',         meaning:'Hello'},    status:'supported' },
+        { id:154, code:'pol_Latn', name_en:'Polish',               name_native:'Polski',          category:'european', flag:'🇵🇱', speakers:'~50M',  region:'Poland',                 description:'A West Slavic language and the official language of Poland.',                       sample:{text:'Cześć',          meaning:'Hello'},    status:'supported' },
+        { id:155, code:'ukr_Cyrl', name_en:'Ukrainian',            name_native:'Українська',      category:'european', flag:'🇺🇦', speakers:'~45M',  region:'Ukraine',                description:'An East Slavic language and the official language of Ukraine.',                     sample:{text:'Привіт',         meaning:'Hello'},    status:'supported' },
+        { id:156, code:'nld_Latn', name_en:'Dutch',                name_native:'Nederlands',      category:'european', flag:'🇳🇱', speakers:'~24M',  region:'Netherlands, Belgium',   description:'A West Germanic language spoken in the Netherlands and Belgium.',                   sample:{text:'Hallo',          meaning:'Hello'},    status:'supported' },
+        { id:157, code:'swe_Latn', name_en:'Swedish',              name_native:'Svenska',         category:'european', flag:'🇸🇪', speakers:'~13M',  region:'Sweden',                 description:'A North Germanic language and the official language of Sweden.',                    sample:{text:'Hej',            meaning:'Hello'},    status:'supported' },
+        { id:158, code:'dan_Latn', name_en:'Danish',               name_native:'Dansk',           category:'european', flag:'🇩🇰', speakers:'~6M',   region:'Denmark',                description:'A North Germanic language and the official language of Denmark.',                   sample:{text:'Hej',            meaning:'Hello'},    status:'supported' },
+        { id:159, code:'nob_Latn', name_en:'Norwegian Bokmål',     name_native:'Norsk (Bokmål)',  category:'european', flag:'🇳🇴', speakers:'~5M',   region:'Norway',                 description:'One of two written standards of Norwegian, used by ~90% of Norwegians.',           sample:{text:'Hei',            meaning:'Hello'},    status:'supported' },
+        { id:160, code:'nno_Latn', name_en:'Norwegian Nynorsk',    name_native:'Norsk (Nynorsk)', category:'european', flag:'🇳🇴', speakers:'~600K', region:'Norway',                 description:'The minority written standard of Norwegian.',                                       sample:{text:'Hei',            meaning:'Hello'},    status:'supported' },
+        { id:161, code:'fin_Latn', name_en:'Finnish',              name_native:'Suomi',           category:'european', flag:'🇫🇮', speakers:'~5M',   region:'Finland',                description:'A Uralic language and one of the official languages of Finland.',                   sample:{text:'Hei',            meaning:'Hello'},    status:'supported' },
+        { id:162, code:'est_Latn', name_en:'Estonian',             name_native:'Eesti',           category:'european', flag:'🇪🇪', speakers:'~1M',   region:'Estonia',                description:'A Uralic language and the official language of Estonia.',                          sample:{text:'Tere',           meaning:'Hello'},    status:'supported' },
+        { id:163, code:'lvs_Latn', name_en:'Latvian',              name_native:'Latviešu',        category:'european', flag:'🇱🇻', speakers:'~2M',   region:'Latvia',                 description:'A Baltic language and the official language of Latvia.',                           sample:{text:'Sveiki',         meaning:'Hello'},    status:'supported' },
+        { id:164, code:'lit_Latn', name_en:'Lithuanian',           name_native:'Lietuvių',        category:'european', flag:'🇱🇹', speakers:'~3M',   region:'Lithuania',              description:'A Baltic language and the official language of Lithuania.',                        sample:{text:'Sveiki',         meaning:'Hello'},    status:'supported' },
+        { id:165, code:'ces_Latn', name_en:'Czech',                name_native:'Čeština',         category:'european', flag:'🇨🇿', speakers:'~11M',  region:'Czech Republic',         description:'A West Slavic language and the official language of the Czech Republic.',           sample:{text:'Ahoj',           meaning:'Hello'},    status:'supported' },
+        { id:166, code:'slk_Latn', name_en:'Slovak',               name_native:'Slovenčina',      category:'european', flag:'🇸🇰', speakers:'~5M',   region:'Slovakia',               description:'A West Slavic language and the official language of Slovakia.',                    sample:{text:'Ahoj',           meaning:'Hello'},    status:'supported' },
+        { id:167, code:'slv_Latn', name_en:'Slovenian',            name_native:'Slovenščina',     category:'european', flag:'🇸🇮', speakers:'~2M',   region:'Slovenia',               description:'A South Slavic language and the official language of Slovenia.',                   sample:{text:'Zdravo',         meaning:'Hello'},    status:'supported' },
+        { id:168, code:'hrv_Latn', name_en:'Croatian',             name_native:'Hrvatski',        category:'european', flag:'🇭🇷', speakers:'~7M',   region:'Croatia',                description:'A South Slavic language and the official language of Croatia.',                     sample:{text:'Bok',            meaning:'Hello'},    status:'supported' },
+        { id:169, code:'bos_Latn', name_en:'Bosnian',              name_native:'Bosanski',        category:'european', flag:'🇧🇦', speakers:'~3M',   region:'Bosnia and Herzegovina', description:'A South Slavic language and one of the official languages of Bosnia.',               sample:{text:'Zdravo',         meaning:'Hello'},    status:'supported' },
+        { id:170, code:'srp_Cyrl', name_en:'Serbian',              name_native:'Српски',          category:'european', flag:'🇷🇸', speakers:'~12M',  region:'Serbia',                 description:'A South Slavic language written in Cyrillic, official in Serbia.',                  sample:{text:'Здраво',         meaning:'Hello'},    status:'supported' },
+        { id:171, code:'mkd_Cyrl', name_en:'Macedonian',           name_native:'Македонски',      category:'european', flag:'🇲🇰', speakers:'~2M',   region:'North Macedonia',        description:'A South Slavic language and the official language of North Macedonia.',              sample:{text:'Здраво',         meaning:'Hello'},    status:'supported' },
+        { id:172, code:'bul_Cyrl', name_en:'Bulgarian',            name_native:'Български',       category:'european', flag:'🇧🇬', speakers:'~9M',   region:'Bulgaria',               description:'A South Slavic language and the official language of Bulgaria.',                    sample:{text:'Здравейте',      meaning:'Hello'},    status:'supported' },
+        { id:173, code:'bel_Cyrl', name_en:'Belarusian',           name_native:'Беларуская',      category:'european', flag:'🇧🇾', speakers:'~7M',   region:'Belarus',                description:'An East Slavic language and the official language of Belarus.',                     sample:{text:'Прывітанне',     meaning:'Hello'},    status:'supported' },
+        { id:174, code:'ron_Latn', name_en:'Romanian',             name_native:'Română',          category:'european', flag:'🇷🇴', speakers:'~26M',  region:'Romania, Moldova',       description:'A Romance language and the official language of Romania.',                          sample:{text:'Bună ziua',      meaning:'Hello'},    status:'supported' },
+        { id:175, code:'hun_Latn', name_en:'Hungarian',            name_native:'Magyar',          category:'european', flag:'🇭🇺', speakers:'~15M',  region:'Hungary',                description:'A Uralic language and the official language of Hungary.',                          sample:{text:'Helló',          meaning:'Hello'},    status:'supported' },
+        { id:176, code:'ell_Grek', name_en:'Greek',                name_native:'Ελληνικά',        category:'european', flag:'🇬🇷', speakers:'~13M',  region:'Greece, Cyprus',         description:'An independent branch of the Indo-European family with a 3,000-year written history.',sample:{text:'Γεια σου',       meaning:'Hello'},    status:'supported' },
+        { id:177, code:'cat_Latn', name_en:'Catalan',              name_native:'Català',          category:'european', flag:'🌍', speakers:'~10M',  region:'Catalonia, Spain',       description:'A Romance language spoken in Catalonia, Valencia, and the Balearic Islands.',       sample:{text:'Hola',           meaning:'Hello'},    status:'supported' },
+        { id:178, code:'eus_Latn', name_en:'Basque',               name_native:'Euskara',         category:'european', flag:'🌍', speakers:'~750K', region:'Basque Country',         description:'A language isolate spoken in the Basque Country of Spain and France.',              sample:{text:'Kaixo',          meaning:'Hello'},    status:'supported' },
+        { id:179, code:'glg_Latn', name_en:'Galician',             name_native:'Galego',          category:'european', flag:'🌍', speakers:'~2M',   region:'Galicia, Spain',         description:'A Romance language spoken in Galicia in northwestern Spain.',                       sample:{text:'Ola',            meaning:'Hello'},    status:'supported' },
+        { id:180, code:'ast_Latn', name_en:'Asturian',             name_native:'Asturianu',       category:'european', flag:'🌍', speakers:'~640K', region:'Asturias, Spain',        description:'A Romance language of the Asturias region of Spain.',                               sample:{text:'Hola',           meaning:'Hello'},    status:'supported' },
+        { id:181, code:'oci_Latn', name_en:'Occitan',              name_native:'Occitan',         category:'european', flag:'🌍', speakers:'~1M',   region:'Southern France',        description:'A Romance language spoken in southern France and parts of Italy and Spain.',        sample:{text:'Bonjorn',        meaning:'Good day'},  status:'supported' },
+        { id:182, code:'isl_Latn', name_en:'Icelandic',            name_native:'Íslenska',        category:'european', flag:'🇮🇸', speakers:'~400K', region:'Iceland',                description:'A North Germanic language and the official language of Iceland.',                   sample:{text:'Halló',          meaning:'Hello'},    status:'supported' },
+        { id:183, code:'fao_Latn', name_en:'Faroese',              name_native:'Føroyskt',        category:'european', flag:'🇫🇴', speakers:'~75K',  region:'Faroe Islands',          description:'A North Germanic language spoken in the Faroe Islands.',                           sample:{text:'Hey',            meaning:'Hello'},    status:'supported' },
+        { id:184, code:'cym_Latn', name_en:'Welsh',                name_native:'Cymraeg',         category:'european', flag:'🏴󠁧󠁢󠁷󠁬󠁳󠁿', speakers:'~900K', region:'Wales, UK',              description:'A Celtic language spoken in Wales.',                                               sample:{text:'Helo',           meaning:'Hello'},    status:'supported' },
+        { id:185, code:'gle_Latn', name_en:'Irish',                name_native:'Gaeilge',         category:'european', flag:'🇮🇪', speakers:'~2M',   region:'Ireland',                description:'A Celtic language and the first official language of Ireland.',                     sample:{text:'Dia dhuit',      meaning:'Hello'},    status:'supported' },
+        { id:186, code:'gla_Latn', name_en:'Scottish Gaelic',      name_native:'Gàidhlig',        category:'european', flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', speakers:'~60K',  region:'Scotland, UK',           description:'A Celtic language spoken in Scotland.',                                             sample:{text:'Halò',           meaning:'Hello'},    status:'supported' },
+        { id:187, code:'epo_Latn', name_en:'Esperanto',            name_native:'Esperanto',       category:'international',flag:'🌍',speakers:'~2M', region:'Worldwide (constructed)', description:'An international constructed language created in 1887 by L. L. Zamenhof.',          sample:{text:'Saluton',        meaning:'Hello'},    status:'supported' },
+        { id:188, code:'als_Latn', name_en:'Tosk Albanian',        name_native:'Shqip (Toskë)',   category:'european', flag:'🇦🇱', speakers:'~5M',   region:'Albania, Greece',        description:'The Tosk dialect of Albanian, the basis of standard Albanian.',                    sample:{text:'Përshëndetje',   meaning:'Hello'},    status:'supported' },
+        { id:189, code:'mlt_Latn', name_en:'Maltese',              name_native:'Malti',           category:'european', flag:'🇲🇹', speakers:'~520K', region:'Malta',                  description:'A Semitic language and the official language of Malta, written in Latin script.',  sample:{text:'Bonġu',          meaning:'Good morning'},status:'supported' },
+        { id:190, code:'ltg_Latn', name_en:'Latgalian',            name_native:'Latgalīšu',       category:'european', flag:'🇱🇻', speakers:'~150K', region:'Latgale, Latvia',        description:'A Baltic language variety spoken in the Latgale region of Latvia.',                sample:{text:'Sveicinōti',     meaning:'Hello'},    status:'supported' },
+        { id:191, code:'ltz_Latn', name_en:'Luxembourgish',        name_native:'Lëtzebuergesch',  category:'european', flag:'🇱🇺', speakers:'~600K', region:'Luxembourg',             description:'A West Germanic language and official language of Luxembourg.',                    sample:{text:'Moien',          meaning:'Hello'},    status:'supported' },
+        { id:192, code:'lij_Latn', name_en:'Ligurian',             name_native:'Ligure',          category:'european', flag:'🌍', speakers:'~500K', region:'Liguria, Italy',         description:'A Romance language spoken in Liguria and nearby areas of Italy.',                   sample:{text:'Ciâo',           meaning:'Hello'},    status:'supported' },
+        { id:193, code:'lim_Latn', name_en:'Limburgish',           name_native:'Limburgs',        category:'european', flag:'🌍', speakers:'~1M',   region:'Netherlands, Belgium',   description:'A Low Franconian language of the Limburg region.',                                 sample:{text:'Hallo',          meaning:'Hello'},    status:'supported' },
+        { id:194, code:'lmo_Latn', name_en:'Lombard',              name_native:'Lombard',         category:'european', flag:'🌍', speakers:'~4M',   region:'Lombardy, Italy',        description:'A Gallo-Italic language of the Lombardy region of northern Italy.',                sample:{text:'Ciao',           meaning:'Hello'},    status:'supported' },
+        { id:195, code:'fur_Latn', name_en:'Friulian',             name_native:'Furlan',          category:'european', flag:'🌍', speakers:'~600K', region:'Friuli, Italy',          description:'A Romance language spoken in the Friuli area of northeastern Italy.',               sample:{text:'Mandi',          meaning:'Hello'},    status:'supported' },
+        { id:196, code:'srd_Latn', name_en:'Sardinian',            name_native:'Sardu',           category:'european', flag:'🌍', speakers:'~1M',   region:'Sardinia, Italy',        description:'A Romance language spoken on the island of Sardinia.',                             sample:{text:'Bongiorru',      meaning:'Good morning'},status:'supported' },
+        { id:197, code:'scn_Latn', name_en:'Sicilian',             name_native:'Sicilianu',       category:'european', flag:'🌍', speakers:'~5M',   region:'Sicily, Italy',          description:'A Romance language of Sicily and parts of southern Italy.',                         sample:{text:'Ciao',           meaning:'Hello'},    status:'supported' },
+        { id:198, code:'szl_Latn', name_en:'Silesian',             name_native:'Ślōnski',         category:'european', flag:'🌍', speakers:'~500K', region:'Silesia, Poland',        description:'A West Slavic language variety spoken in the Silesia region.',                     sample:{text:'Witej',          meaning:'Hello'},    status:'supported' },
+        // ── Pacific ───────────────────────────────────────────────────────────
+        { id:199, code:'smo_Latn', name_en:'Samoan',               name_native:'Gagana Samoa',    category:'pacific',  flag:'🇼🇸', speakers:'~600K', region:'Samoa, American Samoa',  description:'An Austronesian language and the official language of Samoa.',                      sample:{text:'Talofa',         meaning:'Hello'},    status:'supported' },
+        { id:200, code:'fij_Latn', name_en:'Fijian',               name_native:'Vosa Vakaviti',   category:'pacific',  flag:'🇫🇯', speakers:'~400K', region:'Fiji',                   description:'An Austronesian language and one of the official languages of Fiji.',               sample:{text:'Bula',           meaning:'Hello / Welcome'},status:'supported' },
+        { id:201, code:'mri_Latn', name_en:'Maori',                name_native:'Te Reo Māori',    category:'pacific',  flag:'🇳🇿', speakers:'~185K', region:'New Zealand',            description:'An Austronesian language and official language of New Zealand.',                    sample:{text:'Kia ora',        meaning:'Hello'},    status:'supported' },
+        { id:202, code:'tpi_Latn', name_en:'Tok Pisin',            name_native:'Tok Pisin',       category:'pacific',  flag:'🇵🇬', speakers:'~5M',   region:'Papua New Guinea',       description:'An English-based creole and one of the official languages of Papua New Guinea.',    sample:{text:'Gude',           meaning:'Hello'},    status:'supported' },
+    ];
+
+    // ── Category pills config ─────────────────────────────────────────────────
+    var CATEGORIES = {
+        all:           'All Languages',
+        cameroonian:   'Cameroonian',
+        african:       'African',
+        european:      'European',
+        asian:         'Asian',
+        middleeastern: 'Middle East',
+        americas:      'Americas',
+        pacific:       'Pacific',
+        international: 'International',
+    };
+
+    var activeCategory = 'all';
+    var searchQuery    = '';
+
+    var grid        = document.getElementById('lang-grid');
+    var emptyState  = document.getElementById('empty-state');
+    var resultCount = document.getElementById('result-count');
+    var searchInput = document.getElementById('search-input');
+    var clearBtn    = document.getElementById('clear-search');
+    var catSelect   = document.getElementById('cat-select');
+    var modal       = document.getElementById('lang-modal');
+    var modalContent= document.getElementById('modal-content');
+
+    function escapeHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function highlight(str, query) {
+        if (!query) return escapeHtml(str);
+        var esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return escapeHtml(str).replace(new RegExp('(' + esc + ')', 'gi'), '<mark>$1</mark>');
+    }
+
+    function buildCard(lang) {
+        var isComing = lang.status === 'coming_soon';
+        var card = document.createElement('div');
+        card.className  = 'lang-card' + (isComing ? ' dimmed' : ' clickable');
+        card.dataset.id = lang.id;
+        var badge  = isComing ? '<span class="card-badge badge-soon">Soon</span>' : '<span class="card-badge badge-live">Live</span>';
+        var catLabel = CATEGORIES[lang.category] || lang.category;
+        var catClass = lang.category === 'cameroonian' ? 'tag-cameroon' : 'tag-international';
+        card.innerHTML = badge +
+            '<div class="card-flag">' + lang.flag + '</div>' +
+            '<div><p class="card-name-en">' + highlight(lang.name_en, searchQuery) + '</p>' +
+            '<p class="card-name-native">' + escapeHtml(lang.name_native) + '</p></div>' +
+            '<p class="card-region">' + escapeHtml(lang.region) + '</p>' +
+            '<span class="' + catClass + '">' + escapeHtml(catLabel) + '</span>' +
+            '<p class="card-speakers">' + lang.speakers + ' speakers</p>';
+        if (!isComing) card.addEventListener('click', function () { openModal(lang); });
+        return card;
+    }
+
+    function render() {
+        var q = searchQuery.toLowerCase();
+        var filtered = LANGUAGES_DATA.filter(function (lang) {
+            var matchesCat = activeCategory === 'all' || lang.category === activeCategory;
+            var matchesQ   = !q ||
+                lang.name_en.toLowerCase().indexOf(q) !== -1 ||
+                lang.name_native.toLowerCase().indexOf(q) !== -1 ||
+                lang.region.toLowerCase().indexOf(q) !== -1 ||
+                lang.code.toLowerCase().indexOf(q) !== -1;
+            return matchesCat && matchesQ;
+        });
+        grid.innerHTML = '';
+        if (filtered.length === 0) {
+            grid.style.display = 'none';
+            emptyState.style.display = 'flex';
+            resultCount.textContent = 'No languages found';
+            return;
+        }
+        grid.style.display = 'grid';
+        emptyState.style.display = 'none';
+        resultCount.textContent = 'Showing ' + filtered.length + ' language' + (filtered.length !== 1 ? 's' : '');
+        filtered.forEach(function (lang) { grid.appendChild(buildCard(lang)); });
+    }
+
+    function speak(text, langCode) {
+        if (!window.speechSynthesis) return;
+        var utt = new SpeechSynthesisUtterance(text);
+        utt.lang = langCode === 'fra_Latn' ? 'fr-FR' : langCode === 'eng_Latn' ? 'en-US' : langCode.split('_')[0];
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utt);
+    }
+
+    function openModal(lang) {
+        var catLabel = CATEGORIES[lang.category] || lang.category;
+        modalContent.innerHTML =
+            '<div class="modal-lang-header">' +
+            '<div class="modal-flag">' + lang.flag + '</div>' +
+            '<div><h2>' + escapeHtml(lang.name_en) + '</h2>' +
+            '<p>' + escapeHtml(lang.name_native) + ' · ' + escapeHtml(lang.region) + '</p></div></div>' +
+            '<p class="modal-desc">' + escapeHtml(lang.description) + '</p>' +
+            '<div class="modal-stats">' +
+            '<div class="modal-stat"><p class="label">Speakers</p><p class="value">' + lang.speakers + '</p></div>' +
+            '<div class="modal-stat"><p class="label">Category</p><p class="value">' + escapeHtml(catLabel) + '</p></div>' +
+            '<div class="modal-stat"><p class="label">NLLB Code</p><p class="value" style="font-size:.75rem;font-family:monospace;">' + escapeHtml(lang.code) + '</p></div>' +
+            '</div>' +
+            '<div class="modal-sample">' +
+            '<div><p class="modal-sample-label">Sample phrase</p>' +
+            '<p class="modal-sample-text">"' + escapeHtml(lang.sample.text) + '"</p>' +
+            '<p class="modal-sample-meaning">' + escapeHtml(lang.sample.meaning) + '</p></div>' +
+            '<button class="modal-speak-btn" data-text="' + escapeHtml(lang.sample.text) + '" data-lang="' + lang.code + '" title="Listen">' +
+            '<svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07"/></svg>' +
+            '</button></div>';
+        modalContent.querySelectorAll('.modal-speak-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () { speak(btn.dataset.text, btn.dataset.lang); });
+        });
+        var translateBtn = document.getElementById('modal-translate-btn');
+        if (translateBtn) translateBtn.href = 'translator.php';
+        modal.style.display = 'flex';
+    }
+
+    document.getElementById('close-lang-modal').addEventListener('click', function () { modal.style.display = 'none'; });
+    modal.addEventListener('click', function (e) { if (e.target === modal) modal.style.display = 'none'; });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') modal.style.display = 'none'; });
+
+    searchInput.addEventListener('input', function () {
+        searchQuery = searchInput.value.trim();
+        clearBtn.style.display = searchQuery ? 'block' : 'none';
+        render();
+    });
+    clearBtn.addEventListener('click', function () {
+        searchInput.value = ''; searchQuery = '';
+        clearBtn.style.display = 'none'; render(); searchInput.focus();
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function () {
+        searchInput.value = ''; searchQuery = ''; activeCategory = 'all';
+        clearBtn.style.display = 'none';
+        document.querySelectorAll('.cat-pill').forEach(function (p) {
+            p.classList.toggle('active', p.dataset.cat === 'all');
+        });
+        if (catSelect) catSelect.value = 'all';
+        render();
+    });
+
+    document.querySelectorAll('.cat-pill').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+            activeCategory = pill.dataset.cat;
+            document.querySelectorAll('.cat-pill').forEach(function (p) { p.classList.remove('active'); });
+            pill.classList.add('active');
+            if (catSelect) catSelect.value = activeCategory;
+            render();
+        });
+    });
+
+    if (catSelect) {
+        catSelect.addEventListener('change', function () {
+            activeCategory = catSelect.value;
+            document.querySelectorAll('.cat-pill').forEach(function (p) {
+                p.classList.toggle('active', p.dataset.cat === activeCategory);
+            });
+            render();
+        });
+    }
+
+    render();
+})();

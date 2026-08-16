@@ -11,8 +11,8 @@ include 'includes/header.php';
   <h1>Supported Languages</h1>
   <p>Explore and translate between Cameroonian languages and more. CamLingua bridges communities through language.</p>
   <div class="lang-stats">
-    <div class="lang-stat"><p>7</p><p>Languages Supported</p></div>
-    <div class="lang-stat"><p>5</p><p>Cameroonian Languages</p></div>
+    <div class="lang-stat"><p>202</p><p>Languages Supported</p></div>
+    <div class="lang-stat"><p>3</p><p>Cameroonian Languages</p></div>
     <div class="lang-stat"><p>250+</p><p>Languages in Cameroon</p></div>
   </div>
 </div>
@@ -29,11 +29,17 @@ include 'includes/header.php';
     <div class="cat-pills" id="cat-pills">
       <button class="cat-pill active" data-cat="all">All</button>
       <button class="cat-pill" data-cat="cameroonian">🇨🇲 Cameroonian</button>
-      <button class="cat-pill" data-cat="international">🌍 International</button>
+      <button class="cat-pill" data-cat="african">🌍 African</button>
+      <button class="cat-pill" data-cat="european">🇪🇺 European</button>
+      <button class="cat-pill" data-cat="asian">🌏 Asian</button>
+      <button class="cat-pill" data-cat="middleeastern">🕌 Middle East</button>
+      <button class="cat-pill" data-cat="americas">🌎 Americas</button>
+      <button class="cat-pill" data-cat="pacific">🌊 Pacific</button>
+      <button class="cat-pill" data-cat="international">🌐 International</button>
     </div>
   </div>
 
-  <p id="result-count" class="result-count">Showing 7 languages</p>
+  <p id="result-count" class="result-count">Showing 202 languages</p>
   <div id="lang-grid" class="lang-grid"></div>
 
   <div id="empty-state" class="empty-state" style="display:none;">
