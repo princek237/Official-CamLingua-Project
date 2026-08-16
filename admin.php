@@ -155,6 +155,19 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
                         </article>
                     </section>
 
+                    <!-- ACTIVE LANGUAGES PANEL -->
+                    <section aria-label="Active languages" style="margin-bottom: 32px;">
+                        <article class="data-card">
+                            <div class="data-card-header">
+                                <p class="data-card-title">Active Languages</p>
+                                <button class="btn-view-all" onclick="document.querySelector('[data-target=languages]').click()">Manage</button>
+                            </div>
+                            <div id="active-languages-list" class="active-languages-grid">
+                                <p class="td-loading" style="padding:16px;color:#9ca3af;">Loading…</p>
+                            </div>
+                        </article>
+                    </section>
+
                     <!-- CHARTS -->
                     <section class="charts-grid" aria-label="Analytics charts">
                         <article class="chart-card">
@@ -233,6 +246,11 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
                                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                                     <input type="text" id="languages-search" placeholder="Search languages…" oninput="debounce(loadLanguages, 350)()">
                                 </div>
+                                <select id="languages-status-filter" onchange="loadLanguages()">
+                                    <option value="">All Statuses</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
                             </div>
                         </div>
                         <div class="table-scroll">

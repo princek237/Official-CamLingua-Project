@@ -185,6 +185,37 @@
         } catch (e) {
             console.error('Dashboard error:', e);
         }
+        loadActiveLanguages();
+    }
+
+    async function loadActiveLanguages() {
+        var container = document.getElementById('active-languages-list');
+        if (!container) return;
+        try {
+            var res = await fetch(BASE + '/admin/languages?limit=100&is_active=1', { headers: getHeaders() });
+            var data = await res.json();
+            var langs = (data && data.data && data.data.languages)
+                ? data.data.languages.filter(function (l) { return parseInt(l.is_active) === 1; })
+                : [];
+            renderActiveLanguages(langs);
+        } catch (e) {
+            container.innerHTML = '<p style="color:#9ca3af;padding:16px;">Failed to load languages.</p>';
+        }
+    }
+
+    function renderActiveLanguages(langs) {
+        var container = document.getElementById('active-languages-list');
+        if (!container) return;
+        if (!langs.length) {
+            container.innerHTML = '<p style="color:#9ca3af;padding:16px;">No active languages found.</p>';
+            return;
+        }
+        container.innerHTML = langs.map(function (l) {
+            return '<div class="active-lang-chip" title="' + (l.name || '') + '">' +
+                '<span class="active-lang-code">' + (l.code || '') + '</span>' +
+                '<span class="active-lang-name">' + (l.name || '') + '</span>' +
+                '</div>';
+        }).join('');
     }
 
     // ── Users ────────────────────────────────────────────────────────────────────
@@ -294,15 +325,22 @@
 
     async function loadLanguages() {
         var search = (document.getElementById('languages-search') || {}).value || '';
+        var status = (document.getElementById('languages-status-filter') || {}).value || '';
         var page = _pages.languages;
         var tbody = document.getElementById('full-languages-table-body');
         if (tbody) tbody.innerHTML = '<tr><td colspan="6" class="td-loading">Loading…</td></tr>';
         try {
             var url = BASE + '/admin/languages?page=' + page + '&limit=10&search=' + encodeURIComponent(search);
+            if (status !== '') url += '&is_active=' + encodeURIComponent(status);
             var res = await fetch(url, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data) {
-                renderLanguagesTable(data.data.languages || []);
+                var langs = data.data.languages || [];
+                // Client-side filter as fallback if the API doesn't support is_active param
+                if (status !== '') {
+                    langs = langs.filter(function (l) { return String(l.is_active) === status; });
+                }
+                renderLanguagesTable(langs);
                 renderPagination('languages-pagination', data.data.pagination, loadLanguages, 'languages');
             }
         } catch (e) { console.error('Languages error:', e); }

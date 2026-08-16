@@ -838,3 +838,43 @@ form { padding: 20px 24px 0; }
 /* ── Action buttons in table rows ───────────────────────── */
 .row-actions { display: flex; gap: 6px; }
 
+
+/* ── Active Languages Panel ───────────────────────────────────────────────── */
+.active-languages-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px 16px;
+}
+
+.active-lang-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 9999px;
+  padding: 5px 12px;
+  font-size: 0.8125rem;
+  color: #15803d;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default;
+}
+
+.active-lang-chip:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+}
+
+.active-lang-code {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #15803d;
+}
+
+.active-lang-name {
+  color: #166534;
+  font-weight: 500;
+}
