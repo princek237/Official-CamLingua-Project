@@ -42,7 +42,7 @@ if (!$isCli && !$isDevMode) {
 if (!$isCli) echo "<pre>\n";
 
 echo "CamLingua — Database Migration{$nl}";
-echo str_repeat('-', 40) . $nl;
+echo str_repeat('=', 48) . $nl;
 
 $host = $_ENV['DB_HOST'] ?? 'localhost';
 $port = (int)($_ENV['DB_PORT'] ?? 3306);
@@ -57,29 +57,70 @@ try {
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
 
+    // ── 1. Ensure database exists ─────────────────────────────────────────────
     $pdo->exec("CREATE DATABASE IF NOT EXISTS `{$name}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    echo "OK Database '{$name}' ensured{$nl}";
-
+    echo "OK  Database '{$name}' ensured{$nl}";
     $pdo->exec("USE `{$name}`");
 
+    // ── 2. Run schema.sql (full fresh install) ────────────────────────────────
     $sql = file_get_contents(__DIR__ . '/schema.sql');
     if (!$sql) throw new RuntimeException('Could not read schema.sql');
 
-    $statements = array_filter(array_map('trim', explode(';', $sql)), function($s) { return $s !== ''; });
-
     $count = 0;
-    foreach ($statements as $statement) {
-        if (trim($statement) === '') continue;
-        try { $pdo->exec($statement); $count++; }
-        catch (PDOException $e) { echo "WARN: " . $e->getMessage() . $nl; }
+    foreach (array_filter(array_map('trim', explode(';', $sql))) as $stmt) {
+        if ($stmt === '') continue;
+        try { $pdo->exec($stmt); $count++; }
+        catch (PDOException $e) {
+            // Warn but continue — duplicate key errors on re-run are expected
+            echo "WARN [{$count}] " . $e->getMessage() . $nl;
+        }
+    }
+    echo "OK  schema.sql — {$count} statements executed{$nl}";
+
+    // ── 3. Run incremental migrations ─────────────────────────────────────────
+    $migrations = [
+        'migration_v2.sql'          => 'v2 — status column, languages & settings tables',
+        'migration_campay.sql'      => 'CamPay — payments table',
+        'migration_role_audit.sql'  => 'Role audit — role_assigned_by / role_assigned_at columns',
+    ];
+
+    foreach ($migrations as $file => $label) {
+        $path = __DIR__ . '/' . $file;
+        if (!file_exists($path)) {
+            echo "SKIP {$file} not found{$nl}";
+            continue;
+        }
+        $sql = file_get_contents($path);
+        $ran = 0;
+        foreach (array_filter(array_map('trim', explode(';', $sql))) as $stmt) {
+            if ($stmt === '' || strpos(ltrim($stmt), '--') === 0) continue;
+            try { $pdo->exec($stmt); $ran++; }
+            catch (PDOException $e) {
+                echo "WARN [{$file}] " . $e->getMessage() . $nl;
+            }
+        }
+        echo "OK  {$label} — {$ran} statements{$nl}";
     }
 
-    echo "OK Executed {$count} SQL statements{$nl}";
-    echo str_repeat('-', 40) . $nl;
-    echo "OK Migration complete!{$nl}{$nl}";
-    echo "Default credentials:{$nl}";
-    echo "  Admin  — admin@camlingua.com  / admin123{$nl}";
-    echo "  Tester — test@camlingua.com   / test123{$nl}";
+    // ── 4. Summary ────────────────────────────────────────────────────────────
+    echo str_repeat('=', 48) . $nl;
+    echo "OK  Migration complete!{$nl}{$nl}";
+
+    echo "Default login credentials{$nl}";
+    echo str_repeat('-', 48) . $nl;
+    echo "  ADMIN   URL  : http://localhost/CamLingua/login.php{$nl}";
+    echo "  Email        : admin@camlingua.com{$nl}";
+    echo "  Password     : admin123{$nl}";
+    echo "{$nl}";
+    echo "  After login the admin sees an [Admin] badge in the nav.{$nl}";
+    echo "  Click it to open the Admin Dashboard (admin.php).{$nl}";
+    echo "{$nl}";
+    echo "  TESTER  URL  : http://localhost/CamLingua/login.php{$nl}";
+    echo "  Email        : test@camlingua.com{$nl}";
+    echo "  Password     : test123{$nl}";
+    echo str_repeat('-', 48) . $nl;
+    echo "{$nl}";
+    echo "IMPORTANT: Change the admin password after first login!{$nl}";
 
 } catch (PDOException $e) {
     echo "FAIL Migration failed: " . $e->getMessage() . $nl;

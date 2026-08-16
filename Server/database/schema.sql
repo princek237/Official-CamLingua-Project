@@ -31,6 +31,8 @@ CREATE TABLE `users` (
   `bio` TEXT DEFAULT NULL,
   `avatar_url` VARCHAR(500) DEFAULT NULL,
   `role` ENUM('user', 'admin') DEFAULT 'user',
+  `role_assigned_by` INT UNSIGNED DEFAULT NULL COMMENT 'ID of the admin who last changed this user''s role',
+  `role_assigned_at` TIMESTAMP NULL DEFAULT NULL COMMENT 'Timestamp of the last role change',
   `status` ENUM('active', 'inactive', 'banned') DEFAULT 'active',
   `email_verified` TINYINT(1) DEFAULT 0,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -39,7 +41,8 @@ CREATE TABLE `users` (
   UNIQUE KEY `uk_email` (`email`),
   UNIQUE KEY `uk_username` (`username`),
   KEY `idx_email` (`email`),
-  KEY `idx_created_at` (`created_at`)
+  KEY `idx_created_at` (`created_at`),
+  KEY `fk_users_role_assigned_by` (`role_assigned_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================================
@@ -148,9 +151,13 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================================================
 -- Sample Admin User (password: admin123)
+-- This is the default admin account. Change the password after first login.
+-- Login at: http://localhost/CamLingua/login.php
+--   Email   : admin@camlingua.com
+--   Password: admin123
 -- ============================================================================
-INSERT INTO `users` (`username`, `email`, `password_hash`, `full_name`, `role`, `status`, `email_verified`) VALUES
-('admin', 'admin@camlingua.com', '$2y$10$bcBrxHkHHxXODegD1ZH82O/Oj2IxwQEcDZlat9cuLpXWRVPnvuVw.', 'CamLingua Admin', 'admin', 'active', 1);
+INSERT INTO `users` (`username`, `email`, `password_hash`, `full_name`, `role`, `role_assigned_by`, `role_assigned_at`, `status`, `email_verified`) VALUES
+('admin', 'admin@camlingua.com', '$2y$10$bcBrxHkHHxXODegD1ZH82O/Oj2IxwQEcDZlat9cuLpXWRVPnvuVw.', 'CamLingua Admin', 'admin', 1, CURRENT_TIMESTAMP, 'active', 1);
 
 -- Assign admin to Free plan by default
 INSERT INTO `user_subscriptions` (`user_id`, `subscription_id`, `status`) VALUES
@@ -166,6 +173,7 @@ SELECT
     u.id,
     u.username,
     u.email,
+    u.phone_number,
     u.full_name,
     u.bio,
     u.avatar_url,
