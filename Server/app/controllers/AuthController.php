@@ -110,7 +110,7 @@ class AuthController extends Controller
         $password = $body['password'];
 
         $user = $this->db->fetchOne(
-            'SELECT * FROM users WHERE email = ? AND is_active = 1',
+            "SELECT * FROM users WHERE email = ? AND status = 'active'",
             [$email]
         );
 

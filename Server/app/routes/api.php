@@ -82,11 +82,13 @@ $adminMiddleware = [AuthMiddleware::class, AdminMiddleware::class];
 $router->get('/api/admin/dashboard', [AdminController::class, 'getDashboardStats'], $adminMiddleware);
 
 // Admin Users (CRUD)
-$router->get('/api/admin/users',         [AdminUserController::class, 'index'],   $adminMiddleware);
-$router->get('/api/admin/users/{id}',    [AdminUserController::class, 'show'],    $adminMiddleware);
-$router->post('/api/admin/users',        [AdminUserController::class, 'store'],   $adminMiddleware);
-$router->put('/api/admin/users/{id}',    [AdminUserController::class, 'update'],  $adminMiddleware);
-$router->delete('/api/admin/users/{id}', [AdminUserController::class, 'destroy'], $adminMiddleware);
+$router->get('/api/admin/users',              [AdminUserController::class, 'index'],      $adminMiddleware);
+$router->get('/api/admin/users/{id}',         [AdminUserController::class, 'show'],       $adminMiddleware);
+$router->post('/api/admin/users',             [AdminUserController::class, 'store'],      $adminMiddleware);
+$router->put('/api/admin/users/{id}',         [AdminUserController::class, 'update'],     $adminMiddleware);
+$router->delete('/api/admin/users/{id}',      [AdminUserController::class, 'destroy'],    $adminMiddleware);
+// Role assignment — only callable by an authenticated admin, never changes own role
+$router->put('/api/admin/users/{id}/role',    [AdminUserController::class, 'assignRole'], $adminMiddleware);
 
 // Admin Languages (CRUD)
 $router->get('/api/admin/languages',         [AdminLanguageController::class, 'index'],   $adminMiddleware);

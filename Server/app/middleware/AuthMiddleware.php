@@ -35,7 +35,7 @@ class AuthMiddleware
         }
 
         $db   = Database::getInstance();
-        $user = $db->fetchOne('SELECT * FROM users WHERE id = ? AND is_active = 1', [$userId]);
+        $user = $db->fetchOne("SELECT * FROM users WHERE id = ? AND status = 'active'", [$userId]);
 
         if (!$user) {
             Response::unauthorized('User not found or inactive');

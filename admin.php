@@ -440,12 +440,13 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
                     <label for="user-phone_number">Phone Number</label>
                     <input type="tel" id="user-phone_number">
                 </div>
+                <!-- Role is READ-ONLY here. Use the "Assign Admin" button in the table to change it. -->
                 <div class="form-group">
-                    <label for="user-role">Role <span class="required">*</span></label>
-                    <select id="user-role" required>
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select>
+                    <label>Current Role</label>
+                    <div id="user-role-display" class="role-display-box">
+                        <span id="user-role-badge" class="badge badge-gray">user</span>
+                        <span id="user-role-note" class="form-hint" style="margin:0;">Use the <strong>Assign&nbsp;Admin</strong> / <strong>Revoke&nbsp;Admin</strong> button in the users table to change this.</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="user-status">Status <span class="required">*</span></label>
@@ -466,6 +467,24 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
                 <button type="submit" class="btn-primary" id="user-submit-btn">Create User</button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Assign / Revoke Admin Role Modal -->
+<div id="modal-role" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-role-title" style="display:none;">
+    <div class="modal-box modal-box-sm">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-role-title">Change Role</h2>
+            <button class="modal-close" onclick="closeModal('role')" aria-label="Close">&times;</button>
+        </div>
+        <input type="hidden" id="role-user-id">
+        <input type="hidden" id="role-target-role">
+        <p id="role-confirm-message" style="color:#374151;margin:0 0 8px;font-size:.9375rem;"></p>
+        <p id="role-confirm-sub" style="color:#6b7280;margin:0 0 24px;font-size:.875rem;"></p>
+        <div class="modal-footer">
+            <button type="button" class="btn-secondary" onclick="closeModal('role')">Cancel</button>
+            <button type="button" class="btn-primary" id="role-confirm-btn" onclick="executeRoleChange()">Confirm</button>
+        </div>
     </div>
 </div>
 
@@ -566,5 +585,24 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="assets/js/api.js"></script>
 <script src="assets/js/admin.js"></script>
+<style>
+/* Role display box inside user modal */
+.role-display-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+}
+/* Assign/Revoke admin button in table rows */
+.btn-role-grant  { color: #15803d; border-color: #bbf7d0; background: #f0fdf4; }
+.btn-role-revoke { color: #b91c1c; border-color: #fecaca; background: #fff5f5; }
+.btn-role-grant:hover  { background: #dcfce7; }
+.btn-role-revoke:hover { background: #fee2e2; }
+.btn-role-self   { opacity: .4; cursor: not-allowed; }
+</style>
 </body>
 </html>
