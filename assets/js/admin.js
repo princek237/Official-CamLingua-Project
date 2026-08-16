@@ -1,10 +1,11 @@
 (function () {
     'use strict';
 
-    var BASE = 'http://localhost/CamLingua/Server/api';
-    var roleBadge = { admin: 'badge-red', pro: 'badge-yellow', user: 'badge-gray' };
+    var BASE       = 'http://localhost/CamLingua/Server/api';
+    var roleBadge  = { admin: 'badge-red', pro: 'badge-yellow', user: 'badge-gray' };
     var statusBadge = { active: 'badge-green', inactive: 'badge-gray', banned: 'badge-red' };
-    var _token = '';
+    var _token     = '';
+    var _adminId   = 0;   // ID of the currently logged-in admin (used for self-checks)
 
     // Current page state per section
     var _pages = { users: 1, languages: 1, translations: 1, history: 1, subscriptions: 1, reports: 1 };
@@ -31,10 +32,7 @@
 
     function debounce(fn, delay) {
         var timer;
-        return function () {
-            clearTimeout(timer);
-            timer = setTimeout(fn, delay);
-        };
+        return function () { clearTimeout(timer); timer = setTimeout(fn, delay); };
     }
 
     function fmt(dateStr) {
@@ -53,19 +51,15 @@
         if (!pagination || pagination.total_pages <= 1) { el.innerHTML = ''; return; }
 
         var current = pagination.page;
-        var total = pagination.total_pages;
-
-        var html = '<span class="pagination-info">Page ' + current + ' of ' + total + '</span>';
+        var total   = pagination.total_pages;
+        var html    = '<span class="pagination-info">Page ' + current + ' of ' + total + '</span>';
         html += '<button ' + (current <= 1 ? 'disabled' : '') + ' onclick="' + sectionKey + 'GoToPage(' + (current - 1) + ')">&laquo; Prev</button>';
-
-        // Show up to 5 page buttons around current
         var start = Math.max(1, current - 2);
-        var end = Math.min(total, start + 4);
+        var end   = Math.min(total, start + 4);
         for (var i = start; i <= end; i++) {
             html += '<button class="' + (i === current ? 'active' : '') + '" onclick="' + sectionKey + 'GoToPage(' + i + ')">' + i + '</button>';
         }
         html += '<button ' + (current >= total ? 'disabled' : '') + ' onclick="' + sectionKey + 'GoToPage(' + (current + 1) + ')">Next &raquo;</button>';
-
         el.innerHTML = html;
     }
 
@@ -86,10 +80,10 @@
     function animateCounter(id, value) {
         var el = document.getElementById(id);
         if (!el) return;
-        var target = parseInt(String(value).replace(/,/g, ''), 10) || 0;
+        var target  = parseInt(String(value).replace(/,/g, ''), 10) || 0;
         var current = 0;
-        var step = Math.ceil(target / 60) || 1;
-        var timer = setInterval(function () {
+        var step    = Math.ceil(target / 60) || 1;
+        var timer   = setInterval(function () {
             current = Math.min(current + step, target);
             el.textContent = current.toLocaleString();
             if (current >= target) clearInterval(timer);
@@ -153,14 +147,13 @@
             return;
         }
         tbody.innerHTML = rows.map(function (t) {
-            var preview = truncate(t.source_text, 40);
             return '<tr>' +
                 '<td class="td-mono">#' + t.id + '</td>' +
-                '<td><span class="badge badge-blue">' + (t.source_lang || '') + '</span></td>' +
-                '<td><span class="badge badge-green">' + (t.target_lang || '') + '</span></td>' +
-                '<td class="td-trunc" title="' + (t.source_text || '') + '">' + preview + '</td>' +
-                '<td class="td-user">' + (t.user_id || '—') + '</td>' +
-                '<td class="td-date">' + fmt(t.created_at) + '</td>' +
+                '<td><span class="badge badge-blue">'  + (t.source_lang || '') + '</span></td>' +
+                '<td><span class="badge badge-green">' + (t.target_lang  || '') + '</span></td>' +
+                '<td class="td-trunc" title="' + (t.source_text || '') + '">' + truncate(t.source_text, 40) + '</td>' +
+                '<td class="td-user">'  + (t.user_id    || '—') + '</td>' +
+                '<td class="td-date">'  + fmt(t.created_at)     + '</td>' +
                 '</tr>';
         }).join('');
     }
@@ -169,22 +162,20 @@
 
     async function loadDashboard() {
         try {
-            var res = await fetch(BASE + '/admin/dashboard', { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/dashboard', { headers: getHeaders() });
             var data = res.ok ? await res.json() : null;
             if (data && data.data) {
-                var d = data.data;
-                animateCounter('stat-users',        d.stats.users || 0);
-                animateCounter('stat-translations', d.stats.translations || 0);
-                animateCounter('stat-languages',    d.stats.languages || 0);
+                var d  = data.data;
+                animateCounter('stat-users',        d.stats.users         || 0);
+                animateCounter('stat-translations', d.stats.translations  || 0);
+                animateCounter('stat-languages',    d.stats.languages     || 0);
                 animateCounter('stat-revenue',      d.stats.subscriptions || 0);
                 renderRecentTranslations(d.recent_translations || []);
                 var cd = d.chart_data || {};
                 renderLineChart(cd.labels || null, cd.values || null);
                 renderDonutChart(d.top_languages || null);
             }
-        } catch (e) {
-            console.error('Dashboard error:', e);
-        }
+        } catch (e) { console.error('Dashboard error:', e); }
         loadActiveLanguages();
     }
 
@@ -192,7 +183,7 @@
         var container = document.getElementById('active-languages-list');
         if (!container) return;
         try {
-            var res = await fetch(BASE + '/admin/languages?limit=100&is_active=1', { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/languages?limit=100&is_active=1', { headers: getHeaders() });
             var data = await res.json();
             var langs = (data && data.data && data.data.languages)
                 ? data.data.languages.filter(function (l) { return parseInt(l.is_active) === 1; })
@@ -221,14 +212,14 @@
     // ── Users ────────────────────────────────────────────────────────────────────
 
     async function loadUsers() {
-        var search = (document.getElementById('users-search') || {}).value || '';
+        var search = (document.getElementById('users-search')        || {}).value || '';
         var status = (document.getElementById('users-status-filter') || {}).value || '';
-        var page = _pages.users;
-        var tbody = document.getElementById('full-users-table-body');
+        var page   = _pages.users;
+        var tbody  = document.getElementById('full-users-table-body');
         if (tbody) tbody.innerHTML = '<tr><td colspan="8" class="td-loading">Loading…</td></tr>';
         try {
-            var url = BASE + '/admin/users?page=' + page + '&limit=10&search=' + encodeURIComponent(search) + '&status=' + encodeURIComponent(status);
-            var res = await fetch(url, { headers: getHeaders() });
+            var url  = BASE + '/admin/users?page=' + page + '&limit=10&search=' + encodeURIComponent(search) + '&status=' + encodeURIComponent(status);
+            var res  = await fetch(url, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data) {
                 renderUsersTable(data.data.users || []);
@@ -246,7 +237,20 @@
         }
         tbody.innerHTML = users.map(function (u) {
             var sBadge = statusBadge[u.status] || 'badge-gray';
-            var rBadge = roleBadge[u.role] || 'badge-gray';
+            var rBadge = roleBadge[u.role]     || 'badge-gray';
+            var isSelf = (u.id === _adminId);
+
+            // Role action button: grant admin or revoke admin
+            var roleBtn;
+            if (isSelf) {
+                // Can't change own role — show a disabled hint
+                roleBtn = '<button class="btn-icon btn-role-self" disabled title="You cannot change your own role">' + iconShield() + '</button>';
+            } else if (u.role === 'admin') {
+                roleBtn = '<button class="btn-icon btn-role-revoke" title="Revoke Admin" onclick="openRoleModal(' + u.id + ',\'user\',\'' + escAttr(u.username) + '\')">' + iconShieldOff() + '</button>';
+            } else {
+                roleBtn = '<button class="btn-icon btn-role-grant" title="Assign Admin" onclick="openRoleModal(' + u.id + ',\'admin\',\'' + escAttr(u.username) + '\')">' + iconShield() + '</button>';
+            }
+
             return '<tr>' +
                 '<td class="td-mono">#' + u.id + '</td>' +
                 '<td class="td-user">' + (u.username || '—') + '</td>' +
@@ -256,6 +260,7 @@
                 '<td><span class="badge ' + sBadge + '">' + u.status + '</span></td>' +
                 '<td class="td-date">' + fmt(u.created_at) + '</td>' +
                 '<td><div class="row-actions">' +
+                    roleBtn +
                     '<button class="btn-icon" title="Edit" onclick="editUser(' + u.id + ')">' + iconEdit() + '</button>' +
                     '<button class="btn-icon danger" title="Delete" onclick="confirmDelete(\'user\',' + u.id + ')">' + iconTrash() + '</button>' +
                 '</div></td>' +
@@ -263,26 +268,102 @@
         }).join('');
     }
 
+    function escAttr(str) {
+        return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
     window.usersGoToPage = function (p) { _pages.users = p; loadUsers(); };
+
+    // ── Role Modal ───────────────────────────────────────────────────────────────
+
+    /**
+     * Open the role-change confirmation modal.
+     * @param {number} userId
+     * @param {string} targetRole  'admin' | 'user'
+     * @param {string} username
+     */
+    window.openRoleModal = function (userId, targetRole, username) {
+        document.getElementById('role-user-id').value     = userId;
+        document.getElementById('role-target-role').value = targetRole;
+
+        var isGrant = targetRole === 'admin';
+        document.getElementById('modal-role-title').textContent = isGrant ? 'Assign Admin Role' : 'Revoke Admin Role';
+        document.getElementById('role-confirm-message').textContent = isGrant
+            ? 'Grant admin privileges to "' + username + '"?'
+            : 'Revoke admin privileges from "' + username + '"?';
+        document.getElementById('role-confirm-sub').textContent = isGrant
+            ? 'This user will have full access to the admin dashboard and all management features.'
+            : 'This user will lose admin access immediately and be downgraded to a regular user.';
+
+        var btn = document.getElementById('role-confirm-btn');
+        btn.className = isGrant ? 'btn-primary' : 'btn-danger';
+        btn.textContent = isGrant ? 'Assign Admin' : 'Revoke Admin';
+
+        openModal('role');
+    };
+
+    window.executeRoleChange = async function () {
+        var userId     = document.getElementById('role-user-id').value;
+        var targetRole = document.getElementById('role-target-role').value;
+        var btn        = document.getElementById('role-confirm-btn');
+
+        btn.disabled    = true;
+        btn.textContent = 'Saving…';
+
+        try {
+            var res  = await fetch(BASE + '/admin/users/' + userId + '/role', {
+                method:  'PUT',
+                headers: getHeaders(),
+                body:    JSON.stringify({ role: targetRole }),
+            });
+            var data = await res.json();
+
+            if (res.ok) {
+                toast(data.data ? data.data.message : 'Role updated successfully.');
+                closeModal('role');
+                loadUsers();
+            } else {
+                toast((data && data.message) || 'Error updating role.', 'error');
+            }
+        } catch (e) {
+            toast('Server error.', 'error');
+        }
+
+        btn.disabled    = false;
+        btn.textContent = targetRole === 'admin' ? 'Assign Admin' : 'Revoke Admin';
+    };
+
+    // ── Edit / Create User ────────────────────────────────────────────────────────
 
     window.editUser = async function (id) {
         try {
-            var res = await fetch(BASE + '/admin/users/' + id, { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/users/' + id, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data && data.data.user) {
                 var u = data.data.user;
-                document.getElementById('user-id').value = u.id;
-                document.getElementById('user-username').value = u.username || '';
-                document.getElementById('user-email').value = u.email || '';
-                document.getElementById('user-full_name').value = u.full_name || '';
+                document.getElementById('user-id').value           = u.id;
+                document.getElementById('user-username').value     = u.username     || '';
+                document.getElementById('user-email').value        = u.email        || '';
+                document.getElementById('user-full_name').value    = u.full_name    || '';
                 document.getElementById('user-phone_number').value = u.phone_number || '';
-                document.getElementById('user-role').value = u.role || 'user';
-                document.getElementById('user-status').value = u.status || 'active';
-                document.getElementById('user-password').value = '';
-                document.getElementById('modal-user-title').textContent = 'Edit User';
-                document.getElementById('user-submit-btn').textContent = 'Update User';
+                document.getElementById('user-status').value       = u.status       || 'active';
+                document.getElementById('user-password').value     = '';
+
+                // Update role display badge (read-only)
+                var badge    = document.getElementById('user-role-badge');
+                var roleDisp = document.getElementById('user-role-display');
+                if (badge) {
+                    badge.textContent = u.role || 'user';
+                    badge.className   = 'badge ' + (roleBadge[u.role] || 'badge-gray');
+                }
+                // Hide the note when viewing an admin — already admin
+                var note = document.getElementById('user-role-note');
+                if (note) note.style.display = u.role === 'admin' ? 'none' : '';
+
+                document.getElementById('modal-user-title').textContent  = 'Edit User';
+                document.getElementById('user-submit-btn').textContent   = 'Update User';
                 document.getElementById('user-password-required').style.display = 'none';
-                document.getElementById('user-password-hint').style.display = 'block';
+                document.getElementById('user-password-hint').style.display     = 'block';
                 openModal('user');
             }
         } catch (e) { toast('Failed to load user.', 'error'); }
@@ -290,13 +371,13 @@
 
     window.submitUserForm = async function (e) {
         e.preventDefault();
-        var id = document.getElementById('user-id').value;
+        var id  = document.getElementById('user-id').value;
+        // Note: 'role' is intentionally omitted — role is managed via assignRole endpoint only
         var body = {
             username:     document.getElementById('user-username').value,
             email:        document.getElementById('user-email').value,
             full_name:    document.getElementById('user-full_name').value,
             phone_number: document.getElementById('user-phone_number').value,
-            role:         document.getElementById('user-role').value,
             status:       document.getElementById('user-status').value,
             password:     document.getElementById('user-password').value,
         };
@@ -315,28 +396,28 @@
             if (res.ok) {
                 toast(msg); closeModal('user'); loadUsers();
             } else {
-                toast(data.message || 'Error saving user.', 'error');
+                toast((data && data.message) || 'Error saving user.', 'error');
             }
         } catch (e) { toast('Server error.', 'error'); }
-        btn.disabled = false; btn.textContent = id ? 'Update User' : 'Create User';
+        btn.disabled    = false;
+        btn.textContent = id ? 'Update User' : 'Create User';
     };
 
     // ── Languages ────────────────────────────────────────────────────────────────
 
     async function loadLanguages() {
-        var search = (document.getElementById('languages-search') || {}).value || '';
+        var search = (document.getElementById('languages-search')        || {}).value || '';
         var status = (document.getElementById('languages-status-filter') || {}).value || '';
-        var page = _pages.languages;
-        var tbody = document.getElementById('full-languages-table-body');
+        var page   = _pages.languages;
+        var tbody  = document.getElementById('full-languages-table-body');
         if (tbody) tbody.innerHTML = '<tr><td colspan="6" class="td-loading">Loading…</td></tr>';
         try {
-            var url = BASE + '/admin/languages?page=' + page + '&limit=10&search=' + encodeURIComponent(search);
+            var url  = BASE + '/admin/languages?page=' + page + '&limit=10&search=' + encodeURIComponent(search);
             if (status !== '') url += '&is_active=' + encodeURIComponent(status);
-            var res = await fetch(url, { headers: getHeaders() });
+            var res  = await fetch(url, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data) {
                 var langs = data.data.languages || [];
-                // Client-side filter as fallback if the API doesn't support is_active param
                 if (status !== '') {
                     langs = langs.filter(function (l) { return String(l.is_active) === status; });
                 }
@@ -354,7 +435,9 @@
             return;
         }
         tbody.innerHTML = languages.map(function (l) {
-            var active = parseInt(l.is_active) ? '<span class="badge badge-green">Active</span>' : '<span class="badge badge-gray">Inactive</span>';
+            var active = parseInt(l.is_active)
+                ? '<span class="badge badge-green">Active</span>'
+                : '<span class="badge badge-gray">Inactive</span>';
             return '<tr>' +
                 '<td class="td-mono">#' + l.id + '</td>' +
                 '<td class="td-user">' + (l.name || '—') + '</td>' +
@@ -373,16 +456,16 @@
 
     window.editLanguage = async function (id) {
         try {
-            var res = await fetch(BASE + '/admin/languages/' + id, { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/languages/' + id, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data && data.data.language) {
                 var l = data.data.language;
-                document.getElementById('language-id').value = l.id;
-                document.getElementById('language-name').value = l.name || '';
-                document.getElementById('language-code').value = l.code || '';
+                document.getElementById('language-id').value        = l.id;
+                document.getElementById('language-name').value      = l.name      || '';
+                document.getElementById('language-code').value      = l.code      || '';
                 document.getElementById('language-is_active').value = l.is_active;
-                document.getElementById('modal-language-title').textContent = 'Edit Language';
-                document.getElementById('language-submit-btn').textContent = 'Update Language';
+                document.getElementById('modal-language-title').textContent  = 'Edit Language';
+                document.getElementById('language-submit-btn').textContent   = 'Update Language';
                 openModal('language');
             }
         } catch (e) { toast('Failed to load language.', 'error'); }
@@ -390,7 +473,7 @@
 
     window.submitLanguageForm = async function (e) {
         e.preventDefault();
-        var id = document.getElementById('language-id').value;
+        var id   = document.getElementById('language-id').value;
         var body = {
             name:      document.getElementById('language-name').value,
             code:      document.getElementById('language-code').value,
@@ -411,24 +494,25 @@
             if (res.ok) {
                 toast(msg); closeModal('language'); loadLanguages();
             } else {
-                toast(data.message || 'Error saving language.', 'error');
+                toast((data && data.message) || 'Error saving language.', 'error');
             }
         } catch (e) { toast('Server error.', 'error'); }
-        btn.disabled = false; btn.textContent = id ? 'Update Language' : 'Create Language';
+        btn.disabled    = false;
+        btn.textContent = id ? 'Update Language' : 'Create Language';
     };
 
     // ── Translations ─────────────────────────────────────────────────────────────
 
     async function loadTranslations() {
-        var search = (document.getElementById('translations-search') || {}).value || '';
-        var lang   = (document.getElementById('translations-lang-filter') || {}).value || '';
-        var date   = (document.getElementById('translations-date-filter') || {}).value || '';
+        var search = (document.getElementById('translations-search')     || {}).value || '';
+        var lang   = (document.getElementById('translations-lang-filter')|| {}).value || '';
+        var date   = (document.getElementById('translations-date-filter')|| {}).value || '';
         var page   = _pages.translations;
         var tbody  = document.getElementById('full-translations-table-body');
         if (tbody) tbody.innerHTML = '<tr><td colspan="9" class="td-loading">Loading…</td></tr>';
         try {
-            var url = BASE + '/admin/translations?page=' + page + '&limit=10&search=' + encodeURIComponent(search) + '&language=' + encodeURIComponent(lang) + '&date=' + encodeURIComponent(date);
-            var res = await fetch(url, { headers: getHeaders() });
+            var url  = BASE + '/admin/translations?page=' + page + '&limit=10&search=' + encodeURIComponent(search) + '&language=' + encodeURIComponent(lang) + '&date=' + encodeURIComponent(date);
+            var res  = await fetch(url, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data) {
                 renderTranslationsTable(data.data.translations || [], 'full-translations-table-body');
@@ -438,15 +522,15 @@
     }
 
     async function loadHistory() {
-        var search = (document.getElementById('history-search') || {}).value || '';
+        var search = (document.getElementById('history-search')      || {}).value || '';
         var lang   = (document.getElementById('history-lang-filter') || {}).value || '';
         var date   = (document.getElementById('history-date-filter') || {}).value || '';
         var page   = _pages.history;
         var tbody  = document.getElementById('full-history-table-body');
         if (tbody) tbody.innerHTML = '<tr><td colspan="9" class="td-loading">Loading…</td></tr>';
         try {
-            var url = BASE + '/admin/translations?page=' + page + '&limit=10&search=' + encodeURIComponent(search) + '&language=' + encodeURIComponent(lang) + '&date=' + encodeURIComponent(date);
-            var res = await fetch(url, { headers: getHeaders() });
+            var url  = BASE + '/admin/translations?page=' + page + '&limit=10&search=' + encodeURIComponent(search) + '&language=' + encodeURIComponent(lang) + '&date=' + encodeURIComponent(date);
+            var res  = await fetch(url, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data) {
                 renderTranslationsTable(data.data.translations || [], 'full-history-table-body');
@@ -458,25 +542,22 @@
     function renderTranslationsTable(translations, tbodyId) {
         var tbody = document.getElementById(tbodyId);
         if (!tbody) return;
-        var colCount = 9;
         if (!translations.length) {
-            tbody.innerHTML = '<tr><td colspan="' + colCount + '" style="text-align:center;color:#9ca3af;padding:24px;">No translations found.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#9ca3af;padding:24px;">No translations found.</td></tr>';
             return;
         }
         tbody.innerHTML = translations.map(function (t) {
-            var sText = truncate(t.source_text, 30);
-            var tText = truncate(t.translated_text, 30);
-            var stat = t.status || 'completed';
+            var stat      = t.status || 'completed';
             var statBadge = stat === 'completed' ? 'badge-green' : (stat === 'pending' ? 'badge-yellow' : 'badge-red');
             return '<tr>' +
                 '<td class="td-mono">#' + t.id + '</td>' +
-                '<td><span class="badge badge-blue">' + (t.source_lang || '') + '</span></td>' +
-                '<td><span class="badge badge-green">' + (t.target_lang || '') + '</span></td>' +
-                '<td class="td-trunc" title="' + (t.source_text || '') + '">' + sText + '</td>' +
-                '<td class="td-trunc" title="' + (t.translated_text || '') + '">' + tText + '</td>' +
+                '<td><span class="badge badge-blue">'  + (t.source_lang || '') + '</span></td>' +
+                '<td><span class="badge badge-green">' + (t.target_lang  || '') + '</span></td>' +
+                '<td class="td-trunc" title="' + (t.source_text      || '') + '">' + truncate(t.source_text,      30) + '</td>' +
+                '<td class="td-trunc" title="' + (t.translated_text  || '') + '">' + truncate(t.translated_text,  30) + '</td>' +
                 '<td><span class="badge ' + statBadge + '">' + stat + '</span></td>' +
                 '<td class="td-user">' + (t.user_id || 'Guest') + '</td>' +
-                '<td class="td-date">' + fmt(t.created_at) + '</td>' +
+                '<td class="td-date">' + fmt(t.created_at)      + '</td>' +
                 '<td><div class="row-actions">' +
                     '<button class="btn-icon danger" title="Delete" onclick="confirmDelete(\'translation\',' + t.id + ')">' + iconTrash() + '</button>' +
                 '</div></td>' +
@@ -485,12 +566,11 @@
     }
 
     window.translationsGoToPage = function (p) { _pages.translations = p; loadTranslations(); };
-    window.historyGoToPage = function (p) { _pages.history = p; loadHistory(); };
+    window.historyGoToPage      = function (p) { _pages.history      = p; loadHistory();      };
 
-    // Populate lang filter dropdowns from languages endpoint
     async function populateLangFilters() {
         try {
-            var res = await fetch(BASE + '/admin/languages?limit=100', { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/languages?limit=100', { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data && data.data.languages) {
                 var opts = data.data.languages.map(function (l) {
@@ -507,11 +587,11 @@
     // ── Subscriptions ────────────────────────────────────────────────────────────
 
     async function loadSubscriptions() {
-        var page = _pages.subscriptions;
+        var page  = _pages.subscriptions;
         var tbody = document.getElementById('full-subscriptions-table-body');
         if (tbody) tbody.innerHTML = '<tr><td colspan="8" class="td-loading">Loading…</td></tr>';
         try {
-            var res = await fetch(BASE + '/admin/subscriptions?page=' + page + '&limit=10', { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/subscriptions?page=' + page + '&limit=10', { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data) {
                 renderSubscriptionsTable(data.data.subscriptions || []);
@@ -528,13 +608,15 @@
             return;
         }
         tbody.innerHTML = subs.map(function (s) {
-            var active = parseInt(s.is_active) ? '<span class="badge badge-green">Active</span>' : '<span class="badge badge-gray">Inactive</span>';
+            var active = parseInt(s.is_active)
+                ? '<span class="badge badge-green">Active</span>'
+                : '<span class="badge badge-gray">Inactive</span>';
             return '<tr>' +
                 '<td class="td-mono">#' + s.id + '</td>' +
                 '<td class="td-user">' + (s.name || '—') + '</td>' +
                 '<td><span class="badge badge-blue">' + (s.slug || '') + '</span></td>' +
                 '<td>' + Number(s.price_monthly).toLocaleString() + ' XAF</td>' +
-                '<td>' + Number(s.price_yearly).toLocaleString() + ' XAF</td>' +
+                '<td>' + Number(s.price_yearly).toLocaleString()  + ' XAF</td>' +
                 '<td>' + (s.active_subscribers || 0) + '</td>' +
                 '<td>' + active + '</td>' +
                 '<td><div class="row-actions">' +
@@ -549,18 +631,18 @@
 
     window.editSubscription = async function (id) {
         try {
-            var res = await fetch(BASE + '/admin/subscriptions/' + id, { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/subscriptions/' + id, { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data && data.data.subscription) {
                 var s = data.data.subscription;
-                document.getElementById('subscription-id').value = s.id;
-                document.getElementById('sub-name').value = s.name || '';
-                document.getElementById('sub-slug').value = s.slug || '';
-                document.getElementById('sub-price-monthly').value = s.price_monthly || 0;
-                document.getElementById('sub-price-yearly').value = s.price_yearly || 0;
-                document.getElementById('sub-is-active').value = s.is_active;
-                document.getElementById('sub-description').value = s.description || '';
-                document.getElementById('modal-sub-title').textContent = 'Edit Plan';
+                document.getElementById('subscription-id').value      = s.id;
+                document.getElementById('sub-name').value             = s.name          || '';
+                document.getElementById('sub-slug').value             = s.slug          || '';
+                document.getElementById('sub-price-monthly').value    = s.price_monthly || 0;
+                document.getElementById('sub-price-yearly').value     = s.price_yearly  || 0;
+                document.getElementById('sub-is-active').value        = s.is_active;
+                document.getElementById('sub-description').value      = s.description   || '';
+                document.getElementById('modal-sub-title').textContent         = 'Edit Plan';
                 document.getElementById('subscription-submit-btn').textContent = 'Update Plan';
                 openModal('subscription');
             }
@@ -569,7 +651,7 @@
 
     window.submitSubscriptionForm = async function (e) {
         e.preventDefault();
-        var id = document.getElementById('subscription-id').value;
+        var id   = document.getElementById('subscription-id').value;
         var body = {
             name:          document.getElementById('sub-name').value,
             slug:          document.getElementById('sub-slug').value,
@@ -593,24 +675,24 @@
             if (res.ok) {
                 toast(msg); closeModal('subscription'); loadSubscriptions();
             } else {
-                toast(data.message || 'Error saving plan.', 'error');
+                toast((data && data.message) || 'Error saving plan.', 'error');
             }
         } catch (e) { toast('Server error.', 'error'); }
-        btn.disabled = false; btn.textContent = id ? 'Update Plan' : 'Create Plan';
+        btn.disabled    = false;
+        btn.textContent = id ? 'Update Plan' : 'Create Plan';
     };
 
     // ── Reports ──────────────────────────────────────────────────────────────────
 
     async function loadReports() {
-        var page = _pages.reports;
+        var page  = _pages.reports;
         var tbody = document.getElementById('full-reports-table-body');
         if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="td-loading">Loading…</td></tr>';
         try {
-            var res = await fetch(BASE + '/admin/reports?page=' + page + '&limit=10', { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/reports?page=' + page + '&limit=10', { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data) {
                 renderReportsTable(data.data.reports || []);
-                // Reports don't have pagination yet so just clear bar
                 var pbar = document.getElementById('reports-pagination');
                 if (pbar) pbar.innerHTML = '';
             }
@@ -642,7 +724,7 @@
 
     async function loadSettings() {
         try {
-            var res = await fetch(BASE + '/admin/settings', { headers: getHeaders() });
+            var res  = await fetch(BASE + '/admin/settings', { headers: getHeaders() });
             var data = await res.json();
             if (data && data.data && data.data.settings) {
                 var s = data.data.settings;
@@ -656,24 +738,23 @@
 
     window.saveSettings = async function (e) {
         e.preventDefault();
-        var form = document.getElementById('settings-form');
+        var form   = document.getElementById('settings-form');
         var inputs = form.querySelectorAll('input, select, textarea');
-        var body = {};
-        inputs.forEach(function (el) {
-            if (el.name) body[el.name] = el.value;
-        });
+        var body   = {};
+        inputs.forEach(function (el) { if (el.name) body[el.name] = el.value; });
         var btn = document.getElementById('settings-save-btn');
         btn.disabled = true; btn.textContent = 'Saving…';
         try {
-            var res = await fetch(BASE + '/admin/settings', { method: 'PUT', headers: getHeaders(), body: JSON.stringify(body) });
+            var res  = await fetch(BASE + '/admin/settings', { method: 'PUT', headers: getHeaders(), body: JSON.stringify(body) });
             var data = await res.json();
             if (res.ok) {
                 toast('Settings saved successfully.');
             } else {
-                toast(data.message || 'Error saving settings.', 'error');
+                toast((data && data.message) || 'Error saving settings.', 'error');
             }
         } catch (e) { toast('Server error.', 'error'); }
-        btn.disabled = false; btn.textContent = 'Save Settings';
+        btn.disabled    = false;
+        btn.textContent = 'Save Settings';
     };
 
     // ── Delete Confirmation ──────────────────────────────────────────────────────
@@ -703,7 +784,7 @@
             confirmOkBtn.addEventListener('click', async function () {
                 if (!_deletePayload) return;
                 var type = _deletePayload.type;
-                var id = _deletePayload.id;
+                var id   = _deletePayload.id;
                 var endpoints = {
                     user:         '/admin/users/',
                     language:     '/admin/languages/',
@@ -715,7 +796,7 @@
                 var btn = document.getElementById('confirm-ok-btn');
                 btn.disabled = true; btn.textContent = 'Deleting…';
                 try {
-                    var res = await fetch(BASE + ep + id, { method: 'DELETE', headers: getHeaders() });
+                    var res  = await fetch(BASE + ep + id, { method: 'DELETE', headers: getHeaders() });
                     var data = await res.json();
                     if (res.ok) {
                         toast('Deleted successfully.');
@@ -723,10 +804,11 @@
                         var reloaders = { user: loadUsers, language: loadLanguages, translation: loadTranslations, subscription: loadSubscriptions };
                         if (reloaders[type]) reloaders[type]();
                     } else {
-                        toast(data.message || 'Error deleting item.', 'error');
+                        toast((data && data.message) || 'Error deleting item.', 'error');
                     }
                 } catch (e) { toast('Server error.', 'error'); }
-                btn.disabled = false; btn.textContent = 'Delete';
+                btn.disabled    = false;
+                btn.textContent = 'Delete';
             });
         }
     });
@@ -742,26 +824,28 @@
         var m = document.getElementById('modal-' + name);
         if (!m) return;
         m.style.display = 'none';
-        // Reset form state
         var form = m.querySelector('form');
         if (form) form.reset();
-        // Reset hidden ID
         var hiddenId = m.querySelector('input[type="hidden"]');
         if (hiddenId) hiddenId.value = '';
-        // Reset title/button text
-        var title = m.querySelector('.modal-title');
+        var title     = m.querySelector('.modal-title');
         var submitBtn = m.querySelector('[type="submit"]');
         var origTitles = { 'modal-user': 'Add User', 'modal-language': 'Add Language', 'modal-subscription': 'Add Plan' };
         var origBtns   = { 'modal-user': 'Create User', 'modal-language': 'Create Language', 'modal-subscription': 'Create Plan' };
-        if (title && origTitles[m.id]) title.textContent = origTitles[m.id];
-        if (submitBtn && origBtns[m.id]) submitBtn.textContent = origBtns[m.id];
+        if (title     && origTitles[m.id]) title.textContent     = origTitles[m.id];
+        if (submitBtn && origBtns[m.id])   submitBtn.textContent = origBtns[m.id];
         if (m.id === 'modal-user') {
             document.getElementById('user-password-required').style.display = '';
-            document.getElementById('user-password-hint').style.display = 'none';
+            document.getElementById('user-password-hint').style.display     = 'none';
+            // Reset role badge display to default
+            var badge = document.getElementById('user-role-badge');
+            if (badge) { badge.textContent = 'user'; badge.className = 'badge badge-gray'; }
+            var note = document.getElementById('user-role-note');
+            if (note) note.style.display = '';
         }
     };
 
-    // Close modals when clicking outside
+    // Close modals when clicking the backdrop
     document.addEventListener('click', function (e) {
         if (e.target.classList.contains('modal-overlay')) {
             var id = e.target.id;
@@ -777,6 +861,14 @@
     }
     function iconTrash() {
         return '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>';
+    }
+    // Shield icon — grant admin
+    function iconShield() {
+        return '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
+    }
+    // Shield-off icon — revoke admin
+    function iconShieldOff() {
+        return '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 1.772-.455 3.38-1.31 4.738-2.464M3 3l18 18"/></svg>';
     }
 
     // ── SPA Navigation ───────────────────────────────────────────────────────────
@@ -801,14 +893,11 @@
                 e.preventDefault();
                 var target = this.getAttribute('data-target');
                 if (!target) return;
-
                 navItems.forEach(function (nav) { nav.classList.remove('active'); });
                 this.classList.add('active');
-
                 sections.forEach(function (sec) {
                     sec.style.display = sec.id === 'section-' + target ? 'block' : 'none';
                 });
-
                 _pages[target] = 1;
                 if (_sectionLoaders[target]) _sectionLoaders[target]();
             });
@@ -824,7 +913,7 @@
             });
         }
 
-        // Debounce helper exposed globally
+        // Expose debounce globally for inline oninput handlers
         window.debounce = debounce;
     }
 
@@ -853,13 +942,14 @@
         }
 
         Api.setUser(user);
+        _adminId = parseInt(user.id, 10) || 0;   // store for self-check in role buttons
 
         // Update header
         var initials = (user.username || 'A').substring(0, 1).toUpperCase();
         var avatarEl = document.getElementById('admin-avatar-initials');
         var nameEl   = document.getElementById('admin-profile-name');
         if (avatarEl) avatarEl.textContent = initials;
-        if (nameEl)   nameEl.textContent = user.username || 'Admin';
+        if (nameEl)   nameEl.textContent   = user.username || 'Admin';
 
         var wrap = document.getElementById('admin-wrap');
         if (wrap) wrap.style.display = 'block';

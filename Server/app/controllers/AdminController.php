@@ -117,7 +117,7 @@ class AdminController extends Controller
     {
         try {
             $users = $this->db->fetchAll('
-                SELECT id, username, email, full_name, role, is_active, created_at 
+                SELECT id, username, email, full_name, role, status, created_at 
                 FROM users 
                 ORDER BY created_at DESC 
                 LIMIT 100

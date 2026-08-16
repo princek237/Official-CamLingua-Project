@@ -147,6 +147,10 @@ class AuthController extends Controller
     {
         $user     = AuthMiddleware::user();
         $fullUser = $this->db->fetchOne('SELECT * FROM user_with_subscription WHERE id = ?', [$user['id']]);
+        // Fallback: if the view returns nothing (no active subscription row), use base record
+        if (empty($fullUser)) {
+            $fullUser = $user;
+        }
         Response::success(['user' => $this->sanitizeUser($fullUser)]);
     }
 

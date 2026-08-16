@@ -70,12 +70,24 @@ class AdminUserController extends Controller
     {
         $id = (int)($params['id'] ?? 0);
         try {
-            $user = $this->db->fetchOne(
-                'SELECT id, username, email, phone_number, full_name, bio, role, status,
-                        email_verified, created_at, role_assigned_by, role_assigned_at
-                 FROM users WHERE id = ?',
-                [$id]
-            );
+            // role_assigned_by / role_assigned_at are added by migration_role_audit.sql.
+            // We guard with a try/catch so the endpoint still works on un-migrated DBs.
+            try {
+                $user = $this->db->fetchOne(
+                    'SELECT id, username, email, phone_number, full_name, bio, role, status,
+                            email_verified, created_at, role_assigned_by, role_assigned_at
+                     FROM users WHERE id = ?',
+                    [$id]
+                );
+            } catch (\Exception $colErr) {
+                // Fallback: audit columns not yet present
+                $user = $this->db->fetchOne(
+                    'SELECT id, username, email, phone_number, full_name, bio, role, status,
+                            email_verified, created_at
+                     FROM users WHERE id = ?',
+                    [$id]
+                );
+            }
             if (!$user) {
                 Response::error('User not found.', 404);
             }
