@@ -1,5 +1,6 @@
 <?php
-$pageTitle  = 'About – CamLingua';
+require_once 'includes/cms_helper.php';
+$pageTitle  = 'About – ' . cms('site_name');
 $extraCss   = ['about.css'];
 $activePage = 'about';
 $extraJs    = ['about.js'];
@@ -14,8 +15,8 @@ include 'includes/header.php';
         <div class="hero-grid">
             <div class="reveal">
                 <span class="badge-pill">Our Story</span>
-                <h1 class="hero-title">Building bridges<br><span class="green">through language.</span></h1>
-                <p class="hero-desc">CamLingua is a Cameroonian language translation system built to break language barriers and promote access to linguistic heritage for our cultures.</p>
+                <h1 class="hero-title"><?= cms_nl2br('about_hero_title') ?></h1>
+                <p class="hero-desc"><?= cms('about_hero_desc') ?></p>
                 <div class="hero-actions">
                     <a href="#mission" class="btn-primary">Our Mission</a>
                     <a href="#team"    class="btn-outline">Meet the Team</a>
@@ -29,11 +30,11 @@ include 'includes/header.php';
                     </div>
                     <div class="float-badge badge-langs">
                         <div class="badge-icon green"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10"/></svg></div>
-                        <div class="badge-meta"><p>Languages</p><p>20+</p></div>
+                        <div class="badge-meta"><p>Languages</p><p><?= cms('about_stats_langs') ?></p></div>
                     </div>
                     <div class="float-badge badge-trans delay">
                         <div class="badge-icon yellow"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-                        <div class="badge-meta"><p>Translations</p><p>50K+</p></div>
+                        <div class="badge-meta"><p>Translations</p><p><?= cms('about_stats_trans') ?></p></div>
                     </div>
                 </div>
             </div>
@@ -48,9 +49,9 @@ include 'includes/header.php';
             <div class="story-text reveal">
                 <span class="badge-pill">How We Started</span>
                 <h2 class="section-title" style="text-align:left;margin-bottom:1.25rem;">Born from a passion for <span class="green">cultural preservation</span></h2>
-                <p>CamLingua was born from a simple observation: millions of Cameroonians speak rich, vibrant languages — Ewondo, Bassa, Duala, Bamileke, Fulfulde — yet digital tools barely recognize their existence.</p>
-                <p>We started as a small academic project determined to change that. By combining the power of Meta's NLLB-200 AI model with a community-driven dictionary, we created a system that not only translates words but carries the culture within them.</p>
-                <p>Today, CamLingua supports major Cameroonian languages and dialects. We believe language is identity — and every word preserved is a story kept alive.</p>
+                <p><?= cms('about_story_p1') ?></p>
+                <p><?= cms('about_story_p2') ?></p>
+                <p><?= cms('about_story_p3') ?></p>
             </div>
             <div class="reveal reveal-d1">
                 <div class="timeline">
@@ -70,17 +71,23 @@ include 'includes/header.php';
         <div class="section-header reveal">
             <span class="badge-pill">What Drives Us</span>
             <h2 class="section-title">Our Mission, Vision &amp; Values</h2>
-            <p class="section-desc">Three pillars that guide everything we build at CamLingua.</p>
+            <p class="section-desc">Three pillars that guide everything we build at <?= cms('site_name') ?>.</p>
         </div>
         <div class="mvv-grid">
             <div class="mvv-card reveal">
                 <div class="mvv-icon green"><svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-                <div><h3 class="mvv-title">Our Mission</h3><p class="mvv-body">To make every Cameroonian language accessible in the digital world. We strive to break language barriers and promote inter-cultural communication through accurate, accessible AI-powered translations.</p></div>
+                <div>
+                    <h3 class="mvv-title"><?= cms('about_mission_title') ?></h3>
+                    <p class="mvv-body"><?= cms('about_mission_text') ?></p>
+                </div>
                 <div class="mvv-footer"><p class="mvv-tags">Accessibility · Accuracy · Inclusion</p></div>
             </div>
             <div class="mvv-card dark reveal reveal-d1">
                 <div class="mvv-icon glass"><svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div>
-                <div><h3 class="mvv-title">Our Vision</h3><p class="mvv-body">A world that celebrates and preserves every language. We envision a future where no Cameroonian language is left behind — where grandparents and grandchildren can communicate freely across generations and distances.</p></div>
+                <div>
+                    <h3 class="mvv-title"><?= cms('about_vision_title') ?></h3>
+                    <p class="mvv-body"><?= cms('about_vision_text') ?></p>
+                </div>
                 <div class="mvv-footer"><p class="mvv-tags">Preservation · Future · Unity</p></div>
             </div>
             <div class="mvv-card reveal reveal-d2">
@@ -97,7 +104,7 @@ include 'includes/header.php';
         <div class="section-header reveal">
             <span class="badge-pill">Languages We Support</span>
             <h2 class="section-title">Bridging Cameroon's linguistic diversity</h2>
-            <p class="section-desc">From the Adamawa highlands to the coastal cities, CamLingua speaks the languages of Cameroon.</p>
+            <p class="section-desc">From the Adamawa highlands to the coastal cities, <?= cms('site_name') ?> speaks the languages of Cameroon.</p>
         </div>
         <div class="lang-grid reveal">
             <div class="lang-pill"><span class="lang-flag">🇨🇲</span><span class="lang-name">Ewondo</span><span class="lang-sub">Cameroon</span></div>
@@ -114,7 +121,7 @@ include 'includes/header.php';
 <section id="team" class="section gray">
     <div class="container">
         <div class="section-header reveal">
-            <span class="badge-pill">The People Behind CamLingua</span>
+            <span class="badge-pill">The People Behind <?= cms('site_name') ?></span>
             <h2 class="section-title">Meet our team</h2>
             <p class="section-desc">A passionate group of engineers, linguists, and designers united by a love for Cameroonian culture.</p>
         </div>
@@ -130,12 +137,12 @@ include 'includes/header.php';
 <section id="stats" class="stats-section">
     <div class="map-silhouette" aria-hidden="true"></div>
     <div class="container">
-        <div class="stats-heading reveal"><h2>CamLingua by the numbers</h2><p>Real impact across Cameroon and beyond.</p></div>
+        <div class="stats-heading reveal"><h2><?= cms('site_name') ?> by the numbers</h2><p>Real impact across Cameroon and beyond.</p></div>
         <div class="stats-grid">
-            <div class="stat-card reveal"><p class="stat-number" data-target="20" data-suffix="+">0+</p><p class="stat-label">Languages Supported</p></div>
-            <div class="stat-card reveal reveal-d1"><p class="stat-number" data-target="50" data-suffix="K+">0K+</p><p class="stat-label">Translations Completed</p></div>
-            <div class="stat-card reveal reveal-d2"><p class="stat-number" data-target="10" data-suffix="K+">0K+</p><p class="stat-label">Happy Users</p></div>
-            <div class="stat-card reveal reveal-d3"><p class="stat-number" data-target="100" data-suffix="%">0%</p><p class="stat-label">Made in Cameroon</p></div>
+            <div class="stat-card reveal"><p class="stat-number"><?= cms('about_stats_langs') ?></p><p class="stat-label">Languages Supported</p></div>
+            <div class="stat-card reveal reveal-d1"><p class="stat-number"><?= cms('about_stats_trans') ?></p><p class="stat-label">Translations Completed</p></div>
+            <div class="stat-card reveal reveal-d2"><p class="stat-number"><?= cms('about_stats_users') ?></p><p class="stat-label">Happy Users</p></div>
+            <div class="stat-card reveal reveal-d3"><p class="stat-number">100%</p><p class="stat-label">Made in Cameroon</p></div>
         </div>
     </div>
 </section>
@@ -145,8 +152,8 @@ include 'includes/header.php';
     <div class="container">
         <div class="cta-box reveal">
             <span class="badge-pill">Join Us</span>
-            <h2 class="cta-title">Ready to bridge the gap?</h2>
-            <p class="cta-desc">Start translating today or contribute to our community dictionary. Every word you add helps preserve a language.</p>
+            <h2 class="cta-title"><?= cms('about_cta_title') ?></h2>
+            <p class="cta-desc"><?= cms('about_cta_desc') ?></p>
             <div class="cta-actions">
                 <a href="login.php#signup" class="btn-primary">Start Translating — It's Free</a>
                 <a href="translator.php"   class="btn-outline">Contribute to Dictionary</a>

@@ -55,6 +55,10 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
                     Reports
                 </a>
                 <div class="admin-nav-spacer"></div>
+                <a href="#" class="admin-nav-item" data-target="content" id="nav-content">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    Content
+                </a>
                 <a href="#" class="admin-nav-item" data-target="settings" id="nav-settings">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     Settings
@@ -365,6 +369,243 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
                     </article>
                 </div>
 
+                <!-- ===== CONTENT MANAGEMENT SECTION ===== -->
+                <div id="section-content" class="admin-section" style="display:none;">
+                    <div class="section-header">
+                        <h1 class="admin-page-title">Content Management</h1>
+                        <a href="index.php" target="_blank" rel="noopener" class="btn-secondary" style="display:inline-flex;align-items:center;gap:6px;font-size:.85rem;">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                            Preview Site
+                        </a>
+                    </div>
+
+                    <!-- Tab bar -->
+                    <div class="cms-tabs" role="tablist" aria-label="Content sections">
+                        <button class="cms-tab active" role="tab" aria-selected="true"  aria-controls="cms-panel-homepage"     data-cms-tab="homepage"     onclick="switchCmsTab('homepage')">Homepage</button>
+                        <button class="cms-tab"        role="tab" aria-selected="false" aria-controls="cms-panel-about"        data-cms-tab="about"        onclick="switchCmsTab('about')">About</button>
+                        <button class="cms-tab"        role="tab" aria-selected="false" aria-controls="cms-panel-contact"      data-cms-tab="contact"      onclick="switchCmsTab('contact')">Contact</button>
+                        <button class="cms-tab"        role="tab" aria-selected="false" aria-controls="cms-panel-pricing"      data-cms-tab="pricing"      onclick="switchCmsTab('pricing')">Pricing</button>
+                        <button class="cms-tab"        role="tab" aria-selected="false" aria-controls="cms-panel-global"       data-cms-tab="global"       onclick="switchCmsTab('global')">Global / Brand</button>
+                    </div>
+
+                    <!-- ── Homepage panel ───────────────────────────────── -->
+                    <div id="cms-panel-homepage" class="cms-panel" role="tabpanel">
+                        <form class="cms-form" onsubmit="saveCmsPanel(event,'homepage')">
+                            <div class="cms-form-grid">
+                                <div class="form-group form-col-2">
+                                    <label for="cms-home_hero_badge">Hero Badge Text</label>
+                                    <input type="text" id="cms-home_hero_badge" name="home_hero_badge" placeholder="Cameroonian Language Translation System">
+                                    <p class="form-hint">Small label above the main headline.</p>
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-home_hero_title">Hero Headline</label>
+                                    <textarea id="cms-home_hero_title" name="home_hero_title" rows="3" placeholder="Translate. Connect.&#10;Preserve Cameroon's&#10;Languages."></textarea>
+                                    <p class="form-hint">Main headline. Use a new line for each line break.</p>
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-home_hero_desc">Hero Description</label>
+                                    <textarea id="cms-home_hero_desc" name="home_hero_desc" rows="2"></textarea>
+                                    <p class="form-hint">Subtitle paragraph below the headline.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-home_hero_btn1">Primary Button Label</label>
+                                    <input type="text" id="cms-home_hero_btn1" name="home_hero_btn1" placeholder="Start Translating">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-home_hero_btn2">Secondary Button Label</label>
+                                    <input type="text" id="cms-home_hero_btn2" name="home_hero_btn2" placeholder="Explore Languages">
+                                </div>
+                                <div class="form-group"><label for="cms-home_feat1_title">Feature 1 Title</label><input type="text" id="cms-home_feat1_title" name="home_feat1_title"></div>
+                                <div class="form-group"><label for="cms-home_feat1_desc">Feature 1 Description</label><input type="text" id="cms-home_feat1_desc" name="home_feat1_desc"></div>
+                                <div class="form-group"><label for="cms-home_feat2_title">Feature 2 Title</label><input type="text" id="cms-home_feat2_title" name="home_feat2_title"></div>
+                                <div class="form-group"><label for="cms-home_feat2_desc">Feature 2 Description</label><input type="text" id="cms-home_feat2_desc" name="home_feat2_desc"></div>
+                                <div class="form-group"><label for="cms-home_feat3_title">Feature 3 Title</label><input type="text" id="cms-home_feat3_title" name="home_feat3_title"></div>
+                                <div class="form-group"><label for="cms-home_feat3_desc">Feature 3 Description</label><input type="text" id="cms-home_feat3_desc" name="home_feat3_desc"></div>
+                                <div class="form-group"><label for="cms-home_feat4_title">Feature 4 Title</label><input type="text" id="cms-home_feat4_title" name="home_feat4_title"></div>
+                                <div class="form-group"><label for="cms-home_feat4_desc">Feature 4 Description</label><input type="text" id="cms-home_feat4_desc" name="home_feat4_desc"></div>
+                            </div>
+                            <div class="form-actions"><button type="submit" class="btn-primary" id="cms-save-homepage">Save Homepage</button></div>
+                        </form>
+                    </div>
+
+                    <!-- ── About panel ──────────────────────────────────── -->
+                    <div id="cms-panel-about" class="cms-panel" style="display:none;" role="tabpanel">
+                        <form class="cms-form" onsubmit="saveCmsPanel(event,'about')">
+                            <div class="cms-form-grid">
+                                <div class="form-group form-col-2">
+                                    <label for="cms-about_hero_title">Hero Headline</label>
+                                    <textarea id="cms-about_hero_title" name="about_hero_title" rows="2"></textarea>
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-about_hero_desc">Hero Subtitle</label>
+                                    <textarea id="cms-about_hero_desc" name="about_hero_desc" rows="2"></textarea>
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-about_story_p1">Story Paragraph 1</label>
+                                    <textarea id="cms-about_story_p1" name="about_story_p1" rows="3"></textarea>
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-about_story_p2">Story Paragraph 2</label>
+                                    <textarea id="cms-about_story_p2" name="about_story_p2" rows="3"></textarea>
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-about_story_p3">Story Paragraph 3</label>
+                                    <textarea id="cms-about_story_p3" name="about_story_p3" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_mission_title">Mission Title</label>
+                                    <input type="text" id="cms-about_mission_title" name="about_mission_title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_mission_text">Mission Text</label>
+                                    <textarea id="cms-about_mission_text" name="about_mission_text" rows="2"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_vision_title">Vision Title</label>
+                                    <input type="text" id="cms-about_vision_title" name="about_vision_title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_vision_text">Vision Text</label>
+                                    <textarea id="cms-about_vision_text" name="about_vision_text" rows="2"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_stats_langs">Languages Stat</label>
+                                    <input type="text" id="cms-about_stats_langs" name="about_stats_langs" placeholder="20+">
+                                    <p class="form-hint">Displayed in the stats strip (e.g. "20+")</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_stats_trans">Translations Stat</label>
+                                    <input type="text" id="cms-about_stats_trans" name="about_stats_trans" placeholder="50K+">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_stats_users">Users Stat</label>
+                                    <input type="text" id="cms-about_stats_users" name="about_stats_users" placeholder="10K+">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-about_cta_title">CTA Heading</label>
+                                    <input type="text" id="cms-about_cta_title" name="about_cta_title">
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-about_cta_desc">CTA Subtext</label>
+                                    <textarea id="cms-about_cta_desc" name="about_cta_desc" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions"><button type="submit" class="btn-primary" id="cms-save-about">Save About Page</button></div>
+                        </form>
+                    </div>
+
+                    <!-- ── Contact panel ────────────────────────────────── -->
+                    <div id="cms-panel-contact" class="cms-panel" style="display:none;" role="tabpanel">
+                        <form class="cms-form" onsubmit="saveCmsPanel(event,'contact')">
+                            <div class="cms-form-grid">
+                                <div class="form-group">
+                                    <label for="cms-contact_hero_title">Page Heading</label>
+                                    <input type="text" id="cms-contact_hero_title" name="contact_hero_title" placeholder="Get in touch">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-contact_hero_desc">Page Subtitle</label>
+                                    <textarea id="cms-contact_hero_desc" name="contact_hero_desc" rows="2"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-contact_email">Contact Email</label>
+                                    <input type="email" id="cms-contact_email" name="contact_email" placeholder="support@camlingua.com">
+                                    <p class="form-hint">Shown on the contact page and used for form submissions.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-contact_phone">Phone Number</label>
+                                    <input type="text" id="cms-contact_phone" name="contact_phone" placeholder="+237 6 12 34 56 78">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-contact_location">Office Location</label>
+                                    <input type="text" id="cms-contact_location" name="contact_location" placeholder="Buea, Cameroon">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-contact_response_time">Response Time Message</label>
+                                    <input type="text" id="cms-contact_response_time" name="contact_response_time" placeholder="We typically reply within 24 hours">
+                                </div>
+                            </div>
+                            <div class="form-actions"><button type="submit" class="btn-primary" id="cms-save-contact">Save Contact Info</button></div>
+                        </form>
+                    </div>
+
+                    <!-- ── Pricing panel ────────────────────────────────── -->
+                    <div id="cms-panel-pricing" class="cms-panel" style="display:none;" role="tabpanel">
+                        <form class="cms-form" onsubmit="saveCmsPanel(event,'pricing')">
+                            <div class="cms-form-grid">
+                                <div class="form-group">
+                                    <label for="cms-pricing_hero_badge">Badge Text</label>
+                                    <input type="text" id="cms-pricing_hero_badge" name="pricing_hero_badge" placeholder="Simple, Transparent Pricing">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-pricing_hero_title">Hero Headline</label>
+                                    <input type="text" id="cms-pricing_hero_title" name="pricing_hero_title" placeholder="Translate without limits">
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-pricing_hero_desc">Hero Subtitle</label>
+                                    <textarea id="cms-pricing_hero_desc" name="pricing_hero_desc" rows="2"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-pricing_cta_title">Bottom CTA Heading</label>
+                                    <input type="text" id="cms-pricing_cta_title" name="pricing_cta_title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-pricing_cta_desc">Bottom CTA Subtext</label>
+                                    <textarea id="cms-pricing_cta_desc" name="pricing_cta_desc" rows="2"></textarea>
+                                </div>
+                                <p class="form-hint form-col-2" style="margin:0;">
+                                    <strong>FAQ items</strong> — question and answer pairs shown on the pricing page.
+                                </p>
+                                <div class="form-group"><label for="cms-pricing_faq_1_q">FAQ 1 — Question</label><input type="text" id="cms-pricing_faq_1_q" name="pricing_faq_1_q"></div>
+                                <div class="form-group"><label for="cms-pricing_faq_1_a">FAQ 1 — Answer</label><textarea id="cms-pricing_faq_1_a" name="pricing_faq_1_a" rows="2"></textarea></div>
+                                <div class="form-group"><label for="cms-pricing_faq_2_q">FAQ 2 — Question</label><input type="text" id="cms-pricing_faq_2_q" name="pricing_faq_2_q"></div>
+                                <div class="form-group"><label for="cms-pricing_faq_2_a">FAQ 2 — Answer</label><textarea id="cms-pricing_faq_2_a" name="pricing_faq_2_a" rows="2"></textarea></div>
+                                <div class="form-group"><label for="cms-pricing_faq_3_q">FAQ 3 — Question</label><input type="text" id="cms-pricing_faq_3_q" name="pricing_faq_3_q"></div>
+                                <div class="form-group"><label for="cms-pricing_faq_3_a">FAQ 3 — Answer</label><textarea id="cms-pricing_faq_3_a" name="pricing_faq_3_a" rows="2"></textarea></div>
+                                <p class="form-hint form-col-2" style="margin:4px 0 0;">
+                                    To edit plan names, descriptions and prices go to <a href="#" onclick="showSection('subscriptions');return false;" style="color:#15803d;">Subscriptions</a>.
+                                </p>
+                            </div>
+                            <div class="form-actions"><button type="submit" class="btn-primary" id="cms-save-pricing">Save Pricing Page</button></div>
+                        </form>
+                    </div>
+
+                    <!-- ── Global / Brand panel ─────────────────────────── -->
+                    <div id="cms-panel-global" class="cms-panel" style="display:none;" role="tabpanel">
+                        <form class="cms-form" onsubmit="saveCmsPanel(event,'global')">
+                            <div class="cms-form-grid">
+                                <div class="form-group">
+                                    <label for="cms-site_name">Site Name</label>
+                                    <input type="text" id="cms-site_name" name="site_name" placeholder="CamLingua">
+                                    <p class="form-hint">Appears in the browser tab, header, and footer.</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-site_tagline">Site Tagline</label>
+                                    <input type="text" id="cms-site_tagline" name="site_tagline" placeholder="Translate. Connect. Preserve Cameroon's Languages.">
+                                    <p class="form-hint">Short tagline shown in the footer.</p>
+                                </div>
+                                <div class="form-group form-col-2">
+                                    <label for="cms-platform_logo">Logo URL</label>
+                                    <input type="url" id="cms-platform_logo" name="platform_logo" placeholder="https://…">
+                                    <p class="form-hint">Leave blank to use the default logo file (assets/logo.png).</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-social_github">GitHub URL</label>
+                                    <input type="url" id="cms-social_github" name="social_github" placeholder="https://github.com/…">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-social_twitter">Twitter / X URL</label>
+                                    <input type="url" id="cms-social_twitter" name="social_twitter" placeholder="https://twitter.com/…">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cms-social_linkedin">LinkedIn URL</label>
+                                    <input type="url" id="cms-social_linkedin" name="social_linkedin" placeholder="https://linkedin.com/company/…">
+                                </div>
+                            </div>
+                            <div class="form-actions"><button type="submit" class="btn-primary" id="cms-save-global">Save Global Settings</button></div>
+                        </form>
+                    </div>
+                </div>
+
                 <!-- ===== SETTINGS SECTION ===== -->
                 <div id="section-settings" class="admin-section" style="display:none;">
                     <div class="section-header">
@@ -603,6 +844,47 @@ $pageTitle  = 'CamLingua – Admin Dashboard';
 .btn-role-grant:hover  { background: #dcfce7; }
 .btn-role-revoke:hover { background: #fee2e2; }
 .btn-role-self   { opacity: .4; cursor: not-allowed; }
+
+/* ── CMS tabs ── */
+.cms-tabs {
+    display: flex;
+    gap: 4px;
+    background: #f3f4f6;
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.cms-tab {
+    flex: 1;
+    min-width: 100px;
+    padding: 8px 16px;
+    font-size: .875rem;
+    font-weight: 500;
+    color: #6b7280;
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    white-space: nowrap;
+}
+.cms-tab:hover  { background: #e5e7eb; color: #111827; }
+.cms-tab.active { background: #fff; color: #15803d; font-weight: 600;
+                   box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.cms-panel { background: #fff; border-radius: 12px; padding: 28px;
+              border: 1px solid #e5e7eb; }
+.cms-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 24px;
+}
+.cms-form-grid .form-col-2 { grid-column: 1 / -1; }
+@media (max-width: 640px) {
+    .cms-form-grid { grid-template-columns: 1fr; }
+    .cms-form-grid .form-col-2 { grid-column: 1; }
+    .cms-tab { flex: unset; width: 100%; }
+}
 </style>
 </body>
 </html>

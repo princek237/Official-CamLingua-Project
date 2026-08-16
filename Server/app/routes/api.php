@@ -18,6 +18,7 @@ use App\Controllers\AdminLanguageController;
 use App\Controllers\AdminTranslationController;
 use App\Controllers\AdminSubscriptionController;
 use App\Controllers\AdminSettingsController;
+use App\Controllers\AdminCMSController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\AdminMiddleware;
 
@@ -42,6 +43,9 @@ $router->post('/api/contact', [ContactController::class, 'submit']);
 
 // Plans listing (public)
 $router->get('/api/subscriptions', [UserController::class, 'getPlans']);
+
+// CMS content (public — no token needed, used by all frontend pages)
+$router->get('/api/cms', [AdminCMSController::class, 'publicIndex']);
 
 // CamPay webhook — no JWT auth, called server-to-server by CamPay
 $router->post('/api/payment/webhook', [PaymentController::class, 'webhook']);
@@ -113,6 +117,10 @@ $router->delete('/api/admin/subscriptions/{id}', [AdminSubscriptionController::c
 // Admin Settings
 $router->get('/api/admin/settings', [AdminSettingsController::class, 'index'],  $adminMiddleware);
 $router->put('/api/admin/settings', [AdminSettingsController::class, 'update'], $adminMiddleware);
+
+// Admin CMS — editable website content (extends the settings table)
+$router->get('/api/admin/cms', [AdminCMSController::class, 'index'],  $adminMiddleware);
+$router->put('/api/admin/cms', [AdminCMSController::class, 'update'], $adminMiddleware);
 
 // Reports (contact messages — read only)
 $router->get('/api/admin/reports', [AdminController::class, 'getReportsList'], $adminMiddleware);

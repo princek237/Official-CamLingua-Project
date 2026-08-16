@@ -1,7 +1,13 @@
 <?php
-$pageTitle = $pageTitle ?? 'CamLingua - Bridge the Language Gap';
-$extraCss = $extraCss ?? [];
+$pageTitle  = $pageTitle  ?? 'CamLingua - Bridge the Language Gap';
+$extraCss   = $extraCss   ?? [];
 $activePage = $activePage ?? '';
+
+// Load CMS content (safe — uses defaults if DB is unreachable)
+require_once __DIR__ . '/cms_helper.php';
+
+$_siteName = cms('site_name');
+$_logoUrl  = cms('platform_logo', false); // raw URL, may be empty
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,8 +25,12 @@ $activePage = $activePage ?? '';
     <header class="site-header">
         <div class="container nav-inner">
             <a href="index.php" class="logo">
-                <img src="assets/logo.png" alt="CamLingua" class="logo-img">
-                <span class="logo-text">Cam<span>Lingua</span></span>
+                <?php if (!empty($_logoUrl)): ?>
+                    <img src="<?= htmlspecialchars($_logoUrl) ?>" alt="<?= $_siteName ?>" class="logo-img">
+                <?php else: ?>
+                    <img src="assets/logo.png" alt="<?= $_siteName ?>" class="logo-img">
+                <?php endif; ?>
+                <span class="logo-text"><?= $_siteName ?></span>
             </a>
             <nav class="nav-links" id="mainNav">
                 <a href="index.php" class="<?= $activePage === 'index' ? 'active' : '' ?>">Home</a>

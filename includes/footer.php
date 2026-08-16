@@ -1,12 +1,24 @@
-<?php $extraJs = $extraJs ?? []; ?>
+<?php
+$extraJs = $extraJs ?? [];
+// $CMS and cms() are already loaded by header.php via cms_helper.php
+// Guard in case footer is included on a page that skipped header (edge case)
+if (!function_exists('cms')) { require_once __DIR__ . '/cms_helper.php'; }
+$_footerName    = cms('site_name');
+$_footerTagline = cms('site_tagline');
+$_footerLogoUrl = cms('platform_logo', false);
+?>
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
                 <a href="index.php" class="logo">
-                    <img src="assets/logo.png" alt="CamLingua" class="logo-img">
-                    <span class="logo-text">Cam<span>Lingua</span></span>
+                    <?php if (!empty($_footerLogoUrl)): ?>
+                        <img src="<?= htmlspecialchars($_footerLogoUrl) ?>" alt="<?= $_footerName ?>" class="logo-img">
+                    <?php else: ?>
+                        <img src="assets/logo.png" alt="<?= $_footerName ?>" class="logo-img">
+                    <?php endif; ?>
+                    <span class="logo-text"><?= $_footerName ?></span>
                 </a>
-                <p class="footer-tagline">Translate. Connect. Preserve Cameroon's Languages.</p>
+                <p class="footer-tagline"><?= $_footerTagline ?></p>
             </div>
             <nav class="footer-col">
                 <p class="footer-col-heading">Product</p>
@@ -28,7 +40,7 @@
             </nav>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 CamLingua. All rights reserved. Made with ❤️ in Cameroon.</p>
+            <p>&copy; <?= date('Y') ?> <?= $_footerName ?>. All rights reserved. Made with ❤️ in Cameroon.</p>
         </div>
     </footer>
 

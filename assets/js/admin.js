@@ -881,6 +881,7 @@
         history:       loadHistory,
         subscriptions: loadSubscriptions,
         reports:       loadReports,
+        content:       loadCmsContent,
         settings:      loadSettings,
     };
 
@@ -960,4 +961,128 @@
     }
 
     document.addEventListener('DOMContentLoaded', init);
+
+    // ── CMS Content Management ────────────────────────────────────────────────────
+
+    // Maps each tab name to the field keys it owns
+    var _cmsPanelKeys = {
+        homepage: [
+            'home_hero_badge','home_hero_title','home_hero_desc','home_hero_btn1','home_hero_btn2',
+            'home_feat1_title','home_feat1_desc','home_feat2_title','home_feat2_desc',
+            'home_feat3_title','home_feat3_desc','home_feat4_title','home_feat4_desc'
+        ],
+        about: [
+            'about_hero_title','about_hero_desc',
+            'about_story_p1','about_story_p2','about_story_p3',
+            'about_mission_title','about_mission_text',
+            'about_vision_title','about_vision_text',
+            'about_stats_langs','about_stats_trans','about_stats_users',
+            'about_cta_title','about_cta_desc'
+        ],
+        contact: [
+            'contact_hero_title','contact_hero_desc',
+            'contact_email','contact_phone','contact_location','contact_response_time'
+        ],
+        pricing: [
+            'pricing_hero_badge','pricing_hero_title','pricing_hero_desc',
+            'pricing_cta_title','pricing_cta_desc',
+            'pricing_faq_1_q','pricing_faq_1_a',
+            'pricing_faq_2_q','pricing_faq_2_a',
+            'pricing_faq_3_q','pricing_faq_3_a'
+        ],
+        global: [
+            'site_name','site_tagline','platform_logo',
+            'social_github','social_twitter','social_linkedin'
+        ]
+    };
+
+    // Cached content loaded from the API
+    var _cmsData = {};
+
+    async function loadCmsContent() {
+        try {
+            var res  = await fetch(BASE + '/admin/cms', { headers: getHeaders() });
+            var data = await res.json();
+            if (data && data.data && data.data.content) {
+                _cmsData = data.data.content;
+                // Populate whichever panel is currently visible
+                var activeTab = document.querySelector('.cms-tab.active');
+                if (activeTab) {
+                    fillCmsPanel(activeTab.getAttribute('data-cms-tab'));
+                }
+            }
+        } catch (e) { console.error('CMS load error:', e); }
+    }
+
+    function fillCmsPanel(tabName) {
+        var keys = _cmsPanelKeys[tabName] || [];
+        keys.forEach(function (key) {
+            var el = document.getElementById('cms-' + key);
+            if (!el) return;
+            var val = _cmsData[key] ? (_cmsData[key].value !== undefined ? _cmsData[key].value : _cmsData[key]) : '';
+            el.value = val;
+        });
+    }
+
+    window.switchCmsTab = function (tabName) {
+        // Update tab button states
+        document.querySelectorAll('.cms-tab').forEach(function (btn) {
+            var isActive = btn.getAttribute('data-cms-tab') === tabName;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive);
+        });
+        // Show/hide panels
+        document.querySelectorAll('.cms-panel').forEach(function (panel) {
+            panel.style.display = panel.id === 'cms-panel-' + tabName ? 'block' : 'none';
+        });
+        // Fill fields from cache (or trigger a load if cache is empty)
+        if (Object.keys(_cmsData).length === 0) {
+            loadCmsContent();
+        } else {
+            fillCmsPanel(tabName);
+        }
+    };
+
+    window.saveCmsPanel = async function (e, panelName) {
+        e.preventDefault();
+        var keys   = _cmsPanelKeys[panelName] || [];
+        var body   = {};
+        keys.forEach(function (key) {
+            var el = document.getElementById('cms-' + key);
+            if (el) body[key] = el.value;
+        });
+        var btnId = 'cms-save-' + panelName;
+        var btn   = document.getElementById(btnId);
+        if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+        try {
+            var res  = await fetch(BASE + '/admin/cms', { method: 'PUT', headers: getHeaders(), body: JSON.stringify(body) });
+            var data = await res.json();
+            if (res.ok) {
+                toast('Content saved — changes are live on the website.');
+                // Refresh cache
+                Object.keys(body).forEach(function (k) {
+                    if (_cmsData[k]) { _cmsData[k].value = body[k]; }
+                    else             { _cmsData[k] = { value: body[k] }; }
+                });
+            } else {
+                toast((data && data.message) || 'Error saving content.', 'error');
+            }
+        } catch (err) { toast('Server error.', 'error'); }
+        if (btn) { btn.disabled = false; btn.textContent = _cmsBtnLabels[panelName] || 'Save'; }
+    };
+
+    var _cmsBtnLabels = {
+        homepage: 'Save Homepage',
+        about:    'Save About Page',
+        contact:  'Save Contact Info',
+        pricing:  'Save Pricing Page',
+        global:   'Save Global Settings'
+    };
+
+    // Allow other parts of the SPA to jump to a named section
+    window.showSection = function (sectionName) {
+        var target = document.querySelector('[data-target="' + sectionName + '"]');
+        if (target) target.click();
+    };
+
 })();

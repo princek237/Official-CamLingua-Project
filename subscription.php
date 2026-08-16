@@ -1,5 +1,58 @@
 <?php
-$pageTitle  = 'CamLingua – Choose Your Plan';
+require_once 'includes/cms_helper.php';
+
+// Load subscription plans from DB
+$_plans = [];
+try {
+    $envPath = __DIR__ . '/Server/.env';
+    $envVars = [];
+    if (file_exists($envPath)) {
+        foreach (file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+            $line = trim($line);
+            if ($line === '' || $line[0] === '#' || strpos($line, '=') === false) continue;
+            [$k, $v] = explode('=', $line, 2);
+            $k = trim($k); $v = trim($v);
+            if (strlen($v) >= 2 && (($v[0] === '"' && $v[-1] === '"') || ($v[0] === "'" && $v[-1] === "'"))) {
+                $v = substr($v, 1, -1);
+            }
+            $envVars[$k] = $v;
+        }
+    }
+    $pdo = new PDO(
+        "mysql:host={$envVars['DB_HOST']};port={$envVars['DB_PORT']};dbname={$envVars['DB_NAME']};charset=utf8mb4",
+        $envVars['DB_USER'], $envVars['DB_PASS'],
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+    );
+    $rows = $pdo->query("SELECT * FROM subscriptions WHERE is_active = 1 ORDER BY price_monthly ASC")->fetchAll();
+    foreach ($rows as $row) {
+        $row['features_arr'] = json_decode($row['features'] ?? '[]', true) ?: [];
+        $_plans[$row['slug']] = $row;
+    }
+} catch (\Exception $e) {
+    $_plans = [];
+}
+
+// Fallback plan data when DB is unavailable
+$_planDefaults = [
+    'free'    => ['name' => 'Free',    'icon' => '🌿', 'price_monthly' => 0,     'price_yearly' => 0,      'description' => 'Perfect for occasional translations and language exploration.',  'features_arr' => ['Up to 500 characters / translation','5 translations per day','Access to 5 Cameroonian languages','Basic translation history (7 days)']],
+    'pro'     => ['name' => 'Pro',     'icon' => '⭐', 'price_monthly' => 9900,  'price_yearly' => 95040,  'description' => 'For students, researchers, and active language enthusiasts.',      'features_arr' => ['Unlimited characters per translation','Unlimited translations','Access to all 20+ languages','Full translation history (90 days)','Audio pronunciation','Priority support']],
+    'premium' => ['name' => 'Premium', 'icon' => '💎', 'price_monthly' => 19900, 'price_yearly' => 190080, 'description' => 'For developers, institutions, and businesses integrating our API.', 'features_arr' => ['Everything in Pro','Full REST API access','Unlimited translation history','Custom glossaries & phrases','Dedicated account manager','Team collaboration (up to 10 seats)']],
+];
+
+foreach ($_planDefaults as $slug => $defaults) {
+    if (!isset($_plans[$slug])) {
+        $_plans[$slug] = array_merge($defaults, ['slug' => $slug, 'is_active' => 1]);
+    } else {
+        // Merge icon from defaults (not stored in DB)
+        $_plans[$slug]['icon'] = $defaults['icon'];
+    }
+}
+
+function fmtPrice($n) {
+    return number_format((float)$n, 0, '.', ',');
+}
+
+$pageTitle  = cms('site_name') . ' – Choose Your Plan';
 $extraCss   = ['pages.css'];
 $extraJs    = ['subscription.js'];
 $activePage = 'pricing';
@@ -9,10 +62,10 @@ include 'includes/header.php';
 <div class="sub-hero">
   <div class="tag">
     <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-    Simple, Transparent Pricing
+    <?= cms('pricing_hero_badge') ?>
   </div>
-  <h1>Translate without <span>limits</span></h1>
-  <p>Choose the plan that fits your needs. Upgrade or downgrade anytime — no hidden fees.</p>
+  <h1><?= cms('pricing_hero_title') ?></h1>
+  <p><?= cms('pricing_hero_desc') ?></p>
   <div class="billing-toggle">
     <span id="lbl-month" class="on">Monthly</span>
     <label class="switch" for="billing-toggle">
@@ -27,60 +80,46 @@ include 'includes/header.php';
 <div class="sub-wrap">
   <section class="plans" aria-label="Pricing plans">
 
-    <article class="plan-card" aria-label="Free plan">
-      <div class="plan-icon-box">🌿</div>
-      <div class="plan-name">Free</div>
-      <div class="plan-desc">Perfect for occasional translations and language exploration.</div>
-      <div class="plan-price"><sup>FCFA</sup><span class="amount" id="free-price">0</span><sub>/mo</sub></div>
-      <p class="plan-billing">No credit card required</p>
-      <hr class="plan-divider">
-      <ul class="plan-features">
-        <li><span class="tick">✓</span> Up to 500 characters / translation</li>
-        <li><span class="tick">✓</span> 5 translations per day</li>
-        <li><span class="tick">✓</span> Access to 5 Cameroonian languages</li>
-        <li><span class="tick">✓</span> Basic translation history (7 days)</li>
-        <li class="off"><span class="cross">✕</span> Audio pronunciation</li>
-        <li class="off"><span class="cross">✕</span> API access</li>
-      </ul>
-      <button type="button" id="free-cta" class="plan-btn outline" onclick="openModal('Free','0')">Current Plan</button>
+    <?php
+    $planOrder   = ['free', 'pro', 'premium'];
+    $popularSlug = 'pro';
+    foreach ($planOrder as $slug):
+        $plan = $_plans[$slug] ?? null;
+        if (!$plan) continue;
+        $isPopular    = ($slug === $popularSlug);
+        $priceMonthly = fmtPrice($plan['price_monthly']);
+        $priceYearly  = fmtPrice(($plan['price_yearly'] ?? 0) / 12);
+        $icon         = htmlspecialchars($plan['icon'] ?? '🌿');
+        $name         = htmlspecialchars($plan['name']);
+        $desc         = htmlspecialchars($plan['description'] ?? '');
+        $features     = $plan['features_arr'];
+        $btnClass     = $slug === 'free' ? 'outline' : ($slug === 'pro' ? 'solid' : 'green-line');
+        $btnLabel     = $slug === 'free' ? 'Current Plan' : 'Choose ' . $name;
+        $onclickPrice = $slug === 'free' ? '0' : $priceMonthly;
+    ?>
+    <article class="plan-card<?= $isPopular ? ' popular' : '' ?>" aria-label="<?= $name ?> plan">
+        <?php if ($isPopular): ?><div class="popular-badge">Most Popular</div><?php endif; ?>
+        <div class="plan-icon-box"><?= $icon ?></div>
+        <div class="plan-name"><?= $name ?></div>
+        <div class="plan-desc"><?= $desc ?></div>
+        <div class="plan-price">
+            <sup>FCFA</sup>
+            <span class="amount" id="<?= $slug ?>-price" data-monthly="<?= $priceMonthly ?>" data-yearly="<?= $priceYearly ?>"><?= $priceMonthly ?></span>
+            <sub>/mo</sub>
+        </div>
+        <p class="plan-billing" id="<?= $slug ?>-note">
+            <?= $slug === 'free' ? 'No credit card required' : 'Billed monthly · Cancel anytime' ?>
+        </p>
+        <hr class="plan-divider">
+        <ul class="plan-features">
+            <?php foreach ($features as $feat): ?>
+                <li><span class="tick">✓</span> <?= htmlspecialchars($feat) ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <button type="button" id="<?= $slug ?>-cta" class="plan-btn <?= $btnClass ?>"
+                onclick="openModal('<?= $name ?>','<?= $onclickPrice ?>')"><?= $btnLabel ?></button>
     </article>
-
-    <article class="plan-card popular" aria-label="Pro plan">
-      <div class="popular-badge">Most Popular</div>
-      <div class="plan-icon-box">⭐</div>
-      <div class="plan-name">Pro</div>
-      <div class="plan-desc">For students, researchers, and active language enthusiasts.</div>
-      <div class="plan-price"><sup>FCFA</sup><span class="amount" id="pro-price">25</span><sub>/mo</sub></div>
-      <p class="plan-billing" id="pro-note">Billed monthly · Cancel anytime</p>
-      <hr class="plan-divider">
-      <ul class="plan-features">
-        <li><span class="tick">✓</span> Unlimited characters per translation</li>
-        <li><span class="tick">✓</span> Unlimited translations</li>
-        <li><span class="tick">✓</span> Access to all 20+ languages</li>
-        <li><span class="tick">✓</span> Full translation history (90 days)</li>
-        <li><span class="tick">✓</span> Audio pronunciation</li>
-        <li><span class="tick">✓</span> Priority support</li>
-      </ul>
-      <button type="button" id="pro-cta" class="plan-btn solid" onclick="openModal('Pro','25')">Choose Pro</button>
-    </article>
-
-    <article class="plan-card" aria-label="Premium plan">
-      <div class="plan-icon-box">💎</div>
-      <div class="plan-name">Premium</div>
-      <div class="plan-desc">For developers, institutions, and businesses integrating our API.</div>
-      <div class="plan-price"><sup>FCFA</sup><span class="amount" id="pre-price">19,900</span><sub>/mo</sub></div>
-      <p class="plan-billing" id="pre-note">Billed monthly · Cancel anytime</p>
-      <hr class="plan-divider">
-      <ul class="plan-features">
-        <li><span class="tick">✓</span> Everything in Pro</li>
-        <li><span class="tick">✓</span> Full REST API access</li>
-        <li><span class="tick">✓</span> Unlimited translation history</li>
-        <li><span class="tick">✓</span> Custom glossaries &amp; phrases</li>
-        <li><span class="tick">✓</span> Dedicated account manager</li>
-        <li><span class="tick">✓</span> Team collaboration (up to 10 seats)</li>
-      </ul>
-      <button type="button" id="premium-cta" class="plan-btn green-line" onclick="openModal('Premium','19,900')">Choose Premium</button>
-    </article>
+    <?php endforeach; ?>
 
   </section>
 
@@ -119,15 +158,30 @@ include 'includes/header.php';
   <div class="faq">
     <h2>Frequently Asked Questions</h2>
     <p class="sub">Still have questions? We've got you covered.</p>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Can I change my plan at any time?<span class="faq-icon">+</span></button><div class="faq-a">Yes! You can upgrade or downgrade at any time. Changes take effect immediately for upgrades, and at the end of your billing cycle for downgrades.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Is there a free trial?<span class="faq-icon">+</span></button><div class="faq-a">We offer a 7-day free trial for both Pro and Premium plans. No credit card required.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Can I use Mobile Money to pay?<span class="faq-icon">+</span></button><div class="faq-a">Absolutely. CamLingua fully supports MTN Mobile Money and Orange Money.</div></div>
+    <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <?= cms('pricing_faq_1_q') ?><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><?= cms('pricing_faq_1_a') ?></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <?= cms('pricing_faq_2_q') ?><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><?= cms('pricing_faq_2_a') ?></div>
+    </div>
+    <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <?= cms('pricing_faq_3_q') ?><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><?= cms('pricing_faq_3_a') ?></div>
+    </div>
   </div>
 
   <!-- CTA -->
   <div class="cta-box">
-    <h2>Start preserving Cameroon's languages today</h2>
-    <p>Join over 50,000 users translating across 20+ Cameroonian languages.</p>
+    <h2><?= cms('pricing_cta_title') ?></h2>
+    <p><?= cms('pricing_cta_desc') ?></p>
     <div class="cta-btns">
       <a href="login.php" class="btn-white">Get started free</a>
       <a href="#main-content" class="btn-border-white">Compare plans</a>
@@ -142,7 +196,6 @@ include 'includes/header.php';
     <h3>Subscribe to <span id="modal-plan">Pro</span></h3>
     <p class="note" id="modal-desc">Get started with unlimited translations.</p>
 
-    <!-- Step 1: Enter details & initiate payment -->
     <form id="subscribe-form" novalidate>
       <input type="hidden" id="modal-plan-input" name="plan">
       <input type="hidden" id="modal-price-input" name="price">
@@ -162,10 +215,7 @@ include 'includes/header.php';
         <div style="display:flex;gap:8px;align-items:center;">
           <span style="padding:10px 12px;background:var(--gl,#f5f5f5);border:1px solid #ddd;border-radius:8px;font-size:.9rem;white-space:nowrap;">+237</span>
           <input type="tel" id="payment-phone" name="phone" placeholder="677 123 456" required
-                 pattern="[67]\d{8}"
-                 maxlength="9"
-                 autocomplete="tel"
-                 style="flex:1;"
+                 pattern="[67]\d{8}" maxlength="9" autocomplete="tel" style="flex:1;"
                  aria-describedby="phone-hint">
         </div>
         <small id="phone-hint" style="color:#888;font-size:.78rem;">MTN or Orange 9-digit number (e.g. 677 123 456)</small>
@@ -189,7 +239,6 @@ include 'includes/header.php';
       <button type="submit" class="btn-modal-submit" id="submit-btn">Pay with Mobile Money</button>
     </form>
 
-    <!-- Step 2: Waiting for USSD confirmation -->
     <div id="payment-pending" style="display:none;text-align:center;padding:24px 0;">
       <div id="ussd-instruction" style="font-size:1rem;font-weight:600;margin-bottom:12px;"></div>
       <p style="color:#666;font-size:.9rem;">A payment prompt has been sent to your phone.<br>

@@ -1,5 +1,6 @@
 <?php
-$pageTitle  = 'CamLingua – Contact Us / Feedback';
+require_once 'includes/cms_helper.php';
+$pageTitle  = cms('site_name') . ' – Contact Us / Feedback';
 $extraCss   = ['contact.css'];
 $extraJs    = ['contact.js'];
 $activePage = 'contact';
@@ -15,8 +16,8 @@ include 'includes/header.php';
              LEFT COLUMN – Contact Information
         ================================================ -->
         <section class="contact-info" aria-labelledby="contact-info-heading">
-          <h1 id="contact-info-heading" class="contact-info__heading">We'd love to hear from you!</h1>
-          <p class="contact-info__sub">Have a question, suggestion, or feedback? Send us a message and our team will get back to you.</p>
+          <h1 id="contact-info-heading" class="contact-info__heading"><?= cms('contact_hero_title') ?></h1>
+          <p class="contact-info__sub"><?= cms('contact_hero_desc') ?></p>
 
           <!-- Contact list -->
           <ul class="contact-list" role="list">
@@ -24,7 +25,6 @@ include 'includes/header.php';
             <!-- Email -->
             <li class="contact-item">
               <div class="contact-item__icon" aria-hidden="true">
-                <!-- Envelope -->
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="3" y="6" width="18" height="13" rx="2" stroke="#15803d" stroke-width="1.8"/>
                   <path d="M3 8L12 14L21 8" stroke="#15803d" stroke-width="1.8" stroke-linecap="round"/>
@@ -32,28 +32,26 @@ include 'includes/header.php';
               </div>
               <div class="contact-item__body">
                 <span class="contact-item__title">Email Us</span>
-                <span class="contact-item__value">support@camlingua.com</span>
+                <span class="contact-item__value"><?= cms('contact_email') ?></span>
               </div>
             </li>
 
             <!-- Phone -->
             <li class="contact-item">
               <div class="contact-item__icon" aria-hidden="true">
-                <!-- Phone handset -->
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 4H9L11 9L8.5 10.5C9.57 12.73 11.27 14.43 13.5 15.5L15 13L20 15V19C20 19.55 19.55 20 19 20C10.16 20 3 12.84 3 4C3 3.45 3.45 3 4 3H8L5 4Z" fill="#15803d"/>
                 </svg>
               </div>
               <div class="contact-item__body">
                 <span class="contact-item__title">Call Us</span>
-                <span class="contact-item__value">+237 6 12 34 56 78</span>
+                <span class="contact-item__value"><?= cms('contact_phone') ?></span>
               </div>
             </li>
 
             <!-- Location -->
             <li class="contact-item">
               <div class="contact-item__icon" aria-hidden="true">
-                <!-- Map pin -->
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2C8.69 2 6 4.69 6 8C6 12.5 12 21 12 21C12 21 18 12.5 18 8C18 4.69 15.31 2 12 2Z" fill="#15803d"/>
                   <circle cx="12" cy="8" r="2.5" fill="white"/>
@@ -61,14 +59,13 @@ include 'includes/header.php';
               </div>
               <div class="contact-item__body">
                 <span class="contact-item__title">Location</span>
-                <span class="contact-item__value">Buea, Cameroon</span>
+                <span class="contact-item__value"><?= cms('contact_location') ?></span>
               </div>
             </li>
 
             <!-- Response time -->
             <li class="contact-item">
               <div class="contact-item__icon" aria-hidden="true">
-                <!-- Clock -->
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12" cy="12" r="9" stroke="#15803d" stroke-width="1.8"/>
                   <path d="M12 7V12L15 14" stroke="#15803d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -76,7 +73,7 @@ include 'includes/header.php';
               </div>
               <div class="contact-item__body">
                 <span class="contact-item__title">Response Time</span>
-                <span class="contact-item__value">We typically reply within 24 hours</span>
+                <span class="contact-item__value"><?= cms('contact_response_time') ?></span>
               </div>
             </li>
 

@@ -1,5 +1,6 @@
 <?php
-$pageTitle  = 'CamLingua – Translate. Connect. Preserve Cameroon\'s Languages.';
+require_once 'includes/cms_helper.php';
+$pageTitle  = cms('site_name') . ' – ' . cms('site_tagline');
 $extraCss   = ['main.css'];
 $activePage = 'index';
 include 'includes/header.php';
@@ -11,20 +12,17 @@ include 'includes/header.php';
     <div class="hero-left">
       <span class="hero-badge">
         <span class="hero-badge-dot"></span>
-        Cameroonian Language Translation System
+        <?= cms('home_hero_badge') ?>
       </span>
       <h1 class="hero-title">
-        Translate. Connect.<br>
-        Preserve Cameroon's<br>
-        <span class="highlight">Languages.</span>
+        <?= cms_nl2br('home_hero_title') ?>
       </h1>
       <p class="hero-desc">
-        CamLingua helps you translate between Cameroonian languages and the world.
-        Fast, accurate and easy to use.
+        <?= cms('home_hero_desc') ?>
       </p>
       <div class="hero-btns">
-        <a href="translator.php" class="btn-cta-green">Start Translating</a>
-        <a href="languages.php" class="btn-cta-outline">Explore Languages</a>
+        <a href="translator.php" class="btn-cta-green"><?= cms('home_hero_btn1') ?></a>
+        <a href="languages.php"  class="btn-cta-outline"><?= cms('home_hero_btn2') ?></a>
       </div>
     </div>
 
@@ -57,32 +55,32 @@ include 'includes/header.php';
       <div class="feat-icon feat-icon-blue">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
       </div>
-      <h3>AI-Powered</h3>
-      <p>Accurate translations powered by advanced AI models.</p>
+      <h3><?= cms('home_feat1_title') ?></h3>
+      <p><?= cms('home_feat1_desc') ?></p>
     </div>
 
     <div class="feat-card">
       <div class="feat-icon feat-icon-orange">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
       </div>
-      <h3>Local Languages</h3>
-      <p>Support for major Cameroonian languages and dialects.</p>
+      <h3><?= cms('home_feat2_title') ?></h3>
+      <p><?= cms('home_feat2_desc') ?></p>
     </div>
 
     <div class="feat-card">
       <div class="feat-icon feat-icon-green">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
       </div>
-      <h3>Secure &amp; Private</h3>
-      <p>Your data is encrypted and your privacy is protected.</p>
+      <h3><?= cms('home_feat3_title') ?></h3>
+      <p><?= cms('home_feat3_desc') ?></p>
     </div>
 
     <div class="feat-card">
       <div class="feat-icon feat-icon-purple">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       </div>
-      <h3>History &amp; Sync</h3>
-      <p>Access your past translations anytime, anywhere.</p>
+      <h3><?= cms('home_feat4_title') ?></h3>
+      <p><?= cms('home_feat4_desc') ?></p>
     </div>
 
   </div>
